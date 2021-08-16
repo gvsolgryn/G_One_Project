@@ -1,0 +1,23 @@
+ERC report (2021-08-16 오전 3:45:04, Encoding UTF8 )
+
+***** Sheet /
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(60.96 mm, 135.89 mm): Pin 21 (Power input) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(60.96 mm, 138.43 mm): Pin 20 (Bidirectional) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(38.10 mm, 135.89 mm): Pin 4 (Power input) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(60.96 mm, 133.35 mm): Pin 22 (Bidirectional) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(60.96 mm, 130.81 mm): Pin 23 (Power input) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(60.96 mm, 128.27 mm): Pin 24 (Power input) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(38.10 mm, 128.27 mm): Pin 1 (Bidirectional) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(38.10 mm, 133.35 mm): Pin 3 (Power input) of component B0 is unconnected.
+ErrType(2): Pin not connected (use a "no connection" flag to suppress this error)
+    @(60.96 mm, 140.97 mm): Pin 19 (Bidirectional) of component B0 is unconnected.
+
+ ** ERC messages: 9  Errors 0  Warnings 9

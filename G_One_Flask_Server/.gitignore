@@ -1,0 +1,12 @@
+g_one/appcopy.py
+g_one/module/mqtt_IDPW.py
+g_one/module/dbModule.py
+g_one/static/results/week11.zip
+g_one/__pycache__/*.pyc
+g_one/module/__pycache__/*.pyc
+workspace.code-workspace
+venv/
+.vscode/
+*.json
+*.sock
+*.ini
