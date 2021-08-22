@@ -5,8 +5,8 @@ g_one/static/results/week11.zip
 g_one/__pycache__/*.pyc
 g_one/module/__pycache__/*.pyc
 workspace.code-workspace
-venv/
 .vscode/
+venv/
 *.json
 *.sock
 *.ini
