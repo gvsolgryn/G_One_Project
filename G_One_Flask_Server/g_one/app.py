@@ -8,11 +8,11 @@ import time
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['MQTT_CLIENT_ID'] = mqtt_IDPW.Client
-app.config['MQTT_BROKER_URL'] = mqtt_IDPW.Host
-app.config['MQTT_BROKER_PORT'] = mqtt_IDPW.Port
-app.config['MQTT_USERNAME'] = mqtt_IDPW.ID
-app.config['MQTT_PASSWORD'] = mqtt_IDPW.PW
+app.config['MQTT_CLIENT_ID'] = mqtt_IDPW.Client()
+app.config['MQTT_BROKER_URL'] = mqtt_IDPW.Host()
+app.config['MQTT_BROKER_PORT'] = mqtt_IDPW.Port()
+app.config['MQTT_USERNAME'] = mqtt_IDPW.ID()
+app.config['MQTT_PASSWORD'] = mqtt_IDPW.PW()
 app.config['MQTT_TLS_ENABLED'] = False
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
