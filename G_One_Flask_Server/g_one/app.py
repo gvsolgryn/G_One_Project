@@ -82,4 +82,5 @@ def error_db():
     return "<a href='/'><h1>DB 에러! 관리자에게 문의하세요! 클릭 시 메인 화면으로 이동합니다!</h1></a>"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8080, ssl_context=('/etc/letsencrypt/live/gvsolgryn.ddns.net/cert.pem', '/etc/letsencrypt/live/gvsolgryn.ddns.net/privkey.pem'))
+    app.run(host='0.0.0.0', debug=True, port=8080)
+    #, ssl_context=('/etc/letsencrypt/live/gvsolgryn.ddns.net/cert.pem', '/etc/letsencrypt/live/gvsolgryn.ddns.net/privkey.pem'))

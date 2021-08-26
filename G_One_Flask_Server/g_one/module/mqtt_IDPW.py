@@ -5,7 +5,7 @@ def Host():
     return "gvsolgryn.nemiku.cc"
 
 def Port():
-    return "1883"
+    return 1883
 
 def ID():
     return "gvsolgryn"
