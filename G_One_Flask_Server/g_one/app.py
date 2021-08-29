@@ -74,7 +74,7 @@ def ledAdjust():
         return redirect(url_for('error_db'))
     finally:
         db_class.commit()
-        db_class.close()
+        #db_class.close()
     return redirect(url_for('index'))
 
 @app.route('/error_db')
