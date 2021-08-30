@@ -1,6 +1,6 @@
 import time
 
-from module import dbModule
+from . import dbModule
 
 class Update():
     def sql_update(name, status):

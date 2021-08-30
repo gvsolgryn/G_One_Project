@@ -2,7 +2,7 @@
 from flask import Flask, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 
-from module import dbModule, mqtt_IDPW, sensorUpdate
+from .module import dbModule, mqtt_IDPW, sensorUpdate
 
 import time
 
