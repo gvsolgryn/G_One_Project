@@ -29,4 +29,5 @@
   (lib (name SparkFun-RF)(type Legacy)(uri ${G_ONE_TEMPLATE}/KiCad_Lib/sparkfun_libraries/SparkFun-RF.lib)(options "")(descr ""))
   (lib (name SparkFun-Sensors)(type Legacy)(uri ${G_ONE_TEMPLATE}/KiCad_Lib/sparkfun_libraries/SparkFun-Sensors.lib)(options "")(descr ""))
   (lib (name SparkFun-Switches)(type Legacy)(uri ${G_ONE_TEMPLATE}/KiCad_Lib/sparkfun_libraries/SparkFun-Switches.lib)(options "")(descr ""))
+  (lib (name G_One_PCB-rescue)(type Legacy)(uri ${KIPRJMOD}/G_One_PCB-rescue.lib)(options "")(descr ""))
 )
