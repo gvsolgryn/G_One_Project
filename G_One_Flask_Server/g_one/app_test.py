@@ -23,7 +23,6 @@ def sensor_info():
     db_class = dbModule.Database()
     sql = "SELECT * FROM sensor_status"
     result = db_class.executeAll(sql)
-    db_class.close()
 
     return tuple(result)
 
@@ -35,16 +34,21 @@ def index():
     result_id = []
     result_sensor = []
     result_status = []
+    result_led_value = []
+
     for data in result:
         result_id.append(data['id'])
         result_sensor.append(data['sensor'])
         result_status.append(data['status'])
+        if data['sensor'] == 'LED':
+            result_led_value.append(data['led_value'])
 
     print(len(result_id))
     print(result_sensor)
     print(result_status)
+    print(result_led_value)
 
-    return render_template('test.html', id = len(result_id), name = result_sensor, status = result_status)
+    return render_template('test.html', id = len(result_id), name = result_sensor, status = result_status, req_led_value = result_led_value)
 
 @app.route('/sensorTrigger', methods=['POST'])
 def sensorTrigger():
@@ -53,6 +57,7 @@ def sensorTrigger():
     result_id = []
     result_sensor = []
     result_status = []
+
     for data in result:
         result_id.append(data['id'])
         result_sensor.append(data['sensor'])
@@ -60,7 +65,12 @@ def sensorTrigger():
 
     name = request.form['name']
     trigger = request.form['trigger']
-    sensorUpdate.Update.sql_update(name, int(trigger))
+    led_value = request.form['led_value']
+
+    sensorUpdate.Update.sql_update(name, int(trigger), led_value)
+    if trigger == "0":
+        sensorUpdate.Update.sql_update(name, int(trigger), 0)
+
     for i in range(0, len(result_id), 1):
         if name == result_sensor[i]:
             if trigger == "0":
