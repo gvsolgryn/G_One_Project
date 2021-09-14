@@ -24,3 +24,6 @@ class Database():
  
     def commit(self):
         self.db.commit()
+
+    def close(self):
+        self.db.close()

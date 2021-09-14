@@ -2,7 +2,7 @@ def Client():
     return "Flask_MQTT"
 
 def Host():
-    return "gvsolgryn.nemiku.cc"
+    return "gone.gvsolgryn.de"
 
 def Port():
     return 1883
