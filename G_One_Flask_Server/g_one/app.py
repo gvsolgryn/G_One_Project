@@ -33,12 +33,20 @@ def index():
         if data['sensor'] == "MULTI":
             MULTI_Status = data['status']
 
+    maxidSQL = "SELECT COUNT(id) FROM sensor_status"
+    maxidResult = db_class.executeAll(maxidSQL)
+    
+    for data in maxidResult:
+        maxid = data['COUNT(id)']
+
     print("----------센서 상태 출력----------")
     print("LED 센서 상태 : " + str(LED_Status))
     print("멀티탭 센서 상태 : " + str(MULTI_Status))
     print("----------상태 출력 종료----------")
-
-    return render_template('index.html', LED = LED_Status, MULTI = MULTI_Status, VALUE = LED_Value)
+    print("---------등록된 센서 갯수---------")
+    print(str(maxid) + "개")
+    print("---------------------------------")
+    return render_template('index.html', LED = LED_Status, MULTI = MULTI_Status, VALUE = LED_Value, id = maxid)
 
 @app.route('/sensorTrigger', methods=['POST'])
 def sensorTrigger():

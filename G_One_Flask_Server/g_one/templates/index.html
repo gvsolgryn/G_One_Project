@@ -24,13 +24,12 @@
 
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <h1 class="mt-3">LED 제어</h1>
+                <div class="col border border-3 rounded m-3 p-3">
+                    <h1 class="d-flex justify-content-center">LED 제어</h1>
                     <h4 class="mb-3">LED 제어 버튼입니다.</h4>
 
                     <div class="row">
-                        <div class="col">
-                            <test></test>
+                        <div class="col d-flex justify-content-center">
                             {% if LED == 0 %}
                             <form action='sensorTrigger' method="POST">
                                 <input type='hidden' name='name' value='LED'>
@@ -47,7 +46,7 @@
                                 <button type="submit" class="btn btn-dark btn-lg btn-block" disabled>DB 로드 에러</button>
                             {% endif %}
                         </div>
-                        <div class="col">
+                        <div class="col d-flex justify-content-center">
                             <a href="#">
                                 <button type="submit" class="btn btn-outline-dark btn-lg btn-block">더 보기</button>
                             </a>
@@ -55,38 +54,50 @@
                     </div>
                 </div>
                 
-                <div class="col">
-                    <h1 class="mt-3">멀티탭 제어</h1>
+                <div class="col border border-3 rounded m-3 p-3">
+                    <h1 class="d-flex justify-content-center">멀티탭 제어</h1>
                     <h4 class="mb-3">멀티탭 제어 버튼입니다.</h4>
-                    {% if MULTI == 0 %}
-                    <form action='sensorTrigger' method="POST">
-                        <input type='hidden' name='name' value='MULTI'>
-                        <input type='hidden' name='trigger' value='1'>
-                        <button type="submit" class="btn btn-danger btn-lg btn-block">멀티탭 켜기</button>
-                    </form>
-                    {% elif MULTI == 1 %}
-                    <form action='sensorTrigger' method="POST">
-                        <input type='hidden' name='name' value='MULTI'>
-                        <input type='hidden' name='trigger' value='0'>
-                        <button type="submit" class="btn btn-dark btn-lg btn-block">멀티탭 끄기</button>
-                    </form>
-                    {% else %}
-                        <button type="submit" class="btn btn-dark btn-lg btn-block" disabled>DB 로드 에러</button>
-                    {% endif %}
-                    <a href="#">
-                        <button type="submit" class="btn btn-outline-dark btn-lg btn-block">더 보기</button>
-                    </a>
+
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            {% if MULTI == 0 %}
+                            <form action='sensorTrigger' method="POST">
+                                <input type='hidden' name='name' value='MULTI'>
+                                <input type='hidden' name='trigger' value='1'>
+                                <button type="submit" class="btn btn-danger btn-lg btn-block">멀티탭 켜기</button>
+                            </form>
+                            {% elif MULTI == 1 %}
+                                <form action='sensorTrigger' method="POST">
+                                    <input type='hidden' name='name' value='MULTI'>
+                                    <input type='hidden' name='trigger' value='0'>
+                                    <button type="submit" class="btn btn-dark btn-lg btn-block">멀티탭 끄기</button>
+                            </form>
+                            {% else %}
+                                <button type="submit" class="btn btn-dark btn-lg btn-block" disabled>DB 로드 에러</button>
+                            {% endif %}
+                        </div>
+                        <div class="col d-flex justify-content-center">
+                            <a href="#">
+                                <button type="submit" class="btn btn-outline-dark btn-lg btn-block">더 보기</button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <h1 class="mt-3">더 보기</h1>
+                <div class="col border border-3 rounded m-3 p-3">
+                    <h1 class="d-flex justify-content-center">더 보기</h1>
                     <h4 class="mb-3">클릭 시 추가 기능 페이지로 이동합니다.</h4>
-                    <a href="#">
-                        <button type="submit" class="btn btn-outline-dark btn-lg btn-block">더 보기</button>
-                    </a>
+                    <div class="d-flex justify-content-center">
+                        <a href="#">
+                            <button type="submit" class="btn btn-outline-dark btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#exampleModal">더 보기</button>
+                        </a>
+                    </div>
                 </div>
             </div>
 
 
+            <!-- 테스트 공간 -->
+
+            <!-- 테스트 공간 끝 -->
 
 
             <!--
@@ -145,6 +156,30 @@
             <hr>
             -->
         </div>
+
+        <!-- Modal 관련 코드 시작 구간-->
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">더 보기 모달</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h1>테스트 모달입니다.</h1>
+                        <p>모달 테스트 중입니다.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary">저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 관련 코드 종료 구간-->
 
         <!-- Optional JavaScript; choose one of the two! -->
 
