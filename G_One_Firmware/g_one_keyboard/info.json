@@ -1,0 +1,18 @@
+{
+    "keyboard_name": "g_one_keyboard",
+    "url": "https://github.com/gvsolgryn/G.One_HID_Listener_GUI",
+    "maintainer": "GVSolgryn",
+    "width": 10.75,
+    "height": 6.25,
+    "layouts": {
+        "LAYOUT": {
+            "layout": [
+                                                  {"label":"ESC", "x":1.5, "y":0},  {"label":"F1", "x":3, "y":0},     {"label":"F2", "x":4, "y":0},     {"label":"F3", "x":5, "y":0},     {"label":"F4", "x":6, "y":0},     {"label":"F5", "x":7.5, "y":0},
+                {"label":"TOP", "x":0, "y":1.25}, {"label":"~", "x":1.5, "y":1.25}, {"label":"!", "x":2.5, "y":1.25}, {"label":"@", "x":3.5, "y":1.25}, {"label":"#", "x":4.5, "y":1.25}, {"label":"$", "x":5.5, "y":1.25}, {"label":"%", "x":6.5, "y":1.25}, {"label":"^", "x":7.5, "y":1.25},
+                {"label":"JGC", "x":0, "y":2.25}, {"label":"Tab", "x":1.5, "y":2.25, "w":1.5}, {"label":"Q", "x":3, "y":2.25}, {"label":"W", "x":4, "y":2.25}, {"label":"E", "x":5, "y":2.25}, {"label":"R", "x":6, "y":2.25}, {"label":"T", "x":7, "y":2.25}, {"label":"P", "x":8, "y":2.25},
+                {"label":"MID", "x":0, "y":3.25}, {"label":"CapsLock", "x":1.5, "y":3.25, "w":1.75}, {"label":"A", "x":3.25, "y":3.25}, {"label":"S", "x":4.25, "y":3.25}, {"label":"D", "x":5.25, "y":3.25}, {"label":"F", "x":6.25, "y":3.25}, {"label":"G", "x":7.25, "y":3.25}, {"label":"H", "x":8.25, "y":3.25},  {"label":"IoT", "x":9.75, "y":3.25},
+                {"label":"ADC", "x":0, "y":4.25}, {"label":"Shift", "x":1.5, "y":4.25, "w":2.25}, {"label":"Z", "x":3.75, "y":4.25}, {"label":"X", "x":4.75, "y":4.25}, {"label":"C", "x":5.75, "y":4.25}, {"label":"V", "x":6.75, "y":4.25}, {"label":"B", "x":7.75, "y":4.25},                                        {"label":"IoT", "x":9.75, "y":4.25},
+                {"label":"SUP", "x":0, "y":5.25}, {"label":"Ctrl", "x":1.5, "y":5.25, "w":1.25}, {"x":2.75, "y":5.25, "w":1.25}, {"label":"Alt", "x":4, "y":5.25, "w":1.25}, {"label":"Space", "x":5.25, "y":5.25, "w":2.75},                                                                                           {"label":"_FN", "x":9.75, "y":5.25}]
+        }
+    }
+}
