@@ -1,6 +1,6 @@
 import time
 
-from module import dbModule
+from . import dbModule
 
 class Update():
     def sql_update(name, status):
@@ -25,6 +25,6 @@ class Update():
             db_class.execute(log_sql, ('flask_debug', str(name), str(name) + status_str, 'fail', str(e), str(sql_code_runtime)))
         finally:
             db_class.commit()
-            db_class.close()
+            #db_class.close()
 
         

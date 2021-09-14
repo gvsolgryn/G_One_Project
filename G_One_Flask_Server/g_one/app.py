@@ -2,17 +2,17 @@
 from flask import Flask, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 
-from module import dbModule, mqtt_IDPW, sensorUpdate
+from .module import dbModule, mqtt_IDPW, sensorUpdate
 
 import time
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['MQTT_CLIENT_ID'] = mqtt_IDPW.Client
-app.config['MQTT_BROKER_URL'] = mqtt_IDPW.Host
-app.config['MQTT_BROKER_PORT'] = mqtt_IDPW.Port
-app.config['MQTT_USERNAME'] = mqtt_IDPW.ID
-app.config['MQTT_PASSWORD'] = mqtt_IDPW.PW
+app.config['MQTT_CLIENT_ID'] = mqtt_IDPW.Client()
+app.config['MQTT_BROKER_URL'] = mqtt_IDPW.Host()
+app.config['MQTT_BROKER_PORT'] = mqtt_IDPW.Port()
+app.config['MQTT_USERNAME'] = mqtt_IDPW.ID()
+app.config['MQTT_PASSWORD'] = mqtt_IDPW.PW()
 app.config['MQTT_TLS_ENABLED'] = False
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
@@ -33,12 +33,20 @@ def index():
         if data['sensor'] == "MULTI":
             MULTI_Status = data['status']
 
+    maxidSQL = "SELECT COUNT(id) FROM sensor_status"
+    maxidResult = db_class.executeAll(maxidSQL)
+    
+    for data in maxidResult:
+        maxid = data['COUNT(id)']
+
     print("----------센서 상태 출력----------")
     print("LED 센서 상태 : " + str(LED_Status))
     print("멀티탭 센서 상태 : " + str(MULTI_Status))
     print("----------상태 출력 종료----------")
-
-    return render_template('index.html', LED = LED_Status, MULTI = MULTI_Status, VALUE = LED_Value)
+    print("---------등록된 센서 갯수---------")
+    print(str(maxid) + "개")
+    print("---------------------------------")
+    return render_template('index.html', LED = LED_Status, MULTI = MULTI_Status, VALUE = LED_Value, id = maxid)
 
 @app.route('/sensorTrigger', methods=['POST'])
 def sensorTrigger():
@@ -74,7 +82,7 @@ def ledAdjust():
         return redirect(url_for('error_db'))
     finally:
         db_class.commit()
-        db_class.close()
+        #db_class.close()
     return redirect(url_for('index'))
 
 @app.route('/error_db')
@@ -82,4 +90,5 @@ def error_db():
     return "<a href='/'><h1>DB 에러! 관리자에게 문의하세요! 클릭 시 메인 화면으로 이동합니다!</h1></a>"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8080, ssl_context=('/etc/letsencrypt/live/gvsolgryn.ddns.net/cert.pem', '/etc/letsencrypt/live/gvsolgryn.ddns.net/privkey.pem'))
+    app.run(host='0.0.0.0', debug=True, port=8080)
+    #, ssl_context=('/etc/letsencrypt/live/gvsolgryn.ddns.net/cert.pem', '/etc/letsencrypt/live/gvsolgryn.ddns.net/privkey.pem'))
