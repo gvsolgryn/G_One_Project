@@ -33,16 +33,24 @@
                             {% if status[i] == 0 %}
                                 <div class="d-flex justify-content-end">
                                     <form action='sensorTrigger' method="POST">
+                                        {% if name[i] == 'LED' %}
+                                            <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="20" max="100" step="20" value={{req_led_value[i]}}>
+                                        {% endif %}
                                         <input type='hidden' name='name' value='{{name[i]}}'>
                                         <input type='hidden' name='trigger' value='1'>
+                                        <input type='hidden' id="led_value" name='led_value' value=0>
                                         <button type="submit" class="btn btn-danger btn-block">켜기</button>
                                     </form>
                                 </div>
                             {% elif status[i] == 1 %}
                                 <div class="d-flex justify-content-end">
                                     <form action='sensorTrigger' method="POST">
+                                        {% if name[i] == 'LED' %}
+                                            <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="20" max="100" step="20" value={{req_led_value[i]}}>
+                                        {% endif %}
                                         <input type='hidden' name='name' value='{{name[i]}}'>
                                         <input type='hidden' name='trigger' value='0'>
+                                        <input type='hidden' id="led_value" name='led_value' value='0'>
                                         <button type="submit" class="btn btn-dark btn-block">끄기</button>
                                     </form>
                                 </div>
