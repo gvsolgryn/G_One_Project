@@ -3,7 +3,7 @@ import re
 from flask import Flask, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 
-from module import dbModule, mqtt_IDPW, sensorUpdate
+from module import dbModule, mqtt_IDPW, dbEdit
 
 import time
 
@@ -18,6 +18,19 @@ app.config['MQTT_TLS_ENABLED'] = False
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
 mqtt = Mqtt(app)
+
+@mqtt.on_connect()
+def handle_connect(client, userdata, flags, rc):
+    print("MQTT 서버 연결 성공")
+    mqtt.subscribe('iot/#')
+
+@mqtt.on_message()
+def handle_mqtt_message(client, userdata, message):
+    data = dict(
+        topic=message.topic,
+        payload=message.payload.decode()
+    )
+    print(data)
 
 def sensor_info():
     db_class = dbModule.Database()
@@ -43,11 +56,6 @@ def index():
         if data['sensor'] == 'LED':
             result_led_value.append(data['led_value'])
 
-    print(len(result_id))
-    print(result_sensor)
-    print(result_status)
-    print(result_led_value)
-
     return render_template('test.html', id = len(result_id), name = result_sensor, status = result_status, req_led_value = result_led_value)
 
 @app.route('/sensorTrigger', methods=['POST'])
@@ -67,23 +75,24 @@ def sensorTrigger():
     trigger = request.form['trigger']
     led_value = request.form['led_value']
 
-    sensorUpdate.Update.sql_update(name, int(trigger), led_value)
+    dbEdit.Update.sql_update(name, int(trigger), led_value)
     if trigger == "0":
-        sensorUpdate.Update.sql_update(name, int(trigger), 0)
+        dbEdit.Update.sql_update(name, int(trigger), 0)
 
-    for i in range(0, len(result_id), 1):
-        if name == result_sensor[i]:
-            if trigger == "0":
-                mqtt.publish(str(result_sensor[i]), "0")
-            elif trigger == "1":
-                mqtt.publish(str(result_sensor[i]), "1")
-        else:
-            error = Exception
-            print(error)
+    try:
+        for i in range(0, len(result_id), 1):
+            if name == result_sensor[i]:
+                if trigger == "0":
+                    mqtt.publish('iot/' + str(result_sensor[i]), "0")
+                elif trigger == "1":
+                    mqtt.publish('iot/' + str(result_sensor[i]), "1")
+    except Exception as e:
+        print("sensor_trigger Error : " + str(e))
+        return(redirect(url_for('error_db')))
     
     return redirect(url_for('index'))
 
-@app.route('/ledAdjust', methods=['GET'])
+@app.route('/ledAdjust', methods=['POST'])
 def ledAdjust():
     value = request.args.get('led_value')
     mqtt.publish("LEDAdjust", value)
@@ -97,6 +106,10 @@ def ledAdjust():
     finally:
         db_class.commit()
         #db_class.close()
+    return redirect(url_for('index'))
+
+@app.route('/add', methods=['POST'])
+def iot_add():
     return redirect(url_for('index'))
 
 @app.route('/error_db')
