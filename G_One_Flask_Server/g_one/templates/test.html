@@ -28,12 +28,23 @@
                 {% for i in range(0, id, 1) %}
                     <div class="row">
                         <div class="col border border-3 rounded m-3 p-3">
-                            <h1>{{name[i]}} 제어</h1>
+                            <div class="row">
+                                <div class="col">
+                                    <h1 class="text-start">{{name[i]}} 제어</h1>
+                                </div>
+                                <div class="col d-flex justify-content-end">
+                                    <button id={{name[i]}} type="button" class="btn btn-close" data-bs-toggle="modal" data-bs-target="#deleteModal" aria-label="Close"></button>
+                                    <form action="deleteIoT" method="POST" id="deleteModalForm">
+                                        <input type="hidden" name="sensor_name" id="sensor_name" value={{name[i]}}>
+                                    </form>
+                                </div>
+                            </div>
+                            
                             <h4>{{name[i]}} 제품의 전원을 제어하는 버튼입니다.</h4>
                             {% if status[i] == 0 %}
                                 <div class="d-flex justify-content-end">
                                     <form action='sensorTrigger' method="POST">
-                                        {% if name[i] == 'LED' %}
+                                        {% if name[i].lower().startswith('led') %}
                                             <label for="led_value" class="form-label">LED 밝기 조정</label>
                                             <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="20" max="100" step="20" value={{req_led_value[i]}}>
                                         {% endif %}
@@ -46,7 +57,7 @@
                             {% elif status[i] == 1 %}
                                 <div class="d-flex justify-content-end">
                                     <form action='sensorTrigger' method="POST">
-                                        {% if name[i] == 'LED' %}
+                                        {% if name[i].lower().startswith('led') %}
                                             <label for="led_value" class="form-label">LED 밝기 조정</label>
                                             <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="20" max="100" step="20" value={{req_led_value[i]}}>
                                         {% endif %}
@@ -61,6 +72,7 @@
                             {% endif %}
                         </div>
                     </div>
+                    
                 {% endfor %}
             {% endif %}
             <div class="row">
@@ -77,12 +89,12 @@
 
         <!-- Modal 관련 코드 시작 구간-->
 
-        <!-- Modal -->
+        <!-- 기기 추가 Modal -->
 
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-centered">
                 <div class="modal-content">
-                    <form action="add" method="POST" >
+                    <form id="add" action="add" method="POST" >
                         <div class="modal-header">
                             <h5 class="modal-title" id="addModalLabel">기기 추가</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -90,24 +102,53 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="sensor_name" class="form-label">기기 이름</label>
-                                <input type="text" id="sensor_name" class="form-control" required>
+                                <input type="text" id="sensor_name" name="sensor_name" class="form-control" required>
                             </div>
                             <div class="mb-3">
                                 <label for="sensor_status" class="form-label">기기 상태</label>
-                                <select class="form-select" aria-label="센서 상태 선택">
-                                    <option value="0" selected>센서 상태</option>
-                                    <option value="1">On</option>
-                                    <option value="0">Off</option>
+                                <select id="sensor_status" name="sensor_status" class="form-select" aria-label="센서 상태 선택">
+                                    <option id="sensor_status" name="sensor_status" value="0" selected>센서 상태</option>
+                                    <option id="sensor_status" name="sensor_status" value="1">On</option>
+                                    <option id="sensor_status" name="sensor_status" value="0">Off</option>
                                 </select>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">저장</button>
+                            <button type="submit" form="add" class="btn btn-primary">저장</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                         </div>
                     </form>
                 </div>
             </div>
+        </div>
+
+        <!-- 기기 제거 모달 -->
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>기기를 삭제하시겠습니까?</h3>
+                        <p>기기를 삭제하시면 기기를 다시 등록하기 전까지 사용이 불가능 합니다.</p>
+                        <p>정말 삭제하시겠습니까?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" form="deleteModalForm">삭제</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
         </div>
 
         <!-- Modal 관련 코드 종료 구간-->

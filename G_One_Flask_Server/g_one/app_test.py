@@ -42,19 +42,18 @@ def sensor_info():
 @app.route('/')
 def index():
     result = sensor_info()
-    
-    # data 의 값이 result 의 값이 될 때 까지 반복실행
+
     result_id = []
     result_sensor = []
     result_status = []
     result_led_value = []
 
+    # data 의 값이 result 의 값이 될 때 까지 반복실행
     for data in result:
         result_id.append(data['id'])
         result_sensor.append(data['sensor'])
         result_status.append(data['status'])
-        if data['sensor'] == 'LED':
-            result_led_value.append(data['led_value'])
+        result_led_value.append(data['led_value'])
 
     return render_template('test.html', id = len(result_id), name = result_sensor, status = result_status, req_led_value = result_led_value)
 
@@ -76,10 +75,11 @@ def sensorTrigger():
     led_value = request.form['led_value']
 
     dbEdit.Update.sql_update(name, int(trigger), led_value)
-    if trigger == "0":
-        dbEdit.Update.sql_update(name, int(trigger), 0)
-
     try:
+        if trigger == "0":
+            dbEdit.Update.sql_update(name, int(trigger), 0)
+
+    
         for i in range(0, len(result_id), 1):
             if name == result_sensor[i]:
                 if trigger == "0":
@@ -94,8 +94,8 @@ def sensorTrigger():
 
 @app.route('/ledAdjust', methods=['POST'])
 def ledAdjust():
-    value = request.args.get('led_value')
-    mqtt.publish("LEDAdjust", value)
+    value = request.form('led_value')
+    mqtt.publish("iot/LEDAdjust", value)
 
     sql = "UPDATE sensor_status set led_value = %s, Last_Use = now() WHERE sensor = %s"
     db_class = dbModule.Database()
@@ -106,10 +106,25 @@ def ledAdjust():
     finally:
         db_class.commit()
         #db_class.close()
+
     return redirect(url_for('index'))
 
 @app.route('/add', methods=['POST'])
 def iot_add():
+    name = request.form['sensor_name']
+    status = request.form['sensor_status']
+    led_value = '0'
+
+    dbEdit.iotAdd.sql_insert(name, status, led_value)
+
+    return redirect(url_for('index'))
+
+@app.route('/deleteIoT', methods=['POST'])
+def iot_delete():
+    name = request.form['sensor_name']
+    db = dbModule.Database()
+    print(name)
+    sql = ""
     return redirect(url_for('index'))
 
 @app.route('/error_db')
