@@ -19,8 +19,8 @@ namespace G_One_HID_Listener
         /* HID Data 관련 코드 */
         private readonly List<HidDevice> _devices = new List<HidDevice>();
 
-        public const ushort ConsoleUsagePage = 0xFF31;
-        public const int ConsoleUsage = 0x0074;
+        private const ushort ConsoleUsagePage = 0xFF31;
+        private const int ConsoleUsage = 0x0074;
 
         private static IEnumerable<HidDevice> GetListableDevices() =>
             HidDevices.Enumerate()
@@ -67,7 +67,7 @@ namespace G_One_HID_Listener
             }
             else
             {
-                MessageBox.Show("에러!");
+                MessageBox.Show(@"에러!");
             }
             AppendText(stringData);
             stringData = string.Empty;
@@ -89,22 +89,22 @@ namespace G_One_HID_Listener
         }
 
         /* Console Form 관련 코드 */
-        readonly ConsoleForm consoleForm = new ConsoleForm();
+        private readonly ConsoleForm _consoleForm = new ConsoleForm();
 
-        public void AppendText(string text)
+        private void AppendText(string text)
         {
-            consoleForm.ConsoleText(consoleForm.consoleTextBox, text);
+            _consoleForm.ConsoleText(_consoleForm.consoleTextBox, text);
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-            consoleForm.Close();
+            _consoleForm.Close();
         }
 
         private void ConsoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            consoleForm.Show();
+            _consoleForm.Show();
         }
 
         public MainWindow()
@@ -125,7 +125,7 @@ namespace G_One_HID_Listener
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (DialogResult.Yes != MessageBox.Show("정말 종료 하시겠습니까?", "프로그램 종료", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
+            if (DialogResult.Yes != MessageBox.Show(@"정말 종료 하시겠습니까?", @"프로그램 종료", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
             {
                 e.Cancel = true;
             }
