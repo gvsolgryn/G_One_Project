@@ -38,10 +38,11 @@ namespace G_One_HID_Listener
             this.ConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TestButton1 = new System.Windows.Forms.Button();
             this.TestButton2 = new System.Windows.Forms.Button();
-            this.ledImageButton1 = new G_One_HID_Listener.ImageButton.LedImageButton();
-            this.powerStripImageButton1 = new G_One_HID_Listener.ImageButton.PowerStripImageButton();
             this.LED_Control = new System.Windows.Forms.Label();
             this.PowerStrip_Control = new System.Windows.Forms.Label();
+            this.기기추가ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.powerStripImageButton1 = new G_One_HID_Listener.ImageButton.PowerStripImageButton();
+            this.ledImageButton1 = new G_One_HID_Listener.ImageButton.LedImageButton();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +82,8 @@ namespace G_One_HID_Listener
             // ToolsToolStripMenuItem
             // 
             this.ToolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ConsoleToolStripMenuItem});
+            this.ConsoleToolStripMenuItem,
+            this.기기추가ToolStripMenuItem});
             this.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem";
             this.ToolsToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.ToolsToolStripMenuItem.Text = "도구";
@@ -89,7 +91,7 @@ namespace G_One_HID_Listener
             // ConsoleToolStripMenuItem
             // 
             this.ConsoleToolStripMenuItem.Name = "ConsoleToolStripMenuItem";
-            this.ConsoleToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.ConsoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ConsoleToolStripMenuItem.Text = "콘솔창 실행";
             this.ConsoleToolStripMenuItem.Click += new System.EventHandler(this.ConsoleToolStripMenuItem_Click);
             // 
@@ -115,26 +117,6 @@ namespace G_One_HID_Listener
             this.TestButton2.UseVisualStyleBackColor = true;
             this.TestButton2.Click += new System.EventHandler(this.TestButton2_Click);
             // 
-            // ledImageButton1
-            // 
-            this.ledImageButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ledImageButton1.BackgroundImage")));
-            this.ledImageButton1.Image_01 = ((System.Drawing.Image)(resources.GetObject("ledImageButton1.Image_01")));
-            this.ledImageButton1.Image_02 = ((System.Drawing.Image)(resources.GetObject("ledImageButton1.Image_02")));
-            this.ledImageButton1.Location = new System.Drawing.Point(131, 27);
-            this.ledImageButton1.Name = "ledImageButton1";
-            this.ledImageButton1.Size = new System.Drawing.Size(150, 150);
-            this.ledImageButton1.TabIndex = 3;
-            // 
-            // powerStripImageButton1
-            // 
-            this.powerStripImageButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.BackgroundImage")));
-            this.powerStripImageButton1.Image_01 = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.Image_01")));
-            this.powerStripImageButton1.Image_02 = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.Image_02")));
-            this.powerStripImageButton1.Location = new System.Drawing.Point(399, 27);
-            this.powerStripImageButton1.Name = "powerStripImageButton1";
-            this.powerStripImageButton1.Size = new System.Drawing.Size(150, 150);
-            this.powerStripImageButton1.TabIndex = 4;
-            // 
             // LED_Control
             // 
             this.LED_Control.AutoSize = true;
@@ -157,6 +139,33 @@ namespace G_One_HID_Listener
             this.PowerStrip_Control.TabIndex = 6;
             this.PowerStrip_Control.Text = "멀티탭 제어";
             this.PowerStrip_Control.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // 기기추가ToolStripMenuItem
+            // 
+            this.기기추가ToolStripMenuItem.Name = "기기추가ToolStripMenuItem";
+            this.기기추가ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.기기추가ToolStripMenuItem.Text = "기기 추가";
+            this.기기추가ToolStripMenuItem.Click += new System.EventHandler(this.기기추가ToolStripMenuItem_Click);
+            // 
+            // powerStripImageButton1
+            // 
+            this.powerStripImageButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.BackgroundImage")));
+            this.powerStripImageButton1.Image_01 = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.Image_01")));
+            this.powerStripImageButton1.Image_02 = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.Image_02")));
+            this.powerStripImageButton1.Location = new System.Drawing.Point(399, 27);
+            this.powerStripImageButton1.Name = "powerStripImageButton1";
+            this.powerStripImageButton1.Size = new System.Drawing.Size(150, 150);
+            this.powerStripImageButton1.TabIndex = 4;
+            // 
+            // ledImageButton1
+            // 
+            this.ledImageButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ledImageButton1.BackgroundImage")));
+            this.ledImageButton1.Image_01 = ((System.Drawing.Image)(resources.GetObject("ledImageButton1.Image_01")));
+            this.ledImageButton1.Image_02 = ((System.Drawing.Image)(resources.GetObject("ledImageButton1.Image_02")));
+            this.ledImageButton1.Location = new System.Drawing.Point(131, 27);
+            this.ledImageButton1.Name = "ledImageButton1";
+            this.ledImageButton1.Size = new System.Drawing.Size(150, 150);
+            this.ledImageButton1.TabIndex = 3;
             // 
             // MainWindow
             // 
@@ -197,6 +206,7 @@ namespace G_One_HID_Listener
         private ImageButton.PowerStripImageButton powerStripImageButton1;
         private System.Windows.Forms.Label LED_Control;
         private System.Windows.Forms.Label PowerStrip_Control;
+        private System.Windows.Forms.ToolStripMenuItem 기기추가ToolStripMenuItem;
     }
 }
 

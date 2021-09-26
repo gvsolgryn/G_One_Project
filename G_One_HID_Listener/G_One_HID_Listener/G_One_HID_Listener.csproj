@@ -164,5 +164,8 @@
     <Content Include="img\power_strip_off.png" />
     <Content Include="img\power_strip_on.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="module\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

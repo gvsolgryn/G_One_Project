@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,11 +12,31 @@ using System.Windows.Forms;
 namespace G_One_HID_Listener
 {
     using HidLibrary;
-    using MySql.Data.MySqlClient;
     using uPLibrary.Networking.M2Mqtt;
+    using MySql.Data;
+    using MySql.Data.MySqlClient;
 
     public partial class MainWindow : Form
     {
+        /* DB 관련 코드 */
+        private static MySqlConnection Database()
+        {
+            const string connStr = "server=gone.gvsolgryn.de;" +
+                                   "user=gvsolgryn;" +
+                                   "database=G_One_DB;" +
+                                   "port=3306;" +
+                                   "password=tkdeh3554";
+
+            var conn = new MySqlConnection(connStr);
+
+            return conn;
+        }
+
+        private static MySqlCommand Test()
+        {
+            return null;
+        }
+
         /* HID Data 관련 코드 */
         private List<HidDevice> _devices = new List<HidDevice>();
 
@@ -46,7 +67,10 @@ namespace G_One_HID_Listener
 
                     device.MonitorDeviceEvents = true;
 
-                    AppendText($"G.One 키보드 연결 됨 : {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})");
+                    AppendText($"G.One 키보드 연결 됨 : {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})\n");
+
+                    device.Inserted += DeviceAttachedHandler;
+                    device.Removed += DeviceRemovedHandler;
 
                     device.ReadReport(OnReport);
                     device.CloseDevice();
@@ -57,10 +81,10 @@ namespace G_One_HID_Listener
                 foreach (var existingDevice in _devices)
                 {
                     var deviceExists = devices.Aggregate(false, (current, device) => current | existingDevice.DevicePath.Equals(device.DevicePath));
-
+                    
                     if (!deviceExists)
                     {
-                        AppendText($"HID console disconnected ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})");
+                        AppendText($"G.One 키보드 연결 해제 됨 : ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})\n");
                     }
                 }
             }
@@ -68,21 +92,42 @@ namespace G_One_HID_Listener
             _devices = devices;
         }
 
+        private void DeviceAttachedHandler()
+        {
+            UpdateHidDevices(false);
+        }
+
+        private void DeviceRemovedHandler()
+        {
+            UpdateHidDevices(true);
+        }
+
         private void OnReport(HidReport report)
         {
             var data = report.Data;
             var outputString = string.Empty;
 
-            if (0 < data.Length)
+            for (var i = 0; i < data.Length; i++)
+            {
+                outputString += (char) data[i];
+                if (i % 16 != 15 || i >= data.Length) continue;
+                AppendText(outputString);
+                outputString = string.Empty;
+            }
+
+            if (data.Length == 0) UpdateHidDevices(true);
+
+            /*
+             if (0 < data.Length || report.Data != null)
             {
                 outputString = Encoding.UTF8.GetString(data).Trim('\0');
+                AppendText(outputString);
             }
             else
             {
                 MessageBox.Show(@"에러!");
             }
-            AppendText(outputString);
-            outputString = string.Empty;
+            */
 
             foreach (var device in _devices)
             {
@@ -150,6 +195,11 @@ namespace G_One_HID_Listener
             {
                 e.Cancel = true;
             }
+        }
+
+        private void 기기추가ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
