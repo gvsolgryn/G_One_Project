@@ -17,19 +17,19 @@ namespace G_One_HID_Listener
             InitializeComponent();
         }
 
-        private readonly string Now = DateTime.Now.ToString("HH:mm") + " : ";
+        private readonly string _now = DateTime.Now.ToString("HH:mm") + " : ";
 
-        public void ConsoleText(RichTextBox consoleTextBox, string text)
+        public void ConsoleText(RichTextBox logRichTextBox, string text)
         {
-            if (!consoleTextBox.InvokeRequired)
+            if (!logRichTextBox.InvokeRequired)
             {
-                text += Environment.NewLine;
-                consoleTextBox.AppendText(Now + text);
-                consoleTextBox.ScrollToCaret();
+                //text += Environment.NewLine;
+                logRichTextBox.AppendText(_now + text);
+                logRichTextBox.ScrollToCaret();
             }
             else
             {
-                consoleTextBox.Invoke(new Action<RichTextBox, string>(ConsoleText), consoleTextBox, text);
+                logRichTextBox.Invoke(new Action<RichTextBox, string>(ConsoleText), logRichTextBox, text);
             }
         }
 
