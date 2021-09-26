@@ -121,7 +121,7 @@ def iot_add():
 
 @app.route('/deleteIoT', methods=['POST'])
 def iot_delete():
-    name = request.form['sensor_name']
+    name = request.form['del_iot_name']
     db = dbModule.Database()
     print(name)
     sql = ""
