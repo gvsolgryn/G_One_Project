@@ -17,7 +17,7 @@ namespace G_One_HID_Listener
     public partial class MainWindow : Form
     {
         /* HID Data 관련 코드 */
-        private readonly List<HidDevice> _devices = new List<HidDevice>();
+        private List<HidDevice> _devices = new List<HidDevice>();
 
         private const ushort ConsoleUsagePage = 0xFF31;
         private const int ConsoleUsage = 0x0074;
@@ -29,7 +29,7 @@ namespace G_One_HID_Listener
                 .Where(device => (ushort)device.Capabilities.UsagePage == ConsoleUsagePage)
                 .Where(device => (ushort)device.Capabilities.Usage == ConsoleUsage);
 
-        public void Device(bool disconnected)
+        private void UpdateHidDevices(bool disconnected)
         {
             var devices = GetListableDevices().ToList();
 
@@ -44,48 +44,64 @@ namespace G_One_HID_Listener
                     _devices.Add(device);
                     device.OpenDevice();
 
-                    device.Inserted += DeviceAttachedHandler;
-                    device.Removed += DeviceRemovedHandler;
-
                     device.MonitorDeviceEvents = true;
 
-                    AppendText("G.One 키보드 연결 됨");
+                    AppendText($"G.One 키보드 연결 됨 : {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})");
+
                     device.ReadReport(OnReport);
                     device.CloseDevice();
                 }
             }
+            else
+            {
+                foreach (var existingDevice in _devices)
+                {
+                    var deviceExists = devices.Aggregate(false, (current, device) => current | existingDevice.DevicePath.Equals(device.DevicePath));
+
+                    if (!deviceExists)
+                    {
+                        AppendText($"HID console disconnected ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})");
+                    }
+                }
+            }
+
+            _devices = devices;
         }
 
         private void OnReport(HidReport report)
         {
             var data = report.Data;
-            var stringData = string.Empty;
+            var outputString = string.Empty;
 
             if (0 < data.Length)
             {
-                stringData = Encoding.UTF8.GetString(data).Trim('\0');
+                outputString = Encoding.UTF8.GetString(data).Trim('\0');
             }
             else
             {
                 MessageBox.Show(@"에러!");
             }
-            AppendText(stringData);
-            stringData = string.Empty;
+            AppendText(outputString);
+            outputString = string.Empty;
 
             foreach (var device in _devices)
             {
                 device.ReadReport(OnReport);
             }
         }
-
-        private void DeviceAttachedHandler()
+        
+        private static string GetProductString(IHidDevice d)
         {
-            AppendText("키보드가 연결 되었습니다.");
+            if (d == null) return "";
+            d.ReadProduct(out var bs);
+            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
-        private void DeviceRemovedHandler()
+        private static string GetManufacturerString(IHidDevice d)
         {
-            AppendText("키보드가 제거 되었습니다.");
+            if (d == null) return "";
+            d.ReadManufacturer(out var bs);
+            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
         /* Console Form 관련 코드 */
@@ -110,6 +126,11 @@ namespace G_One_HID_Listener
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            UpdateHidDevices(false);
         }
 
         /* 테스트 버튼 관련 코드 */

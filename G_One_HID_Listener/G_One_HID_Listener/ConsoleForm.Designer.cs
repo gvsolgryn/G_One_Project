@@ -38,6 +38,7 @@ namespace G_One_HID_Listener
             // 
             this.consoleTextBox.Location = new System.Drawing.Point(12, 12);
             this.consoleTextBox.Name = "consoleTextBox";
+            this.consoleTextBox.ReadOnly = true;
             this.consoleTextBox.Size = new System.Drawing.Size(500, 248);
             this.consoleTextBox.TabIndex = 0;
             this.consoleTextBox.Text = "";
