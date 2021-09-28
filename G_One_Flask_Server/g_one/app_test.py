@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 from flask import Flask, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 
