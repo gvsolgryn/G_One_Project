@@ -150,32 +150,29 @@ namespace G_One_HID_Listener
         }
 
         /* Console Form 관련 코드 */
-        private readonly ConsoleForm _consoleForm = new ConsoleForm();
 
         private void AppendText(string text)
         {
+            ConsoleForm _consoleForm = new ConsoleForm();
             _consoleForm.ConsoleText(_consoleForm.consoleTextBox, text);
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-            _consoleForm.Close();
         }
 
         private void ConsoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ConsoleForm _consoleForm = new ConsoleForm();
+
+            _consoleForm.StartPosition = FormStartPosition.CenterScreen;
             _consoleForm.Show();
         }
 
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            UpdateHidDevices(false);
         }
 
         /* 테스트 버튼 관련 코드 */
@@ -197,9 +194,20 @@ namespace G_One_HID_Listener
             }
         }
 
+        /* 기기추가Form 관련 코드 */
         private void 기기추가ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AddDeviceForm addDeviceForm = new AddDeviceForm();
 
+            addDeviceForm.StartPosition = FormStartPosition.CenterScreen;
+            addDeviceForm.Show();
+        }
+
+        /* MainWindows 액션 관련 코드 */
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            UpdateHidDevices(false);
+            this.CenterToScreen();
         }
     }
 }
