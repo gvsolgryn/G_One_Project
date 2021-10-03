@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 from flask import Flask, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 
@@ -124,7 +123,8 @@ def iot_delete():
     name = request.form['del_iot_name']
     db = dbModule.Database()
     print(name)
-    sql = ""
+
+    dbEdit.iotDel.sql_insert(name)
     return redirect(url_for('index'))
 
 @app.route('/error_db')
@@ -133,4 +133,3 @@ def error_db():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=8080)
-    #, ssl_context=('/etc/letsencrypt/live/gvsolgryn.ddns.net/cert.pem', '/etc/letsencrypt/live/gvsolgryn.ddns.net/privkey.pem'))
