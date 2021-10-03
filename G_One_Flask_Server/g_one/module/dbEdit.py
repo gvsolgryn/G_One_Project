@@ -30,15 +30,39 @@ class Update():
 class iotAdd():
     def sql_insert(name, status, led_value):
         sql = "INSERT INTO sensor_status(sensor, status, led_value, last_use) VALUES(%s, %s, %s, now())"
+        log_sql = "INSERT INTO log(use_program, sensor, def_location, sql_success, error_log, sql_run_time) VALUES(%s, %s, %s, %s, %s, %s)"
+        sw_start = time.time()
         db = dbModule.Database()
+
 
         try:
             db.execute(sql, (name, int(status), int(led_value)))
+            sql_end = time.time()
+            sql_code_runtime = round(sql_end - sw_start, 2)
+            db.execute(log_sql, ('Flask_Add_IoT', str(name), str(name) + '_Add', 'success', 'none', str(sql_code_runtime)))
         except Exception as e:
             print("iot_device_INSERT_Error")
             error_sql = "INSERT INTO log(use_program, sensor, def_location, sql_success, error_log, sql_run_time) VALUES(%s, %s, %s, %s, %s, %s)"
-            db.execute(error_sql, ('Flask_Add_IoT_Device', str(name), 'iotAdd', 'fail', str(e), '0.00'))
+            db.execute(error_sql, ('Flask_Add_IoT', str(name), 'iotAdd', 'fail', str(e), '0.00'))
         finally:
             db.commit()
 
-        
+class iotDel():
+    def sql_insert(name):
+        sql = "DELETE FROM sensor_status WHERE sensor='" + str(name) + "'"
+        log_sql = "INSERT INTO log(use_program, sensor, def_location, sql_success, error_log, sql_run_time) VALUES(%s, %s, %s, %s, %s, %s)"
+        sw_start = time.time()
+        db = dbModule.Database()
+
+        try:
+            db.execute(sql)
+            sql_end = time.time()
+            sql_code_runtime = round(sql_end - sw_start, 2)
+            db.execute(log_sql, ('Flask_Delete_IoT', str(name), str(name) + '_Delete', 'success', 'none', str(sql_code_runtime)))
+        except Exception as e:
+            print("iot_device_Delete_Error")
+            print(e)
+            error_sql = "INSERT INTO log(use_program, sensor, def_location, sql_success, error_log, sql_run_time) VALUES(%s, %s, %s, %s, %s, %s)"
+            db.execute(error_sql, ('Flask_Delete_IoT', str(name), 'iotDel', 'fail', str(e), '0.00'))
+        finally:
+            db.commit()
