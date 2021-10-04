@@ -15,6 +15,7 @@ namespace G_One_HID_Listener
     using uPLibrary.Networking.M2Mqtt;
     using MySql.Data;
     using MySql.Data.MySqlClient;
+    using G_One_HID_Listener.module;
 
     public partial class MainWindow : Form
     {
@@ -179,6 +180,9 @@ namespace G_One_HID_Listener
         private void TestButton1_Click(object sender, EventArgs e)
         {
             AppendText("테스트버튼 1 클릭됨.");
+            var test = new DB_Module();
+            string sql = "SELECT * FROM sensor_status";
+            test.Command(sql);
         }
 
         private void TestButton2_Click(object sender, EventArgs e)
