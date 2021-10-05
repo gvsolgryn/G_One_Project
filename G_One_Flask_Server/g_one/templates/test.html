@@ -34,41 +34,69 @@
                                     <h1 class="text-start">{{name[i]}} 제어</h1>
                                 </div>
                             </div>
-                            
-                            <h4>{{name[i]}} 제품의 전원을 제어하는 버튼입니다.</h4>
-                            {% if status[i] == 0 %}
-                                <div class="d-flex justify-content-end">
-                                    <form action='sensorTrigger' method="POST">
-                                        {% if name[i].lower().startswith('led') %}
-                                            <label for="led_value" class="form-label">LED 밝기 조정</label>
-                                            <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="20" max="100" step="20" value={{req_led_value[i]}}>
-                                        {% endif %}
-                                        <input type='hidden' name='name' value='{{name[i]}}'>
-                                        <input type='hidden' name='trigger' value='1'>
-                                        <input type='hidden' id="led_value" name='led_value' value=0>
-                                        <button type="submit" class="btn btn-danger">켜기</button>
-                                    </form>
+
+                            <div class="row">
+                                <div class="col">
+                                    <h4>{{name[i]}} 제품의 전원을 제어하는 버튼입니다.</h4>
                                 </div>
-                            {% elif status[i] == 1 %}
-                                <div class="d-flex justify-content-end">
-                                    <form action='sensorTrigger' method="POST">
-                                        {% if name[i].lower().startswith('led') %}
-                                            <label for="led_value" class="form-label">LED 밝기 조정</label>
-                                            <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="20" max="100" step="20" value={{req_led_value[i]}}>
-                                        {% endif %}
-                                        <input type='hidden' name='name' value='{{name[i]}}'>
-                                        <input type='hidden' name='trigger' value='0'>
-                                        <input type='hidden' id="led_value" name='led_value' value='0'>
-                                        <button type="submit" class="btn btn-dark">끄기</button>
-                                    </form>
+                            </div>
+
+                            {% if name[i].lower().startswith('led') %}
+                                <div class="d-flex justify-content-end mb-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <form action='sensorTrigger' method="POST">
+                                                <label for="led_value" class="form-label">LED 밝기 조정</label>
+                                                <input type='hidden' name='name' value='{{name[i]}}'>
+                                                <input type='hidden' name='trigger' value='1'>
+                                                <input type="range" class="form-control-range mb-3" id="led_value" name="led_value" min="25" max="100" step="25" value={{req_led_value[i]}}>
+                                                <button type="submit" class="btn btn-danger">변경</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                            {% else %}
-                                <button class="btn btn-dark disabled">DB 로드 에러</button>
                             {% endif %}
+
+                            <div class="row">
+                                <div class="col">
+                                    {% if status[i] == 0 %}
+                                        <div class="d-flex justify-content-end">
+                                            <form action='sensorTrigger' method="POST">
+                                                <input type='hidden' name='name' value='{{name[i]}}'>
+                                                <input type='hidden' name='trigger' value='1'>
+                                                <input type='hidden' id="led_value" name='led_value' value=0>
+                                                <button type="submit" class="btn btn-danger">켜기</button>
+                                            </form>
+                                        </div>
+                                    {% elif status[i] == 1 %}
+                                        <div class="d-flex justify-content-end">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <form action='sensorTrigger' method="POST">
+                                                        <input type='hidden' name='name' value='{{name[i]}}'>
+                                                        <input type='hidden' name='trigger' value='0'>
+                                                        <input type='hidden' id="led_value" name='led_value' value='0'>
+                                                        <button type="submit" class="btn btn-dark">끄기</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="d-flex justify-content-end">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button class="btn btn-dark disabled">DB 로드 에러</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
+
             <div class="row">
                 <div class="col border border-3 rounded m-3 p-3">
                     <h1>센서 추가</h1>
@@ -76,9 +104,9 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-outline-primary btn-block " data-bs-toggle="modal" data-bs-target="#addModal">추가</button>
                     </div>
-                    
                 </div>
             </div>
+
         </div>
 
         <!-- Modal 관련 코드 시작 구간-->

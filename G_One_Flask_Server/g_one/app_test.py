@@ -73,11 +73,12 @@ def sensorTrigger():
     trigger = request.form['trigger']
     led_value = request.form['led_value']
 
+    print("led_value = " + led_value)
+
     dbEdit.Update.sql_update(name, int(trigger), led_value)
     try:
         if trigger == "0":
             dbEdit.Update.sql_update(name, int(trigger), 0)
-
     
         for i in range(0, len(result_id), 1):
             if name == result_sensor[i]:
@@ -85,27 +86,15 @@ def sensorTrigger():
                     mqtt.publish('iot/' + str(result_sensor[i]), "0")
                 elif trigger == "1":
                     mqtt.publish('iot/' + str(result_sensor[i]), "1")
+
+            if name == result_sensor[i] and result_sensor[i].lower().startswith('led'):
+                mqtt.publish('iot/' + str(result_sensor[i]) + 'Adjust', str(led_value))
+
+            
     except Exception as e:
         print("sensor_trigger Error : " + str(e))
         return(redirect(url_for('error_db')))
     
-    return redirect(url_for('index'))
-
-@app.route('/ledAdjust', methods=['POST'])
-def ledAdjust():
-    value = request.form('led_value')
-    mqtt.publish("iot/LEDAdjust", value)
-
-    sql = "UPDATE sensor_status set led_value = %s, Last_Use = now() WHERE sensor = %s"
-    db_class = dbModule.Database()
-    try:
-        db_class.execute(sql, (value, "LED"))
-    except Exception as e:
-        return redirect(url_for('error_db'))
-    finally:
-        db_class.commit()
-        #db_class.close()
-
     return redirect(url_for('index'))
 
 @app.route('/add', methods=['POST'])
