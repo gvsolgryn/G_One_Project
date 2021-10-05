@@ -41,7 +41,7 @@
                                 </div>
                             </div>
 
-                            {% if name[i].lower().startswith('led') %}
+                            {% if name[i].lower().startswith('led') and status[i] == 1 %}
                                 <div class="d-flex justify-content-end mb-3">
                                     <div class="row">
                                         <div class="col">
