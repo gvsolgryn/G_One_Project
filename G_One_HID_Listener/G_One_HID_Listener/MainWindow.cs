@@ -69,6 +69,7 @@ namespace G_One_HID_Listener
                     device.MonitorDeviceEvents = true;
 
                     AppendText($"G.One 키보드 연결 됨 : {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})\n");
+                    Console.WriteLine($"G.One 키보드 연결 됨 : {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})\n");
 
                     device.Inserted += DeviceAttachedHandler;
                     device.Removed += DeviceRemovedHandler;
@@ -108,27 +109,17 @@ namespace G_One_HID_Listener
             var data = report.Data;
             var outputString = string.Empty;
 
-            for (var i = 0; i < data.Length; i++)
-            {
-                outputString += (char) data[i];
-                if (i % 16 != 15 || i >= data.Length) continue;
-                AppendText(outputString);
-                outputString = string.Empty;
-            }
-
-            if (data.Length == 0) UpdateHidDevices(true);
-
-            /*
              if (0 < data.Length || report.Data != null)
             {
                 outputString = Encoding.UTF8.GetString(data).Trim('\0');
-                AppendText(outputString);
+                if (outputString == string.Empty) UpdateHidDevices(true);
+                else AppendText(outputString);
             }
             else
             {
                 MessageBox.Show(@"에러!");
             }
-            */
+            
 
             foreach (var device in _devices)
             {
@@ -152,10 +143,11 @@ namespace G_One_HID_Listener
 
         /* Console Form 관련 코드 */
 
+        ConsoleForm _logForm = new ConsoleForm();
+
         private void AppendText(string text)
         {
-            ConsoleForm _consoleForm = new ConsoleForm();
-            _consoleForm.ConsoleText(_consoleForm.consoleTextBox, text);
+            _logForm.ConsoleText(_logForm.consoleTextBox, text);
         }
 
         private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -165,10 +157,15 @@ namespace G_One_HID_Listener
 
         private void ConsoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConsoleForm _consoleForm = new ConsoleForm();
-
-            _consoleForm.StartPosition = FormStartPosition.CenterScreen;
-            _consoleForm.Show();
+            _logForm.StartPosition = FormStartPosition.CenterScreen;
+            
+            if(_logForm.WindowState == FormWindowState.Minimized)
+            {
+                _logForm.WindowState = FormWindowState.Normal;
+                _logForm.ShowIcon = true;
+                _logForm.ShowInTaskbar = true;
+            }
+            _logForm.Show();
         }
 
         public MainWindow()
