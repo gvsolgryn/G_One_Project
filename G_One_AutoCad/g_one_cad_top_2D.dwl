@@ -1,3 +1,0 @@
-GVSolgryn
-DESKTOP-VBJS92K 
-2021년 10월 5일 화요일  오후 5:31:29

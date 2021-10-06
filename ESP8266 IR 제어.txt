@@ -1,0 +1,33 @@
+IRremoteESP8266.h IRrecv 덤프 결과
+
+LED On		= 0xFF807F
+LED Off		= 0xFF00FF
+LED 10%		= 0xFF50AF
+LED 40%		= 0xFFA857
+LED 80% 	= 0xFFB04F
+LED 100%	= 0xFF6897
+
+LED Plus	= 0xFF30CF
+LED Minus	= 0xFF906F
+
+테스트 결과 IRremoteESP8266 라이브러리를 이용하면 2n2222 를 이용하지 않고 간편한 함수 하나만으로 IR센서 제어 가능
+
+사용법
+
+3개의 라이브러리 추가
+
+#include <Arduino.h>
+#include <IRremoteESP8266.h>
+#include <IRsend.h>
+---
+IR LED 핀 지정
+
+const uint16_t kIrLed = 4; // ESP8266 GPIO 핀을 사용하는것으로 GPIO4 는 D2 를 의미한다. 라이브러리 제공자가 권장하는 GPIO 포트
+---
+IRSend 의 기능을 irsend 라는 변수로 선언하여 간단하게 사용하도록 선언
+
+IRsend irsend(kIrLed);
+---
+void setup() 함수 안에 irsend.begin(); 을 추가하여 IRSend 라이브러리 사용을 설정
+---
+loop 문 이든 어디든 irsend.sendNEC(원하는 IR 송신 값); 을 이용하여 간편하게 IR 통신 가능

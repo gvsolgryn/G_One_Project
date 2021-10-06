@@ -37,5 +37,16 @@ namespace G_One_HID_Listener
         {
             consoleTextBox.Clear();
         }
+
+        private void ConsoleForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.WindowState = FormWindowState.Minimized;
+                this.ShowIcon = false;
+                this.ShowInTaskbar = false;
+            }
+        }
     }
 }
