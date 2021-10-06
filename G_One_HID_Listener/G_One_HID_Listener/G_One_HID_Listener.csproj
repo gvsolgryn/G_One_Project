@@ -33,15 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>G_One_HID_Listener.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Protobuf, Version=3.18.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604">
-      <HintPath>..\packages\Google.Protobuf.3.18.0\lib\net45\Google.Protobuf.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Google.Protobuf, Version=3.18.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.18.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="HidLibrary, Version=3.2.49.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\hidlibrary.3.3.40\lib\net45\HidLibrary.dll</HintPath>
@@ -111,6 +110,12 @@
     <Compile Include="ConsoleForm.Designer.cs">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DelDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DelDeviceForm.Designer.cs">
+      <DependentUpon>DelDeviceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageButton\LedImageButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -137,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConsoleForm.resx">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DelDeviceForm.resx">
+      <DependentUpon>DelDeviceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageButton\LedImageButton.resx">
       <DependentUpon>LedImageButton.cs</DependentUpon>

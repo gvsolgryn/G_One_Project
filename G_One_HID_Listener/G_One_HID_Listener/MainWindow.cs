@@ -20,6 +20,8 @@ namespace G_One_HID_Listener
     public partial class MainWindow : Form
     {
         /* DB 관련 코드 */
+
+        const string connStr = "Server=gone.gvsolgryn.de;Port=3306;User=gvsolgryn;Password=tkdeh3554;Database=G_One_DB;SslMode=None";
         private static MySqlConnection Database()
         {
             const string connStr = "server=gone.gvsolgryn.de;" +
@@ -113,7 +115,11 @@ namespace G_One_HID_Listener
             {
                 outputString = Encoding.UTF8.GetString(data).Trim('\0');
                 if (outputString == string.Empty) UpdateHidDevices(true);
-                else AppendText(outputString);
+                else
+                {
+                    AppendText(outputString);
+                    HID_Status_Change(outputString.TrimEnd('\n'));
+                }
             }
             else
             {
@@ -210,5 +216,139 @@ namespace G_One_HID_Listener
             UpdateHidDevices(false);
             this.CenterToScreen();
         }
+
+        /*private void LedImageButton1_Click(object sender, EventArgs e)
+        {
+            MqttClient client = new MqttClient("gone.gvsolgryn.de");
+
+            client.Connect("G.One_HID", "username", "password");
+        }
+
+        private void PowerStripImageButton1_Click(object sender, EventArgs e)
+        {
+            MqttClient client = new MqttClient("gone.gvsolgryn.de");
+
+            client.Connect("G.One_HID", "username", "password");
+        }*/
+
+
+
+
+
+
+        private void HID_Status_Change(string HID_Data)
+        {
+            if (HID_Data == "LED")
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+                string sql = "SELECT STATUS,SENSOR from sensor_status where ID='1'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader tableData = cmd.ExecuteReader();
+                tableData.Read();
+                Console.WriteLine("Status: {0}", tableData["STATUS"]);
+                string name, topic;
+                int status;
+                status = (int)tableData["STATUS"];
+                name = tableData["SENSOR"].ToString();
+                topic = "iot/LED";
+                ChangeStatus(status, name, topic);
+                tableData.Close();
+                conn.Close();
+            }
+            else if (HID_Data == "MULTI")
+            {
+                MySqlConnection conn = new MySqlConnection(connStr);
+                conn.Open();
+                string sql = "SELECT STATUS,SENSOR from sensor_status where ID='2'";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader tableData = cmd.ExecuteReader();
+                tableData.Read();
+                Console.WriteLine("Status: {0}", tableData["STATUS"]);
+                string name, topic;
+                int status;
+                status = (int)tableData["STATUS"];
+                name = tableData["SENSOR"].ToString();
+                topic = "iot/Power_Strip";
+                ChangeStatus(status, name, topic);
+                tableData.Close();
+                conn.Close();
+            }
+        }
+
+        public void ChangeStatus(int status, string name, string topic)
+        {
+            MqttClient client = new MqttClient("gone.gvsolgryn.de");
+            if (status == 0)
+            {
+                try
+                {
+                    AppendText(name + " 켜기 완료!");
+                }
+                catch (Exception e)
+                {
+                    AppendText("데이터 베이스 에러로그 : " + e.Message);
+                }
+                finally
+                {
+                }
+            }
+            else if (status == 1)
+            {
+                try
+                {
+                    AppendText(name + " 끄기 완료!");
+                }
+                catch (Exception e)
+                {
+                    AppendText("데이터 베이스 에러로그 : " + e.Message);
+                }
+                finally
+                {
+                }
+            }
+            else AppendText("쿼리 에러");
+
+            try
+            {
+                client.Connect("G.One_HID", "ID", "PW");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("MQTT 에러 로그 : " + e.Message);
+            }
+
+            if (status == 0)
+            {
+                if (topic == "iot/LED")
+                {
+                    client.Publish(topic, Encoding.UTF8.GetBytes("1"));
+                }
+                else if (topic == "iot/Power_Strip")
+                {
+                    client.Publish(topic, Encoding.UTF8.GetBytes("1"));
+                }
+                else
+                {
+                    MessageBox.Show("에러");
+                }
+            }
+            else if (status == 1)
+            {
+                if (topic == "iot/LED")
+                {
+                    client.Publish(topic, Encoding.UTF8.GetBytes("0"));
+                }
+                else if (topic == "iot/Power_Strip")
+                {
+                    client.Publish(topic, Encoding.UTF8.GetBytes("0"));
+                }
+                else
+                {
+                    MessageBox.Show("에러");
+                }
+            }
+        }
+
     }
 }
