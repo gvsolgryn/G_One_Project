@@ -84,8 +84,10 @@ def sensorTrigger():
             if name == result_sensor[i]:
                 if trigger == "0":
                     mqtt.publish('iot/' + str(result_sensor[i]), "0")
+                    print(str(i) + "번 처리 완료")
                 elif trigger == "1":
                     mqtt.publish('iot/' + str(result_sensor[i]), "1")
+                    print(str(i) + "번 처리 완료")
 
             if name == result_sensor[i] and result_sensor[i].lower().startswith('led'):
                 mqtt.publish('iot/' + str(result_sensor[i]) + 'Adjust', str(led_value))
