@@ -1,11 +1,42 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# SparkFun-Boards_SPARKFUN_PRO_MICRO
+# G_One_PCB-rescue_D-keyboard_parts
 #
-DEF SparkFun-Boards_SPARKFUN_PRO_MICRO B 0 40 Y Y 1 L N
+DEF G_One_PCB-rescue_D-keyboard_parts D 0 40 Y Y 1 F N
+F0 "D" -150 -50 60 V V C CNN
+F1 "G_One_PCB-rescue_D-keyboard_parts" 150 -50 60 V I C CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+P 2 0 1 0 -100 0 100 0 N
+P 4 0 1 0 0 0 -100 -100 100 -100 0 0 F
+X ~ 1 0 50 50 D 60 60 1 1 P
+X ~ 2 0 -150 50 U 60 60 1 1 P
+ENDDRAW
+ENDDEF
+#
+# G_One_PCB-rescue_KEYSW-keyboard_parts
+#
+DEF G_One_PCB-rescue_KEYSW-keyboard_parts K? 0 40 Y Y 1 F N
+F0 "K?" -50 0 60 H V C CNN
+F1 "G_One_PCB-rescue_KEYSW-keyboard_parts" 0 -100 60 H I C CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+C -200 0 50 0 1 0 N
+C 200 0 50 0 1 0 N
+P 2 0 1 10 -200 50 150 150 N
+X ~ 1 300 0 50 L 60 60 1 1 P
+X ~ 2 -300 0 50 R 60 60 1 1 P
+ENDDRAW
+ENDDEF
+#
+# G_One_PCB-rescue_SPARKFUN_PRO_MICRO-SparkFun-Boards
+#
+DEF G_One_PCB-rescue_SPARKFUN_PRO_MICRO-SparkFun-Boards B 0 40 Y Y 1 L N
 F0 "B" -350 700 45 H V L BNN
-F1 "SparkFun-Boards_SPARKFUN_PRO_MICRO" -350 -750 45 H V L BNN
+F1 "G_One_PCB-rescue_SPARKFUN_PRO_MICRO-SparkFun-Boards" -350 -750 45 H V L BNN
 F2 "SPARKFUN_PRO_MICRO" 0 800 20 H I C CNN
 F3 "" 0 0 50 H I C CNN
 F4 "XXX-00000" 0 850 60 H V C CNN
@@ -38,37 +69,6 @@ X *3 6 -450 50 100 R 40 40 1 1 B
 X 4 7 -450 -50 100 R 40 40 1 1 B
 X *5 8 -450 -150 100 R 40 40 1 1 B
 X *6 9 -450 -250 100 R 40 40 1 1 B
-ENDDRAW
-ENDDEF
-#
-# keyboard_parts_D
-#
-DEF keyboard_parts_D D 0 40 Y Y 1 F N
-F0 "D" -150 -50 60 V V C CNN
-F1 "keyboard_parts_D" 150 -50 60 V I C CNN
-F2 "" 0 0 60 H V C CNN
-F3 "" 0 0 60 H V C CNN
-DRAW
-P 2 0 1 0 -100 0 100 0 N
-P 4 0 1 0 0 0 -100 -100 100 -100 0 0 F
-X ~ 1 0 50 50 D 60 60 1 1 P
-X ~ 2 0 -150 50 U 60 60 1 1 P
-ENDDRAW
-ENDDEF
-#
-# keyboard_parts_KEYSW
-#
-DEF keyboard_parts_KEYSW K? 0 40 Y Y 1 F N
-F0 "K?" -50 0 60 H V C CNN
-F1 "keyboard_parts_KEYSW" 0 -100 60 H I C CNN
-F2 "" 0 0 60 H V C CNN
-F3 "" 0 0 60 H V C CNN
-DRAW
-C -200 0 50 0 1 0 N
-C 200 0 50 0 1 0 N
-P 2 0 1 10 -200 50 150 150 N
-X ~ 1 300 0 50 L 60 60 1 1 P
-X ~ 2 -300 0 50 R 60 60 1 1 P
 ENDDRAW
 ENDDEF
 #
