@@ -13,9 +13,8 @@ namespace G_One_HID_Listener
 {
     using HidLibrary;
     using uPLibrary.Networking.M2Mqtt;
-    using MySql.Data;
     using MySql.Data.MySqlClient;
-    using G_One_HID_Listener.module;
+    using module;
 
     public partial class MainWindow : Form
     {
@@ -134,11 +133,6 @@ namespace G_One_HID_Listener
             _logForm.ConsoleText(_logForm.consoleTextBox, text);
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void ConsoleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _logForm.StartPosition = FormStartPosition.CenterScreen;
@@ -152,36 +146,15 @@ namespace G_One_HID_Listener
             _logForm.Show();
         }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
         /* 테스트 버튼 관련 코드 */
         private void TestButton1_Click(object sender, EventArgs e)
         {
             AppendText("테스트버튼 1 클릭됨.");
-            var db = new DB_Module();
-            string sql = "SELECT * FROM sensor_status";
-            db.Command(sql);
-            MySqlDataReader table = db.Command(sql).ExecuteReader();
-            while (table.Read())
-            {
-                Console.WriteLine("sensor : {0} | status : {1}", table["sensor"], table["status"]);
-            }
         }
 
         private void TestButton2_Click(object sender, EventArgs e)
         {
             AppendText("키보드가 제거 되었습니다.");
-        }
-
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (DialogResult.Yes != MessageBox.Show(@"정말 종료 하시겠습니까?", @"프로그램 종료", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
-            {
-                e.Cancel = true;
-            }
         }
 
         /* 기기추가Form 관련 코드 */
@@ -191,7 +164,7 @@ namespace G_One_HID_Listener
             {
                 StartPosition = FormStartPosition.CenterScreen
             };
-            addDeviceForm.Show();
+            addDeviceForm.ShowDialog();
         }
 
         private void 기기삭제ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -200,7 +173,7 @@ namespace G_One_HID_Listener
             {
                 StartPosition = FormStartPosition.CenterScreen
             };
-            delDeviceForm.Show();
+            delDeviceForm.ShowDialog();
         }
 
         /* MainWindows 액션 관련 코드 */
@@ -208,6 +181,15 @@ namespace G_One_HID_Listener
         {
             UpdateHidDevices(false);
             this.CenterToScreen();
+        }
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult.Yes != MessageBox.Show(@"정말 종료 하시겠습니까?", @"프로그램 종료", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2))
+            {
+                e.Cancel = true;
+            }
+
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         private void LedImageButton1_Click(object sender, EventArgs e)
@@ -284,7 +266,6 @@ namespace G_One_HID_Listener
                     if(HID_Data.ToLower() == sensor.ToLower())
                     {
                         var topic = "iot/" + HID_Data;
-                        Console.WriteLine(topic);
                         
                         ChangeStatus(Int32.Parse(status), HID_Data, topic);
 
@@ -296,43 +277,6 @@ namespace G_One_HID_Listener
             {
                 MessageBox.Show("HID_Stat_Change Error : " + ex.Message);
             }
-
-            /*if (HID_Data == "LED")
-            {
-                MySqlConnection conn = new MySqlConnection(connStr);
-                conn.Open();
-                string sql = "SELECT STATUS,SENSOR from sensor_status where ID='1'";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader tableData = cmd.ExecuteReader();
-                tableData.Read();
-                Console.WriteLine("Status: {0}", tableData["STATUS"]);
-                string name, topic;
-                int status;
-                status = (int)tableData["STATUS"];
-                name = tableData["SENSOR"].ToString();
-                topic = "iot/LED";
-                ChangeStatus(status, name, topic);
-                tableData.Close();
-                conn.Close();
-            }
-            else if (HID_Data == "MULTI")
-            {
-                MySqlConnection conn = new MySqlConnection(connStr);
-                conn.Open();
-                string sql = "SELECT STATUS,SENSOR from sensor_status where sensor='MULTI'";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader tableData = cmd.ExecuteReader();
-                tableData.Read();
-                Console.WriteLine("Status: {0}", tableData["STATUS"]);
-                string name, topic;
-                int status;
-                status = (int)tableData["STATUS"];
-                name = tableData["SENSOR"].ToString();
-                topic = "iot/Power_Strip";
-                ChangeStatus(status, name, topic);
-                tableData.Close();
-                conn.Close();
-            }*/
         }
 
         public void ChangeStatus(int status, string name, string topic)
@@ -408,6 +352,48 @@ namespace G_One_HID_Listener
             }
         }
 
-        
+        /* StripMenu (상단바) 구간 */
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            this.Load += Tray_Icon_Load;
+        }
+
+        private void Tray_Icon_Load(object sender, EventArgs e)
+        {
+            Tray_Icon.ContextMenuStrip = Tray_Icon_Strip;
+        }
+
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void TrayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            this.ShowIcon = false;
+            Tray_Icon.Visible = true;
+        }
+
+        private void Tray_Icon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.ShowInTaskbar = true;
+            this.Visible = true;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void ShowTrayStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ShowInTaskbar = true;
+            this.Visible = true;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void ExitTrayStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

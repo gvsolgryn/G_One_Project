@@ -97,6 +97,7 @@ namespace G_One_HID_Listener
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddDeviceForm";
             this.Text = "기기 추가";
+            this.Load += new System.EventHandler(this.AddDeviceForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

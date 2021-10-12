@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace G_One_HID_Listener
 {
+    using module;
     public partial class ConsoleForm : Form
     {
         public ConsoleForm()
@@ -47,6 +48,20 @@ namespace G_One_HID_Listener
                 this.ShowIcon = false;
                 this.ShowInTaskbar = false;
             }
+        }
+
+        private void DBLoad_btn_Click(object sender, EventArgs e)
+        {
+            var db = new DB_Module();
+            var sql = "SELECT * FROM sensor_status";
+            var table = db.TableLoad(sql);
+
+            while (table.Read())
+            {
+                string text = $"이름 : {table["sensor"]} // 상태 : {table["status"]} // 마지막 사용 시간 : {table["Last_Use"]}";
+                ConsoleText(this.consoleTextBox, text);
+            }
+            ConsoleText(this.consoleTextBox, "============================");
         }
     }
 }

@@ -32,6 +32,7 @@ namespace G_One_HID_Listener
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConsoleForm));
             this.consoleTextBox = new System.Windows.Forms.RichTextBox();
             this.ClearButton = new System.Windows.Forms.Button();
+            this.dbLoad_btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // consoleTextBox
@@ -54,11 +55,22 @@ namespace G_One_HID_Listener
             this.ClearButton.UseVisualStyleBackColor = true;
             this.ClearButton.Click += new System.EventHandler(this.ClearButton_Click);
             // 
+            // dbLoad_btn
+            // 
+            this.dbLoad_btn.Location = new System.Drawing.Point(341, 266);
+            this.dbLoad_btn.Name = "dbLoad_btn";
+            this.dbLoad_btn.Size = new System.Drawing.Size(75, 23);
+            this.dbLoad_btn.TabIndex = 2;
+            this.dbLoad_btn.Text = "DB 로드";
+            this.dbLoad_btn.UseVisualStyleBackColor = true;
+            this.dbLoad_btn.Click += new System.EventHandler(this.DBLoad_btn_Click);
+            // 
             // ConsoleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 301);
+            this.Controls.Add(this.dbLoad_btn);
             this.Controls.Add(this.ClearButton);
             this.Controls.Add(this.consoleTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -73,5 +85,6 @@ namespace G_One_HID_Listener
 
         public System.Windows.Forms.RichTextBox consoleTextBox;
         private System.Windows.Forms.Button ClearButton;
+        private System.Windows.Forms.Button dbLoad_btn;
     }
 }

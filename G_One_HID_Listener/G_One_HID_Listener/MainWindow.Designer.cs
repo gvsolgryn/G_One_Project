@@ -29,6 +29,7 @@ namespace G_One_HID_Listener
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.gOneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -37,14 +38,19 @@ namespace G_One_HID_Listener
             this.ToolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.기기추가ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.기기삭제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TestButton1 = new System.Windows.Forms.Button();
             this.TestButton2 = new System.Windows.Forms.Button();
             this.LED_Control = new System.Windows.Forms.Label();
             this.PowerStrip_Control = new System.Windows.Forms.Label();
-            this.기기삭제ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.powerStripImageButton1 = new G_One_HID_Listener.ImageButton.PowerStripImageButton();
             this.ledImageButton1 = new G_One_HID_Listener.ImageButton.LedImageButton();
+            this.Tray_Icon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.Tray_Icon_Strip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ShowTrayStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitTrayStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.Tray_Icon_Strip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -70,13 +76,14 @@ namespace G_One_HID_Listener
             // TrayToolStripMenuItem
             // 
             this.TrayToolStripMenuItem.Name = "TrayToolStripMenuItem";
-            this.TrayToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.TrayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.TrayToolStripMenuItem.Text = "프로그램 최소화";
+            this.TrayToolStripMenuItem.Click += new System.EventHandler(this.TrayToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ExitToolStripMenuItem.Text = "프로그램 종료";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -93,16 +100,23 @@ namespace G_One_HID_Listener
             // ConsoleToolStripMenuItem
             // 
             this.ConsoleToolStripMenuItem.Name = "ConsoleToolStripMenuItem";
-            this.ConsoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ConsoleToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.ConsoleToolStripMenuItem.Text = "콘솔창 실행";
             this.ConsoleToolStripMenuItem.Click += new System.EventHandler(this.ConsoleToolStripMenuItem_Click);
             // 
             // 기기추가ToolStripMenuItem
             // 
             this.기기추가ToolStripMenuItem.Name = "기기추가ToolStripMenuItem";
-            this.기기추가ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.기기추가ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.기기추가ToolStripMenuItem.Text = "기기 추가";
             this.기기추가ToolStripMenuItem.Click += new System.EventHandler(this.기기추가ToolStripMenuItem_Click);
+            // 
+            // 기기삭제ToolStripMenuItem
+            // 
+            this.기기삭제ToolStripMenuItem.Name = "기기삭제ToolStripMenuItem";
+            this.기기삭제ToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.기기삭제ToolStripMenuItem.Text = "기기 삭제";
+            this.기기삭제ToolStripMenuItem.Click += new System.EventHandler(this.기기삭제ToolStripMenuItem_Click);
             // 
             // TestButton1
             // 
@@ -149,13 +163,6 @@ namespace G_One_HID_Listener
             this.PowerStrip_Control.Text = "멀티탭 제어";
             this.PowerStrip_Control.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // 기기삭제ToolStripMenuItem
-            // 
-            this.기기삭제ToolStripMenuItem.Name = "기기삭제ToolStripMenuItem";
-            this.기기삭제ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.기기삭제ToolStripMenuItem.Text = "기기 삭제";
-            this.기기삭제ToolStripMenuItem.Click += new System.EventHandler(this.기기삭제ToolStripMenuItem_Click);
-            // 
             // powerStripImageButton1
             // 
             this.powerStripImageButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.BackgroundImage")));
@@ -178,6 +185,36 @@ namespace G_One_HID_Listener
             this.ledImageButton1.TabIndex = 3;
             this.ledImageButton1.Click += new System.EventHandler(this.LedImageButton1_Click);
             // 
+            // Tray_Icon
+            // 
+            this.Tray_Icon.Icon = ((System.Drawing.Icon)(resources.GetObject("Tray_Icon.Icon")));
+            this.Tray_Icon.Text = "notifyIcon1";
+            this.Tray_Icon.Visible = true;
+            this.Tray_Icon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Tray_Icon_MouseDoubleClick);
+            // 
+            // Tray_Icon_Strip
+            // 
+            this.Tray_Icon_Strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowTrayStripMenuItem,
+            this.ExitTrayStripMenuItem});
+            this.Tray_Icon_Strip.Name = "Tray_Icon_Strip";
+            this.Tray_Icon_Strip.Size = new System.Drawing.Size(181, 70);
+            // 
+            // ShowTrayStripMenuItem
+            // 
+            this.ShowTrayStripMenuItem.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold);
+            this.ShowTrayStripMenuItem.Name = "ShowTrayStripMenuItem";
+            this.ShowTrayStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ShowTrayStripMenuItem.Text = "열기";
+            this.ShowTrayStripMenuItem.Click += new System.EventHandler(this.ShowTrayStripMenuItem_Click);
+            // 
+            // ExitTrayStripMenuItem
+            // 
+            this.ExitTrayStripMenuItem.Name = "ExitTrayStripMenuItem";
+            this.ExitTrayStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExitTrayStripMenuItem.Text = "종료";
+            this.ExitTrayStripMenuItem.Click += new System.EventHandler(this.ExitTrayStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -198,6 +235,7 @@ namespace G_One_HID_Listener
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.Tray_Icon_Strip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,6 +257,10 @@ namespace G_One_HID_Listener
         private System.Windows.Forms.Label PowerStrip_Control;
         private System.Windows.Forms.ToolStripMenuItem 기기추가ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 기기삭제ToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon Tray_Icon;
+        private System.Windows.Forms.ContextMenuStrip Tray_Icon_Strip;
+        private System.Windows.Forms.ToolStripMenuItem ShowTrayStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExitTrayStripMenuItem;
     }
 }
 
