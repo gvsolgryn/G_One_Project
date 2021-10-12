@@ -23,7 +23,7 @@ namespace G_One_HID_Listener
         {
             if (!logRichTextBox.InvokeRequired)
             {
-                //text += Environment.NewLine;
+                text += Environment.NewLine;
                 logRichTextBox.AppendText(_now + text);
                 logRichTextBox.ScrollToCaret();
             }

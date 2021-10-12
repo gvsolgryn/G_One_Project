@@ -174,8 +174,6 @@ namespace G_One_HID_Listener
         private void TestButton2_Click(object sender, EventArgs e)
         {
             AppendText("키보드가 제거 되었습니다.");
-            var db = new DB_Module();
-            string sql = "INSERT";
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -196,6 +194,15 @@ namespace G_One_HID_Listener
             addDeviceForm.Show();
         }
 
+        private void 기기삭제ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DelDeviceForm delDeviceForm = new DelDeviceForm
+            {
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            delDeviceForm.Show();
+        }
+
         /* MainWindows 액션 관련 코드 */
         private void MainWindow_Load(object sender, EventArgs e)
         {
@@ -206,14 +213,24 @@ namespace G_One_HID_Listener
         private void LedImageButton1_Click(object sender, EventArgs e)
         {
             var db = new DB_Module();
-            string sql = "SELECT * FROM sensor_status";
+
+            string sql = "SELECT * FROM sensor_status WHERE sensor='LED'";
             var table = db.TableLoad(sql);
+
+            var sensor = string.Empty;
+            var status = string.Empty;
+
             try
             {
                 while (table.Read())
                 {
-                    Console.WriteLine("sensor : {0} | status : {1}", table["sensor"], table["status"]);
+                    sensor = table["sensor"].ToString();
+                    status = table["status"].ToString();
+
+                    string text = ($"sensor : {sensor} | status : {status}");
+                    AppendText(text);
                 }
+                ChangeStatus(Int32.Parse(status), sensor, "iot/LED");
             }
             catch(Exception ex)
             {
@@ -223,16 +240,35 @@ namespace G_One_HID_Listener
 
         private void PowerStripImageButton1_Click(object sender, EventArgs e)
         {
+            var db = new DB_Module();
+
+            string sql = "SELECT * FROM sensor_status WHERE sensor='Power_Strip'";
+            var table = db.TableLoad(sql);
+
+            var sensor = string.Empty;
+            var status = string.Empty;
+
+            try
+            {
+                while (table.Read())
+                {
+                    sensor = table["sensor"].ToString();
+                    status = table["status"].ToString();
+
+                    string text = ($"sensor : {sensor} | status : {status}");
+                    AppendText(text);
+                }
+                ChangeStatus(Int32.Parse(status), sensor, "iot/Power_Strip");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
-
-
-
-
-
 
         private void HID_Status_Change(string HID_Data)
         {
-            if (HID_Data == "LED")
+            /*if (HID_Data == "LED")
             {
                 MySqlConnection conn = new MySqlConnection(connStr);
                 conn.Open();
@@ -267,27 +303,50 @@ namespace G_One_HID_Listener
                 ChangeStatus(status, name, topic);
                 tableData.Close();
                 conn.Close();
-            }
+            }*/
         }
 
         public void ChangeStatus(int status, string name, string topic)
         {
             MqttClient client = new MqttClient("gone.gvsolgryn.de");
+            var db = new DB_Module();
+            try
+            {
+                client.Connect("G.One_HID", "ID", "PW");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                AppendText(ex.Message);
+            }
+
             if (status == 0)
             {
                 try
                 {
+                    string sql = "UPDATE sensor_status SET STATUS = 1, last_use = now() WHERE SENSOR = @sensorName";
+
+                    db.Update(sql, new[] { "@sensorName" }, new[] { name });
+
+                    client.Publish(topic, Encoding.UTF8.GetBytes("1"));
+
                     AppendText(name + " 켜기 완료!");
                 }
                 catch (Exception e)
                 {
-                    AppendText("데이터 베이스 에러로그 : " + e.Message);
+                    AppendText("데이터 베이스 에러로그 : " + e.Message + "\n");
                 }
             }
             else if (status == 1)
             {
                 try
                 {
+                    string sql = "UPDATE sensor_status SET STATUS = 0, last_use = now() WHERE SENSOR = @sensorName";
+
+                    db.Update(sql, new[] { "@sensorName" }, new[] { name });
+
+                    client.Publish(topic, Encoding.UTF8.GetBytes("0"));
+
                     AppendText(name + " 끄기 완료!");
                 }
                 catch (Exception e)
@@ -295,48 +354,12 @@ namespace G_One_HID_Listener
                     AppendText("데이터 베이스 에러로그 : " + e.Message);
                 }
             }
-            else AppendText("쿼리 에러");
-
-            try
+            else
             {
-                client.Connect("G.One_HID", "ID", "PW");
-
-                if (status == 0)
-                {
-                    if (topic == "iot/LED")
-                    {
-                        client.Publish(topic, Encoding.UTF8.GetBytes("1"));
-                    }
-                    else if (topic == "iot/Power_Strip")
-                    {
-                        client.Publish(topic, Encoding.UTF8.GetBytes("1"));
-                    }
-                    else
-                    {
-                        MessageBox.Show("에러");
-                    }
-                }
-                else if (status == 1)
-                {
-                    if (topic == "iot/LED")
-                    {
-                        client.Publish(topic, Encoding.UTF8.GetBytes("0"));
-                    }
-                    else if (topic == "iot/Power_Strip")
-                    {
-                        client.Publish(topic, Encoding.UTF8.GetBytes("0"));
-                    }
-                    else
-                    {
-                        MessageBox.Show("에러");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("MQTT 에러 로그 : " + e.Message);
+                MessageBox.Show("Error");
             }
         }
 
+        
     }
 }

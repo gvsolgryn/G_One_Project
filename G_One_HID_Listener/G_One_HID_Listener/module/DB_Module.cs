@@ -35,13 +35,11 @@ namespace G_One_HID_Listener.module
             {
                 var cmd = new MySqlCommand(sql, Conn());
 
-                var checkSql = sql.ToLower();
-
                 return cmd;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error : " + ex.Message);
+                MessageBox.Show("Command Error : " + ex.Message);
                 return null;
             }
         }
@@ -53,6 +51,32 @@ namespace G_One_HID_Listener.module
                 MySqlDataReader table = this.Command(sql).ExecuteReader();
 
                 return table;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Table Load Error : " + ex.Message);
+
+                return null;
+            }
+        }
+
+        public MySqlCommand Update(string sql, string[] parameter, string[] data)
+        {
+            try
+            {
+                var cmd = new MySqlCommand(sql, Conn())
+                {
+                    CommandText = sql
+                };
+
+                for (int i = 0; i < parameter.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue(parameter[i], data[i]);
+                }
+
+                cmd.ExecuteNonQuery();
+
+                return null;
             }
             catch(Exception ex)
             {
