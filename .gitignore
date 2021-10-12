@@ -1,4 +1,5 @@
 .vscode/
 .env/
-*/.vs
-*/.idea
+.vs/
+.idea/
+*/*.bak
