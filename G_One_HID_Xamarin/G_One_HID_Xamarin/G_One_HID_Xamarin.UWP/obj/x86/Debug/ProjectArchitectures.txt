@@ -1,1 +1,0 @@
-D:\Project\G_One_Project\G_One_HID_Xamarin\G_One_HID_Xamarin\G_One_HID_Xamarin.UWP\G_One_HID_Xamarin.UWP.csproj;x86

@@ -268,6 +268,35 @@ namespace G_One_HID_Listener
 
         private void HID_Status_Change(string HID_Data)
         {
+            var db = new DB_Module();
+            try
+            {
+                var sql = "SELECT * FROM sensor_status";
+                var table = db.TableLoad(sql);
+                var sensor = string.Empty;
+                var status = string.Empty;
+
+                while (table.Read())
+                {
+                    sensor = table["sensor"].ToString();
+                    status = table["status"].ToString();
+                    if (HID_Data == "MULTI") HID_Data = HID_Data.Replace("MULTI", "Power_Strip");
+                    if(HID_Data.ToLower() == sensor.ToLower())
+                    {
+                        var topic = "iot/" + HID_Data;
+                        Console.WriteLine(topic);
+                        
+                        ChangeStatus(Int32.Parse(status), HID_Data, topic);
+
+                        HID_Data = String.Empty;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("HID_Stat_Change Error : " + ex.Message);
+            }
+
             /*if (HID_Data == "LED")
             {
                 MySqlConnection conn = new MySqlConnection(connStr);
@@ -326,11 +355,21 @@ namespace G_One_HID_Listener
                 {
                     string sql = "UPDATE sensor_status SET STATUS = 1, last_use = now() WHERE SENSOR = @sensorName";
 
-                    db.Update(sql, new[] { "@sensorName" }, new[] { name });
+                    db.Execute(sql, new[] { "@sensorName" }, new[] { name });
 
                     client.Publish(topic, Encoding.UTF8.GetBytes("1"));
 
                     AppendText(name + " 켜기 완료!");
+                    
+                    if (name == "LED")
+                    {
+                        ledImageButton1.BackgroundImage = ledImageButton1.Image_02;
+                    }
+                    else if (name == "Power_Strip")
+                    {
+                        powerStripImageButton1.BackgroundImage = powerStripImageButton1.Image_02;
+                    }
+                    
                 }
                 catch (Exception e)
                 {
@@ -343,11 +382,20 @@ namespace G_One_HID_Listener
                 {
                     string sql = "UPDATE sensor_status SET STATUS = 0, last_use = now() WHERE SENSOR = @sensorName";
 
-                    db.Update(sql, new[] { "@sensorName" }, new[] { name });
+                    db.Execute(sql, new[] { "@sensorName" }, new[] { name });
 
                     client.Publish(topic, Encoding.UTF8.GetBytes("0"));
 
                     AppendText(name + " 끄기 완료!");
+
+                    if (name == "LED")
+                    {
+                        ledImageButton1.BackgroundImage = ledImageButton1.Image_01;
+                    }
+                    else if (name == "Power_Strip")
+                    {
+                        powerStripImageButton1.BackgroundImage = powerStripImageButton1.Image_01;
+                    }
                 }
                 catch (Exception e)
                 {

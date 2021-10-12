@@ -60,7 +60,7 @@ namespace G_One_HID_Listener.module
             }
         }
 
-        public MySqlCommand Update(string sql, string[] parameter, string[] data)
+        public MySqlCommand Execute(string sql, string[] parameter, string[] data)
         {
             try
             {

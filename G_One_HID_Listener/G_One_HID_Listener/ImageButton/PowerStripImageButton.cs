@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace G_One_HID_Listener.ImageButton
 {
+    using module;
     public partial class PowerStripImageButton : UserControl
     {
         private Image image01 = SystemIcons.Hand.ToBitmap();
@@ -55,15 +56,26 @@ namespace G_One_HID_Listener.ImageButton
             InitializeComponent();
         }
 
-        private void PowerStripImageButton_MouseClick(object sender, MouseEventArgs e)
+        private void PowerStripImageButton_Load(object sender, EventArgs e)
         {
-            if (this.BackgroundImage == image01)
+            var db = new DB_Module();
+
+            var sql = "SELECT * FROM sensor_status WHERE sensor='Power_Strip'";
+            var table = db.TableLoad(sql);
+            var status = string.Empty;
+
+            while (table.Read())
             {
-                this.BackgroundImage = image02;
+                status = table["status"].ToString();
             }
-            else if (this.BackgroundImage == image02)
+
+            if (status == "0")
             {
                 this.BackgroundImage = image01;
+            }
+            else if (status == "1")
+            {
+                this.BackgroundImage = image02;
             }
         }
     }

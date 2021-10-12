@@ -33,10 +33,12 @@ namespace G_One_HID_Listener.ImageButton
             // 
             // PowerStripImageButton
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PowerStripImageButton";
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PowerStripImageButton_MouseClick);
+            this.Size = new System.Drawing.Size(214, 225);
+            this.Load += new System.EventHandler(this.PowerStripImageButton_Load);
             this.ResumeLayout(false);
 
         }
