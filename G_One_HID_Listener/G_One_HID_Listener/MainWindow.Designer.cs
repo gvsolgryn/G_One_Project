@@ -43,12 +43,12 @@ namespace G_One_HID_Listener
             this.TestButton2 = new System.Windows.Forms.Button();
             this.LED_Control = new System.Windows.Forms.Label();
             this.PowerStrip_Control = new System.Windows.Forms.Label();
-            this.powerStripImageButton1 = new G_One_HID_Listener.ImageButton.PowerStripImageButton();
-            this.ledImageButton1 = new G_One_HID_Listener.ImageButton.LedImageButton();
             this.Tray_Icon = new System.Windows.Forms.NotifyIcon(this.components);
             this.Tray_Icon_Strip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ShowTrayStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitTrayStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.powerStripImageButton1 = new G_One_HID_Listener.ImageButton.PowerStripImageButton();
+            this.ledImageButton1 = new G_One_HID_Listener.ImageButton.LedImageButton();
             this.menuStrip1.SuspendLayout();
             this.Tray_Icon_Strip.SuspendLayout();
             this.SuspendLayout();
@@ -76,14 +76,14 @@ namespace G_One_HID_Listener
             // TrayToolStripMenuItem
             // 
             this.TrayToolStripMenuItem.Name = "TrayToolStripMenuItem";
-            this.TrayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.TrayToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.TrayToolStripMenuItem.Text = "프로그램 최소화";
             this.TrayToolStripMenuItem.Click += new System.EventHandler(this.TrayToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.ExitToolStripMenuItem.Text = "프로그램 종료";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -163,6 +163,36 @@ namespace G_One_HID_Listener
             this.PowerStrip_Control.Text = "멀티탭 제어";
             this.PowerStrip_Control.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // Tray_Icon
+            // 
+            this.Tray_Icon.Icon = ((System.Drawing.Icon)(resources.GetObject("Tray_Icon.Icon")));
+            this.Tray_Icon.Text = "notifyIcon1";
+            this.Tray_Icon.Visible = true;
+            this.Tray_Icon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Tray_Icon_MouseDoubleClick);
+            // 
+            // Tray_Icon_Strip
+            // 
+            this.Tray_Icon_Strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ShowTrayStripMenuItem,
+            this.ExitTrayStripMenuItem});
+            this.Tray_Icon_Strip.Name = "Tray_Icon_Strip";
+            this.Tray_Icon_Strip.Size = new System.Drawing.Size(99, 48);
+            // 
+            // ShowTrayStripMenuItem
+            // 
+            this.ShowTrayStripMenuItem.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold);
+            this.ShowTrayStripMenuItem.Name = "ShowTrayStripMenuItem";
+            this.ShowTrayStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.ShowTrayStripMenuItem.Text = "열기";
+            this.ShowTrayStripMenuItem.Click += new System.EventHandler(this.ShowTrayStripMenuItem_Click);
+            // 
+            // ExitTrayStripMenuItem
+            // 
+            this.ExitTrayStripMenuItem.Name = "ExitTrayStripMenuItem";
+            this.ExitTrayStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.ExitTrayStripMenuItem.Text = "종료";
+            this.ExitTrayStripMenuItem.Click += new System.EventHandler(this.ExitTrayStripMenuItem_Click);
+            // 
             // powerStripImageButton1
             // 
             this.powerStripImageButton1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("powerStripImageButton1.BackgroundImage")));
@@ -184,36 +214,6 @@ namespace G_One_HID_Listener
             this.ledImageButton1.Size = new System.Drawing.Size(150, 150);
             this.ledImageButton1.TabIndex = 3;
             this.ledImageButton1.Click += new System.EventHandler(this.LedImageButton1_Click);
-            // 
-            // Tray_Icon
-            // 
-            this.Tray_Icon.Icon = ((System.Drawing.Icon)(resources.GetObject("Tray_Icon.Icon")));
-            this.Tray_Icon.Text = "notifyIcon1";
-            this.Tray_Icon.Visible = true;
-            this.Tray_Icon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Tray_Icon_MouseDoubleClick);
-            // 
-            // Tray_Icon_Strip
-            // 
-            this.Tray_Icon_Strip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ShowTrayStripMenuItem,
-            this.ExitTrayStripMenuItem});
-            this.Tray_Icon_Strip.Name = "Tray_Icon_Strip";
-            this.Tray_Icon_Strip.Size = new System.Drawing.Size(181, 70);
-            // 
-            // ShowTrayStripMenuItem
-            // 
-            this.ShowTrayStripMenuItem.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold);
-            this.ShowTrayStripMenuItem.Name = "ShowTrayStripMenuItem";
-            this.ShowTrayStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ShowTrayStripMenuItem.Text = "열기";
-            this.ShowTrayStripMenuItem.Click += new System.EventHandler(this.ShowTrayStripMenuItem_Click);
-            // 
-            // ExitTrayStripMenuItem
-            // 
-            this.ExitTrayStripMenuItem.Name = "ExitTrayStripMenuItem";
-            this.ExitTrayStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ExitTrayStripMenuItem.Text = "종료";
-            this.ExitTrayStripMenuItem.Click += new System.EventHandler(this.ExitTrayStripMenuItem_Click);
             // 
             // MainWindow
             // 

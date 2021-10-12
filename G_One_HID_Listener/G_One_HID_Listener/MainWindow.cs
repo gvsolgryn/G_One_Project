@@ -114,14 +114,14 @@ namespace G_One_HID_Listener
         {
             if (d == null) return "";
             d.ReadProduct(out var bs);
-            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
+            return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
         private static string GetManufacturerString(IHidDevice d)
         {
             if (d == null) return "";
             d.ReadManufacturer(out var bs);
-            return System.Text.Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
+            return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
         /* Console Form 관련 코드 */
