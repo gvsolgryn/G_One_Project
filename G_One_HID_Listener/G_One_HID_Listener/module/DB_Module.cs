@@ -15,8 +15,8 @@ namespace G_One_HID_Listener.module
         public MySqlConnection Conn()
         {
             string server = "gone.gvsolgryn.de";
-            string user = "gvsolgryn";
-            string password = "tkdeh3554";
+            string user = "g_one";
+            string password = "g_one";
             string database = "G_One_DB";
             string port = "3306";
 
