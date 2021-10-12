@@ -166,6 +166,7 @@ namespace G_One_HID_Listener
             this.ledImageButton1.Name = "ledImageButton1";
             this.ledImageButton1.Size = new System.Drawing.Size(150, 150);
             this.ledImageButton1.TabIndex = 3;
+            this.ledImageButton1.Click += new System.EventHandler(this.LedImageButton1_Click);
             // 
             // MainWindow
             // 

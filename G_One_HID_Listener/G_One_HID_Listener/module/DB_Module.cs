@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,11 @@ namespace G_One_HID_Listener.module
             string database = "G_One_DB";
             string port = "3306";
 
-            string connStr = $"Server={server};uid={user};Password={password};Database={database};Port={port};";
-            Console.WriteLine(connStr);
+            string connStr = $"Server={server};Port={port};User={user};Password={password};Database={database};SslMode=None;";
 
             var conn = new MySqlConnection(connStr);
+
+            conn.Open();
 
             return conn;
         }
@@ -31,24 +33,34 @@ namespace G_One_HID_Listener.module
         {
             try
             {
-                Conn().Open();
                 var cmd = new MySqlCommand(sql, Conn());
-                if (cmd.ExecuteNonQuery() == 1)
-                {
-                    Console.WriteLine("True");
-                }
-                else
-                {
-                    Console.WriteLine("False");
-                }
+
+                var checkSql = sql.ToLower();
 
                 return cmd;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                MessageBox.Show("Error : " + ex.Message);
                 return null;
             }
         }
+
+        public MySqlDataReader TableLoad(string sql)
+        {
+            try
+            {
+                MySqlDataReader table = this.Command(sql).ExecuteReader();
+
+                return table;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+                return null;
+            }
+        }
+
     }
 }
