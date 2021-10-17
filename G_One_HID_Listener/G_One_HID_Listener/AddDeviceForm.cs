@@ -20,8 +20,8 @@ namespace G_One_HID_Listener
 
         private void Accept_btn_Click(object sender, EventArgs e)
         {
-            string _sensorName = SensorName.Text;
-            string _sensorStatus = comboBox1.SelectedItem.ToString();
+            string _sensorName = sensorList.SelectedItem.ToString();
+            string _sensorStatus = sensorStatus.SelectedItem.ToString();
 
             if (_sensorStatus == "켜짐") _sensorStatus = "1";
             else if (_sensorStatus == "꺼짐") _sensorStatus = "0";
@@ -39,7 +39,16 @@ namespace G_One_HID_Listener
 
         private void AddDeviceForm_Load(object sender, EventArgs e)
         {
-            comboBox1.SelectedIndex = 1;
+            var db = new DB_Module();
+            var sql = "SELECT name FROM compatible_device";
+            var table = db.TableLoad(sql);
+
+            while (table.Read())
+            {
+                this.sensorList.Items.Add(table["name"].ToString());
+            }
+
+            sensorStatus.SelectedIndex = 1;
         }
     }
 }
