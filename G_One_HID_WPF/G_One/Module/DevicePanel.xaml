@@ -5,41 +5,51 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:G_One.Module"
              mc:Ignorable="d" 
+             
+             Loaded="DevicePanelLoaded"
+             
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid ShowGridLines="True" Margin="10px">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
-        <Grid x:Name="IconGrid" Grid.Column="0" Margin="10px">
-            <Image x:Name="DeviceIcon" VerticalAlignment="center" HorizontalAlignment="center" Width="100" Height="100" Source="/image/warning.png" Stretch="UniformToFill"/>
-        </Grid>
-
-        <Grid x:Name="DeviceInfoGrid" Grid.Column="1" Margin="10px" ShowGridLines="True">
+    <Grid>
+        <Grid  x:Name="MainDevicePanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10px">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Grid Grid.ColumnSpan="2">
+                <Border BorderBrush="Black" BorderThickness="2"/>
+            </Grid>
+            <Grid x:Name="IconGrid" Grid.Column="0" Margin="10px">
+                <Image x:Name="DeviceIcon" VerticalAlignment="center" HorizontalAlignment="center" Width="100" Height="100" Source="/image/warning.png" Stretch="UniformToFill"/>
+            </Grid>
 
-            <Grid x:Name="DeviceNameGrid" Grid.Column="0" Grid.Row="0">
-                <Label x:Name="DeviceName" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="24">불러오기 실패</Label>
-            </Grid>
-            <Grid x:Name="DeviceInfoLabelGrid" Grid.Column="0" Grid.Row="1">
-                <Label x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="12">데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</Label> 
-            </Grid>
-            <Grid x:Name="DeviceChangeButtonGrid" Grid.Column="1" Grid.Row="2">
-                <Button x:Name="Accept">확인</Button>
+            <Grid x:Name="DeviceInfoGrid" Grid.Column="1" Margin="10px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="DeviceNameGrid" Grid.Column="0" Grid.Row="0">
+                    <Label x:Name="DeviceName" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="24" Margin="10px">불러오기 실패</Label>
+                </Grid>
+                <Grid x:Name="DeviceInfoLabelGrid" Grid.Column="0" Grid.Row="1">
+                    <Label x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="10px">데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</Label>
+                </Grid>
+
+                <Grid x:Name="DeviceChangeButtonGrid" Grid.Column="1" Grid.Row="2">
+                    <Button x:Name="Accept" Margin="10">확인</Button>
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
+    
         
 </UserControl>

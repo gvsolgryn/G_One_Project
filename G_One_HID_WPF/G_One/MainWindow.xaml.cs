@@ -29,15 +29,18 @@ namespace G_One
             InitializeComponent();
         }
 
+        private static List<string> listSensor = new List<string>();
+        private static List<string> listStatus = new List<string>();
+
+        int sensor_count = 0;
+
         private void DB_Load()
         {
-            int sensor_count = 0;
-            var sensor = string.Empty;
-            var status = string.Empty;
-
             var db = new DB_Module();
 
             string sql = "SELECT * FROM sensor_status";
+
+            sensor_count = 0;
 
             try
             {
@@ -45,37 +48,64 @@ namespace G_One
 
                 while (table.Read())
                 {
-                    sensor = table["sensor"].ToString();
-                    status = table["status"].ToString();
+                    listSensor.Add(table["sensor"].ToString());
+                    listStatus.Add(table["status"].ToString());
                     sensor_count++;
                 }
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                _ = MessageBox.Show(ex.Message);
             }
 
         }
 
-        private void BtnAdd()
-        {
-            var btnTest = new Button
-            {
-                Name = "Btn_Add",
-                Content = "버튼 추가 테스트"
-            };
-
-            this.MainStackPanel.Children.Add(btnTest);
-        }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            BtnAdd();
+            MainWindows_Load(sender, e);
         }
 
         private void MainWindows_Load(object sender, RoutedEventArgs e)
         {
+            MainStackPanel.Children.Clear();
+            listSensor.Clear();
             DB_Load();
+
+            string[] arrSensor = listSensor.ToArray();
+            string[] arrStatus = listStatus.ToArray();
+
+            for (int i = 0; i < arrSensor.Length; i++)
+            {
+                var test = new DevicePanel();
+                test.DeviceNameChange(arrSensor[i]);
+                test.DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
+
+                if (arrStatus[i] == "1")
+                {
+                    if (arrSensor[i].ToLower().Contains("led"))
+                    {
+                        arrSensor[i] = "led";
+                    }
+                    var iconImagePath = arrSensor[i].ToLower() + "_on";
+                    test.DeviceIconChange(iconImagePath);
+                }
+                else if (arrStatus[i] == "0")
+                {
+                    if (arrSensor[i].ToLower().Contains("led"))
+                    {
+                        arrSensor[i] = "led";
+                    }
+                    var iconImagePath = arrSensor[i].ToLower() + "_off";
+                    test.DeviceIconChange(iconImagePath);
+                }
+                else
+                {
+                    MessageBox.Show("Image Change Error");
+                }
+
+                MainStackPanel.Children.Add(test);
+            }
         }
 
     }

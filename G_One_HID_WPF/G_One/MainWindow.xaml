@@ -17,13 +17,37 @@
         
         Loaded="MainWindows_Load"
     
-        Title="G One HID" Height="400" Width="800">
+        Title="G One HID" Visibility="Visible" Width="800" Height="500">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel x:Name="MainStackPanel">
-            <Button x:Name="AddButton" Cursor="Hand" IsDefault="True" Click="AddButton_Click" Content="StackPanel 에 버튼 추가 테스트"/>
-            <Module:DevicePanel />
-        </StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Menu Height="auto">
+                    <MenuItem Header="G.One"/>
+                    <MenuItem Header="도구">
+                        <MenuItem Header="콘솔 창 열기"/>
+                        <Separator/>
+                        <MenuItem Header="기기 추가"/>
+                        <MenuItem Header="기기 제거"/>
+                        <Separator/>
+                        <MenuItem Header="기기 새로 고침"/>
+                    </MenuItem>
+                </Menu>
+            </Grid>
+            
+            <Grid Grid.Row="1">
+                <Button x:Name="AddButton" Grid.Row="0" Cursor="Hand" IsDefault="True" Click="AddButton_Click" Content="MainWindowReload" VerticalAlignment="Top" Width="400" Height="40"/>
+            </Grid>
+            
+            <StackPanel x:Name="MainStackPanel" Grid.Row="2"/>
+            
+        </Grid>
     </ScrollViewer>
+
 
 </Window>
