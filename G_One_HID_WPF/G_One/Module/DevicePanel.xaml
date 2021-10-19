@@ -45,7 +45,7 @@
                 </Grid>
 
                 <Grid x:Name="DeviceChangeButtonGrid" Grid.Column="1" Grid.Row="2">
-                    <Button x:Name="Accept" Margin="10">확인</Button>
+                    <Button x:Name="Accept" Margin="10" Click="ButtonClick">확인</Button>
                 </Grid>
             </Grid>
         </Grid>

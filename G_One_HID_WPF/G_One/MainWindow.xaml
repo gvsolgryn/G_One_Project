@@ -28,14 +28,17 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Menu Height="auto">
-                    <MenuItem Header="G.One"/>
+                    <MenuItem Header="G.One">
+                        <MenuItem x:Name="Menu_Minimization" Header="프로그램 최소화"/>
+                        <MenuItem x:Name="Menu_Exit" Header="프로그램 종료"/>
+                    </MenuItem>
                     <MenuItem Header="도구">
-                        <MenuItem Header="콘솔 창 열기"/>
+                        <MenuItem x:Name="Menu_Console" Header="콘솔 창 열기"/>
                         <Separator/>
-                        <MenuItem Header="기기 추가"/>
-                        <MenuItem Header="기기 제거"/>
+                        <MenuItem x:Name="Menu_AddDevice" Header="기기 추가"/>
+                        <MenuItem x:Name="Menu_RemoveDevice" Header="기기 제거"/>
                         <Separator/>
-                        <MenuItem Header="기기 새로 고침"/>
+                        <MenuItem x:Name="Menu_Refresh" Header="기기 새로 고침"/>
                     </MenuItem>
                 </Menu>
             </Grid>

@@ -32,15 +32,11 @@ namespace G_One
         private static List<string> listSensor = new List<string>();
         private static List<string> listStatus = new List<string>();
 
-        int sensor_count = 0;
-
         private void DB_Load()
         {
-            var db = new DB_Module();
+            DB_Module db = new DB_Module();
 
             string sql = "SELECT * FROM sensor_status";
-
-            sensor_count = 0;
 
             try
             {
@@ -50,7 +46,6 @@ namespace G_One
                 {
                     listSensor.Add(table["sensor"].ToString());
                     listStatus.Add(table["status"].ToString());
-                    sensor_count++;
                 }
 
             }
@@ -77,9 +72,9 @@ namespace G_One
 
             for (int i = 0; i < arrSensor.Length; i++)
             {
-                var test = new DevicePanel();
-                test.DeviceNameChange(arrSensor[i]);
-                test.DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
+                DevicePanel devicePanal = new DevicePanel();
+                devicePanal.DeviceNameChange(arrSensor[i]);
+                devicePanal.DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
 
                 if (arrStatus[i] == "1")
                 {
@@ -87,8 +82,9 @@ namespace G_One
                     {
                         arrSensor[i] = "led";
                     }
-                    var iconImagePath = arrSensor[i].ToLower() + "_on";
-                    test.DeviceIconChange(iconImagePath);
+                    string iconImagePath = arrSensor[i].ToLower() + "_on";
+                    devicePanal.DeviceIconChange(iconImagePath);
+                    devicePanal.DeviceButtonTextChange("끄기");
                 }
                 else if (arrStatus[i] == "0")
                 {
@@ -96,15 +92,16 @@ namespace G_One
                     {
                         arrSensor[i] = "led";
                     }
-                    var iconImagePath = arrSensor[i].ToLower() + "_off";
-                    test.DeviceIconChange(iconImagePath);
+                    string iconImagePath = arrSensor[i].ToLower() + "_off";
+                    devicePanal.DeviceIconChange(iconImagePath);
+                    devicePanal.DeviceButtonTextChange("켜기");
                 }
                 else
                 {
-                    MessageBox.Show("Image Change Error");
+                    _ = MessageBox.Show("Image Change Error");
                 }
 
-                MainStackPanel.Children.Add(test);
+                _ = MainStackPanel.Children.Add(devicePanal);
             }
         }
 

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B5FE22C0-1684-4E26-82B6-B3CA1D5A5F1A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>G_One</RootNamespace>
     <AssemblyName>G_One</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -35,6 +35,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,9 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Module\DB_Module.cs" />
+    <Compile Include="Module\DeviceControl.cs" />
     <Compile Include="Module\DevicePanel.xaml.cs">
       <DependentUpon>DevicePanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Module\MQTT_Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
