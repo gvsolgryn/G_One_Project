@@ -11,13 +11,13 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <Grid  x:Name="MainDevicePanel" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10px">
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10px">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.ColumnSpan="2">
                 <Border BorderBrush="Black" BorderThickness="2"/>

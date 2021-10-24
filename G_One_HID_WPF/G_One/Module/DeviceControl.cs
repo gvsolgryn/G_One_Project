@@ -3,24 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace G_One.Module
 {
     internal class DeviceControl
     {
-        DB_Module db = new DB_Module();
-        public void DeviceOn(string name)
+        readonly static DB_Module db = new DB_Module();
+        readonly static MQTT_Module mqtt = new MQTT_Module();
+
+        public static void StatusChange(int status, string name, string topic)
         {
-            string sql = "UPDATE sensor_status SET STATUS = 1, last_use = now() WHERE SENSOR = @sensorName";
-            
-            db.Execute(sql, new[] { "@sensorName" }, new[] { name });
+            MessageBox.Show(status + name + topic);
+            try
+            {
+                string sql = "UPDATE sensor_status SET status = @sensorStatus, last_use = now() WHERE sensor = @sensorName";
+                db.Execute(sql, new[] { "@sensorStatus", "@sensorName" }, new[] { status.ToString(), name });
+                mqtt.Publish(topic, status.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
-        public void DeviceOff(string name)
+        public static void IconChange(int id, string name)
         {
-            string sql = "UPDATE sensor_status SET STATUS = 0, last_use = now() WHERE SENSOR = @sensorName";
+            if (name.ToLower().Contains("led"))
+            {
+                name = "led";
+            }
 
-            db.Execute(sql, new[] { "@sensorName" }, new[] { name });
+            if (id == 1)
+            {
+                string iconImagePath = name.ToLower() + "_on";
+                //MainWindow.devicePanal.DeviceIconChange(iconImagePath);
+
+            }
+            else if (id == 0)
+            {
+                string iconImagePath = name.ToLower() + "_off";
+                //MainWindow.devicePanal.DeviceIconChange(iconImagePath);
+            }
         }
+
     }
 }

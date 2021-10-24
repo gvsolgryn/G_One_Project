@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:G_One"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:Module="clr-namespace:G_One.Module" x:Class="G_One.MainWindow"
+        xmlns:Module="clr-namespace:G_One.Module" x:Name="MainWindow1" x:Class="G_One.MainWindow"
         mc:Ignorable="d"
         
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -33,22 +33,42 @@
                         <MenuItem x:Name="Menu_Exit" Header="프로그램 종료"/>
                     </MenuItem>
                     <MenuItem Header="도구">
-                        <MenuItem x:Name="Menu_Console" Header="콘솔 창 열기"/>
-                        <Separator/>
-                        <MenuItem x:Name="Menu_AddDevice" Header="기기 추가"/>
-                        <MenuItem x:Name="Menu_RemoveDevice" Header="기기 제거"/>
-                        <Separator/>
-                        <MenuItem x:Name="Menu_Refresh" Header="기기 새로 고침"/>
+                        <MenuItem x:Name="Menu_Refresh" Header="기기 새로 고침" Click="Menu_Refresh_Click"/>
                     </MenuItem>
                 </Menu>
             </Grid>
-            
-            <Grid Grid.Row="1">
-                <Button x:Name="AddButton" Grid.Row="0" Cursor="Hand" IsDefault="True" Click="AddButton_Click" Content="MainWindowReload" VerticalAlignment="Top" Width="400" Height="40"/>
-            </Grid>
-            
-            <StackPanel x:Name="MainStackPanel" Grid.Row="2"/>
-            
+            <TabControl Grid.Row="1">
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="디바이스 목록"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <StackPanel Margin="10" x:Name="MainStackPanel" AutomationProperties.Name="MainStackPanel"/>
+                </TabItem>
+
+                <TabItem Header="기기 추가">
+                    <StackPanel x:Name="AddDevice">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" Text="기기 이름" FontSize="20"/>
+                            <ComboBox x:Name="AddDeviceBox" Grid.Column="1" Grid.Row="0" Margin="5"/>
+
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="기기 제거">
+                    <StackPanel x:Name="RemoveDevice"/>
+                </TabItem>
+            </TabControl>
         </Grid>
     </ScrollViewer>
 

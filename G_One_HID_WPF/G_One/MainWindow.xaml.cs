@@ -29,10 +29,13 @@ namespace G_One
             InitializeComponent();
         }
 
-        private static List<string> listSensor = new List<string>();
-        private static List<string> listStatus = new List<string>();
+        private static readonly List<string> listSensor = new List<string>();
+        private static readonly List<string> listStatus = new List<string>();
+        private static readonly List<string> listType = new List<string>();
 
-        private void DB_Load()
+        
+
+        private static void DB_Load()
         {
             DB_Module db = new DB_Module();
 
@@ -46,6 +49,7 @@ namespace G_One
                 {
                     listSensor.Add(table["sensor"].ToString());
                     listStatus.Add(table["status"].ToString());
+                    listType.Add(table["device_type"].ToString());
                 }
 
             }
@@ -56,29 +60,29 @@ namespace G_One
 
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindows_Load(sender, e);
-        }
-
-        private void MainWindows_Load(object sender, RoutedEventArgs e)
+        private void LoadPanel()
         {
             MainStackPanel.Children.Clear();
             listSensor.Clear();
+            listStatus.Clear();
+            listType.Clear();
             DB_Load();
 
             string[] arrSensor = listSensor.ToArray();
             string[] arrStatus = listStatus.ToArray();
+            string[] arrType = listType.ToArray();
 
             for (int i = 0; i < arrSensor.Length; i++)
             {
                 DevicePanel devicePanal = new DevicePanel();
+                devicePanal.TopicChange(arrSensor[i]);
+
                 devicePanal.DeviceNameChange(arrSensor[i]);
                 devicePanal.DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
 
                 if (arrStatus[i] == "1")
                 {
-                    if (arrSensor[i].ToLower().Contains("led"))
+                    if (arrType[i].ToLower().Contains("led"))
                     {
                         arrSensor[i] = "led";
                     }
@@ -88,7 +92,7 @@ namespace G_One
                 }
                 else if (arrStatus[i] == "0")
                 {
-                    if (arrSensor[i].ToLower().Contains("led"))
+                    if (arrType[i].ToLower().Contains("led"))
                     {
                         arrSensor[i] = "led";
                     }
@@ -101,9 +105,18 @@ namespace G_One
                     _ = MessageBox.Show("Image Change Error");
                 }
 
-                _ = MainStackPanel.Children.Add(devicePanal);
+                MainStackPanel.Children.Add(devicePanal);
             }
         }
 
+        private void MainWindows_Load(object sender, RoutedEventArgs e)
+        {
+            LoadPanel();
+        }
+
+        private void Menu_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPanel();
+        }
     }
 }
