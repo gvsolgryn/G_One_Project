@@ -29,14 +29,15 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid x:Name="DeviceNameGrid" Grid.Column="0" Grid.Row="0">
                     <Label x:Name="DeviceName" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="24" Margin="10px">불러오기 실패</Label>
                 </Grid>
+                
                 <Grid x:Name="DeviceInfoLabelGrid" Grid.Column="0" Grid.Row="1">
                     <Label x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="10px">데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</Label>
                 </Grid>
