@@ -24,19 +24,37 @@ namespace G_One
 
     public partial class MainWindow : Window
     {
+        public static List<DevicePanel> devicePanel = new List<DevicePanel>();
+
+        public static readonly List<string> listSensor = new List<string>();
+        public static readonly List<string> listStatus = new List<string>();
+        public static readonly List<string> listType = new List<string>();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            Add_DevicePanel();
         }
 
-        private static readonly List<string> listSensor = new List<string>();
-        private static readonly List<string> listStatus = new List<string>();
-        private static readonly List<string> listType = new List<string>();
+        public void Add_DevicePanel()
+        {
+            DB_Load();
 
-        
+            for (int i = 0; i < listSensor.Count; i++)
+            {
+                var _devicePanel = new DevicePanel(this);
+                devicePanel.Add(_devicePanel);
+                MainStackPanel.Children.Add(_devicePanel);
+            }
+        }
 
         private static void DB_Load()
         {
+            listSensor.Clear();
+            listStatus.Clear();
+            listType.Clear();
+
             DB_Module db = new DB_Module();
 
             string sql = "SELECT * FROM sensor_status";
@@ -60,25 +78,17 @@ namespace G_One
 
         }
 
-        private void LoadPanel()
+        public void LoadPanel()
         {
-            MainStackPanel.Children.Clear();
-            listSensor.Clear();
-            listStatus.Clear();
-            listType.Clear();
-            DB_Load();
-
             string[] arrSensor = listSensor.ToArray();
             string[] arrStatus = listStatus.ToArray();
             string[] arrType = listType.ToArray();
 
-            for (int i = 0; i < arrSensor.Length; i++)
+            for (int i = 0; i < listSensor.Count(); i++)
             {
-                DevicePanel devicePanal = new DevicePanel();
-                devicePanal.TopicChange(arrSensor[i]);
-
-                devicePanal.DeviceNameChange(arrSensor[i]);
-                devicePanal.DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
+                devicePanel[i].DeviceNameChange(arrSensor[i]);
+                devicePanel[i].TopicChange(arrSensor[i]);
+                devicePanel[i].DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
 
                 if (arrStatus[i] == "1")
                 {
@@ -87,8 +97,8 @@ namespace G_One
                         arrSensor[i] = "led";
                     }
                     string iconImagePath = arrSensor[i].ToLower() + "_on";
-                    devicePanal.DeviceIconChange(iconImagePath);
-                    devicePanal.DeviceButtonTextChange("끄기");
+                    devicePanel[i].DeviceIconChange(iconImagePath);
+                    devicePanel[i].DeviceButtonTextChange("끄기");
                 }
                 else if (arrStatus[i] == "0")
                 {
@@ -97,15 +107,13 @@ namespace G_One
                         arrSensor[i] = "led";
                     }
                     string iconImagePath = arrSensor[i].ToLower() + "_off";
-                    devicePanal.DeviceIconChange(iconImagePath);
-                    devicePanal.DeviceButtonTextChange("켜기");
+                    devicePanel[i].DeviceIconChange(iconImagePath);
+                    devicePanel[i].DeviceButtonTextChange("켜기");
                 }
                 else
                 {
                     _ = MessageBox.Show("Image Change Error");
                 }
-
-                MainStackPanel.Children.Add(devicePanal);
             }
         }
 
@@ -116,7 +124,10 @@ namespace G_One
 
         private void Menu_Refresh_Click(object sender, RoutedEventArgs e)
         {
-            LoadPanel();
+            devicePanel.Clear();
+            this.MainStackPanel.Children.Clear();
+
+            Add_DevicePanel();
         }
     }
 }

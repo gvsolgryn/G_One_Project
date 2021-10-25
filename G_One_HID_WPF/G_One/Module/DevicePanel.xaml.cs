@@ -24,9 +24,14 @@ namespace G_One.Module
         string topic = string.Empty;
         static string path = string.Empty;
 
-        public DevicePanel()
+        public readonly MainWindow _parent;
+
+        DeviceControl deviceControl = new DeviceControl();
+
+        public DevicePanel(MainWindow parent)
         {
             InitializeComponent();
+            _parent = parent;
         }
 
         public void TopicChange(string text)
@@ -36,7 +41,12 @@ namespace G_One.Module
 
         private void DevicePanelLoaded(object sender, RoutedEventArgs e)
         {
-           
+            _parent.LoadPanel();
+        }
+
+        public void update()
+        {
+            _parent.LoadPanel();
         }
 
         public void DeviceNameChange(string text)
@@ -67,28 +77,28 @@ namespace G_One.Module
             {
                 try
                 {
-                    //string sql = $"UPDATE sensor_status SET status = 0, last_use = now() WHERE sensor = '{DeviceName.Content}'";
-                    //db.Execute(sql, new[] {string.Empty}, new[] {string.Empty});
-                    DeviceControl.StatusChange(0, DeviceName.Content.ToString(), topic);
-                    Accept.Name = "켜기";
+                    deviceControl.StatusChange(0, DeviceName.Content.ToString(), topic);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
+
             else if(Accept.Name == "켜기"){
                 try
                 {
-                    //string sql = $"UPDATE sensor_status SET status = 1, last_use = now() WHERE sensor = '{DeviceName.Content}'";
-                    //db.Execute(sql, new[] { string.Empty }, new[] { string.Empty });
-                    DeviceControl.StatusChange(1, DeviceName.Content.ToString(), topic);
-                    Accept.Name = "끄기";
+                    deviceControl.StatusChange(1, DeviceName.Content.ToString(), topic);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+
+            else
+            {
+                MessageBox.Show("에러");
             }
         }
     }
