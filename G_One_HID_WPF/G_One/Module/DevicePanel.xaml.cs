@@ -22,11 +22,9 @@ namespace G_One.Module
     public partial class DevicePanel : UserControl
     {
         string topic = string.Empty;
-        static string path = string.Empty;
 
         public readonly MainWindow _parent;
-
-        DeviceControl deviceControl = new DeviceControl();
+        readonly DeviceControl deviceControl = new DeviceControl();
 
         public DevicePanel(MainWindow parent)
         {
