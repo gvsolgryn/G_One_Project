@@ -3,3 +3,4 @@
 .vs/
 .idea/
 */*.bak
+workspace.code-workspace
