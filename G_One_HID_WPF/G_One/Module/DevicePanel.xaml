@@ -39,7 +39,7 @@
                 </Grid>
                 
                 <Grid x:Name="DeviceInfoLabelGrid" Grid.Column="0" Grid.Row="1">
-                    <Label x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="10px">데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</Label>
+                    <TextBlock x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="10px" >데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</TextBlock>
                 </Grid>
 
                 <Grid x:Name="DeviceChangeButtonGrid" Grid.Column="1" Grid.Row="2">

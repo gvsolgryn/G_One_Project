@@ -54,7 +54,7 @@ namespace G_One.Module
 
         public void DeviceInfoChange(string text)
         {
-            DeviceInfo.Content = text;
+            DeviceInfo.Text = text;
         }
 
         public void DeviceIconChange(string text)

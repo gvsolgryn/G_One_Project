@@ -17,7 +17,7 @@
         
         Loaded="MainWindows_Load"
     
-        Title="G One HID" Visibility="Visible" Width="800" Height="500" Icon="/image/ico.ico">
+        Title="G One HID" Visibility="Visible" Width="800" Height="500" Icon="/image/ico.ico" WindowStartupLocation="CenterScreen" SizeToContent="Width">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid>

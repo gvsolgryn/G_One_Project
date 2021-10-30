@@ -246,7 +246,12 @@ namespace G_One
             {
                 devicePanel[i].DeviceNameChange(arrSensor[i]);
                 devicePanel[i].TopicChange(arrSensor[i]);
-                devicePanel[i].DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
+                devicePanel[i].DeviceInfoChange($"{arrSensor[i]} 의 전원을 컨트롤 하기 위한 버튼입니다.");
+
+                if (arrSensor[i].Contains("Brightness"))
+                {
+                    devicePanel[i].DeviceInfoChange($"{arrSensor[i]}의\n전원 및 밝기 제어를 하기 위한 버튼입니다. ");
+                }
 
                 if (arrStatus[i] == "1")
                 {
