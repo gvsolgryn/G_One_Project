@@ -6,7 +6,8 @@
 #include <string.h>
 
 // Update these with values suitable for your network.
-const char* ssid = "gvtime";
+const char* ssid = "iPhone";
+const char* password = "11111111";
 const char* mqtt_server = "gone.gvsolgryn.de";
 
 WiFiClient espClient;
@@ -16,7 +17,7 @@ unsigned long lastMsg = 0;
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
 
-const uint16_t kIrLed = 4;
+const uint16_t kIrLed = D2;
 IRsend irsend(kIrLed);
 
 void setup_wifi() {
@@ -29,7 +30,7 @@ void setup_wifi() {
 
   WiFi.mode(WIFI_STA);
   //WiFi.begin(ssid, password);
-  WiFi.begin(ssid);
+  WiFi.begin(ssid, password);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -57,21 +58,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   
   Serial.println("");
-  char* led = "iot/LED";
+  char* led = "iot/Brightness_control_LED";
+  char* generaLed = "iot/General_LED";
   char* ledAdjust = "iot/LEDAdjust";
+  char* powerStrip = "iot/Power_Strip";
   Serial.println("");
   
+  // Brightness_control_LED Control
   if (strcmp(topic, led) == 0){
     if (strcmp(topic, led) == 0 && (char)payload[0] == '1'){
-      digitalWrite(BUILTIN_LED, LOW);
       irsend.sendNEC(0xFF807F);
     }
-    if (strcmp(topic, led) == 0 && (char)payload[0] == '0'){
-      digitalWrite(BUILTIN_LED, HIGH);
+    else if (strcmp(topic, led) == 0 && (char)payload[0] == '0'){
       irsend.sendNEC(0xFF00FF);
     }
   }
-
+  // LED Brightness Adjust
   if (strcmp(topic, ledAdjust) == 0){
     if(strcmp((char *)payloadString, "25") == 0){
       irsend.sendNEC(0xFF50AF);
@@ -89,8 +91,24 @@ void callback(char* topic, byte* payload, unsigned int length) {
       irsend.sendNEC(0xFF6897);
     }
   }
-
-  
+  // General LED Control
+  if (strcmp(topic, generaLed) == 0){
+    if (strcmp(topic, generaLed) == 0 && (char)payload[0] == '1'){
+      digitalWrite(D0, 1);
+    }
+    else if (strcmp(topic, generaLed) == 0 && (char)payload[0] == '0'){
+      digitalWrite(D0, 0);
+    }
+  }
+  // Power Strip Control
+  if (strcmp(topic, powerStrip) == 0){
+    if (strcmp(topic, powerStrip) == 0 && (char)payload[0] == '1'){
+      digitalWrite(D1, 1);
+    }
+    else if (strcmp(topic, powerStrip) == 0 && (char)payload[0] == '0'){
+      digitalWrite(D1, 0);
+    }
+  }
 }
 
 void reconnect() {
@@ -121,15 +139,13 @@ void reconnect() {
 
 void setup() {
   irsend.begin();
-  pinMode(BUILTIN_LED, OUTPUT);     // Initialize the BUILTIN_LED pin as an output
   pinMode(D0, OUTPUT);
-  pinMode(D8, OUTPUT);
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
   Serial.begin(9600);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  digitalWrite(D0, HIGH);
-  digitalWrite(BUILTIN_LED, HIGH);
 }
 
 void loop() {
