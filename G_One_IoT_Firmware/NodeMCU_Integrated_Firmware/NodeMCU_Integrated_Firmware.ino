@@ -124,9 +124,16 @@ void reconnect() {
       // Once connected, publish an announcement...
       client.publish("outTopic", "hello world");
       // ... and resubscribe
-      client.subscribe("iot/LED");
+      client.subscribe("iot/Brightness_control_LED");
       client.subscribe("iot/LEDAdjust");
-      client.subscribe("LEDAdjust");
+      client.subscribe("iot/General_LED");
+      client.subscribe("iot/Power_Strip");
+      client.subscribe("iot/#");
+
+      /*char* led = "iot/Brightness_control_LED";
+  char* generaLed = "iot/General_LED";
+  char* ledAdjust = "iot/LEDAdjust";
+  char* powerStrip = "iot/Power_Strip";*/
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
