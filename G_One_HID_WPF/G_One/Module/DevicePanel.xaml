@@ -11,7 +11,7 @@
         <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10px">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -37,17 +37,28 @@
                 <Grid x:Name="DeviceNameGrid" Grid.Column="0" Grid.Row="0">
                     <Label x:Name="DeviceName" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="24" Margin="10px">불러오기 실패</Label>
                 </Grid>
-                
+
                 <Grid x:Name="DeviceInfoLabelGrid" Grid.Column="0" Grid.Row="1">
                     <TextBlock x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="10px" >데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</TextBlock>
                 </Grid>
 
+                <Grid x:Name="DeviceLedValueSliderGrid" Grid.Column="1" Grid.Row="0" Visibility="Hidden">
+                    <StackPanel>
+                        <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">밝기 제어</Label>
+                        <Slider Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Width="100" TickFrequency="25" Maximum="100" TickPlacement="BottomRight" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="DeviceLedValueChangeGrid" Grid.Column="1" Grid.Row="1" Visibility="Hidden">
+                    <StackPanel>
+                        <Button x:Name="LEDValueChange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Content="밝기 변경"/>
+                    </StackPanel>
+                </Grid>
                 <Grid x:Name="DeviceChangeButtonGrid" Grid.Column="1" Grid.Row="2">
-                    <Button x:Name="Accept" Margin="10" Click="ButtonClick">확인</Button>
+                    <Button x:Name="Accept" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Click="ButtonClick">확인</Button>
                 </Grid>
             </Grid>
         </Grid>
     </Grid>
-    
-        
+
+
 </UserControl>

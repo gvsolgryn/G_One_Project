@@ -42,7 +42,7 @@ namespace G_One.Module
             _parent.LoadPanel();
         }
 
-        public void update()
+        public void Update()
         {
             _parent.LoadPanel();
         }
