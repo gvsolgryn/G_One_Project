@@ -1392,32 +1392,39 @@
     ]
   },
   "packageFolders": {
-    "/Users/gvsolgryn/.nuget/packages/": {}
+    "C:\\Users\\GVSOL\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.iOS/G_One_Xamarin.iOS.csproj",
+      "projectUniqueName": "D:\\Project\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.iOS\\G_One_Xamarin.iOS.csproj",
       "projectName": "G_One_Xamarin.iOS",
-      "projectPath": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.iOS/G_One_Xamarin.iOS.csproj",
-      "packagesPath": "/Users/gvsolgryn/.nuget/packages/",
-      "outputPath": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.iOS/obj/",
+      "projectPath": "D:\\Project\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.iOS\\G_One_Xamarin.iOS.csproj",
+      "packagesPath": "C:\\Users\\GVSOL\\.nuget\\packages\\",
+      "outputPath": "D:\\Project\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/gvsolgryn/.config/NuGet/NuGet.Config"
+        "C:\\Users\\GVSOL\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "xamarinios10"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.csproj": {
-              "projectPath": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.csproj"
+            "D:\\Project\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.csproj": {
+              "projectPath": "D:\\Project\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.csproj"
             }
           }
         }

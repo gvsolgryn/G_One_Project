@@ -5,3 +5,15 @@
 */*.bak
 workspace.code-workspace
 *.apk
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/xamarinstudio
+# Edit at https://www.toptal.com/developers/gitignore?templates=xamarinstudio
+
+### XamarinStudio ###
+bin/
+obj/
+*.userprefs
+.packages
+
+# End of https://www.toptal.com/developers/gitignore/api/xamarinstudio
