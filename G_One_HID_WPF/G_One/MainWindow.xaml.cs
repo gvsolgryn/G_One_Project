@@ -292,6 +292,13 @@ namespace G_One
             this.MainStackPanel.Children.Clear();
 
             Add_DevicePanel();
+            LoadPanel();
+            UpdateHidDevices(false);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
