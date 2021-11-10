@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "MonoAndroid,Version=v12.0": {
+    "MonoAndroid,Version=v11.0": {
       "MQTTnet/3.1.0": {
         "type": "package",
         "compile": {
@@ -3386,53 +3386,46 @@
     }
   },
   "projectFileDependencyGroups": {
-    "MonoAndroid,Version=v12.0": [
+    "MonoAndroid,Version=v11.0": [
       "G_One_Xamarin >= 1.0.0",
       "Xamarin.Essentials >= 1.7.0",
       "Xamarin.Forms >= 5.0.0.2196"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\GVSolgryn\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/gvsolgryn/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\GVSolgryn\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.Android\\G_One_Xamarin.Android.csproj",
+      "projectUniqueName": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.Android/G_One_Xamarin.Android.csproj",
       "projectName": "G_One_Xamarin.Android",
-      "projectPath": "C:\\Users\\GVSolgryn\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.Android\\G_One_Xamarin.Android.csproj",
-      "packagesPath": "C:\\Users\\GVSolgryn\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\GVSolgryn\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.Android\\obj\\",
+      "projectPath": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.Android/G_One_Xamarin.Android.csproj",
+      "packagesPath": "/Users/gvsolgryn/.nuget/packages/",
+      "outputPath": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.Android/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\GVSolgryn\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/gvsolgryn/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "monoandroid12.0"
+        "monoandroid11.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "monoandroid12.0": {
+        "monoandroid11.0": {
           "projectReferences": {
-            "C:\\Users\\GVSolgryn\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.csproj": {
-              "projectPath": "C:\\Users\\GVSolgryn\\G_One_Project\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin\\G_One_Xamarin.csproj"
+            "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.csproj": {
+              "projectPath": "/Users/gvsolgryn/G_One_Project/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin/G_One_Xamarin.csproj"
             }
           }
         }
       }
     },
     "frameworks": {
-      "monoandroid12.0": {
+      "monoandroid11.0": {
         "dependencies": {
           "Xamarin.Essentials": {
             "target": "Package",

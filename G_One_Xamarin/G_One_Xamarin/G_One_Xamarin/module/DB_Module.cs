@@ -11,7 +11,7 @@ namespace G_One.Module
         public MySqlConnection Conn()
         {
             string server = "gone.gvsolgryn.de";
-            string user = "g_one";
+            string user = "g_on";
             string password = "g_one";
             string database = "G_One_DB";
             string port = "3306";

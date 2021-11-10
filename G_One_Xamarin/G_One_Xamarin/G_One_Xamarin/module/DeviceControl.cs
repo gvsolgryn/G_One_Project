@@ -33,6 +33,7 @@ namespace G_One.Module
             catch (Exception ex)
             {
                 //MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
 
