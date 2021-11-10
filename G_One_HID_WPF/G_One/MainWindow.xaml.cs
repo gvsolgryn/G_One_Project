@@ -113,7 +113,6 @@ namespace G_One
                 MessageBox.Show(@"에러!");
             }
 
-
             foreach (var device in _devices)
             {
                 device.ReadReport(OnReport);
@@ -251,6 +250,7 @@ namespace G_One
                 if (arrSensor[i].Contains("Brightness"))
                 {
                     devicePanel[i].DeviceInfoChange($"{arrSensor[i]}의\n전원 및 밝기 제어를 하기 위한 버튼입니다. ");
+                    devicePanel[i].Visible_LEDAdjust();
                 }
 
                 if (arrStatus[i] == "1")

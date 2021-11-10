@@ -37,6 +37,12 @@ namespace G_One.Module
             topic = "iot/" + text;
         }
 
+        public void Visible_LEDAdjust()
+        {
+            DeviceLedValueSliderGrid.Visibility = Visibility.Visible;
+            DeviceLedValueChangeGrid.Visibility = Visibility.Visible;
+        }
+
         private void DevicePanelLoaded(object sender, RoutedEventArgs e)
         {
             _parent.LoadPanel();
