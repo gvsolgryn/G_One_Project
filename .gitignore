@@ -5,6 +5,7 @@
 */*.bak
 workspace.code-workspace
 *.apk
+.DS_Store
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/xamarinstudio
@@ -17,3 +18,4 @@ obj/
 .packages
 
 # End of https://www.toptal.com/developers/gitignore/api/xamarinstudio
+.DS_Store
