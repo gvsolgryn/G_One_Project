@@ -42,7 +42,7 @@
                     <TextBlock x:Name="DeviceInfo" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="10px" >데이터 불러오기를 실패하였습니다. 관리자에게 문의하여주세요.</TextBlock>
                 </Grid>
 
-                <Grid x:Name="DeviceLedValueSliderGrid" Grid.Column="1" Grid.Row="0" Visibility="Visible">
+                <Grid x:Name="DeviceLedValueSliderGrid" Grid.Column="1" Grid.Row="0" Visibility="Hidden">
                     <StackPanel>
                         <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">밝기 제어</Label>
                         <Slider Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Width="100" TickFrequency="25" Maximum="100" TickPlacement="BottomRight" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
