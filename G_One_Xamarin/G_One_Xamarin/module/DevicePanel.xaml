@@ -2,11 +2,16 @@
 <ContentView
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
     xmlns:local="clr-namespace:G_One_Xamarin.module"
+    
     x:Class="G_One_Xamarin.module.DevicePanel">
+
     <ContentView.Content>
+
         <Grid>
             <Grid VerticalOptions="Center" HorizontalOptions="Center" Margin="10">
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="5*"/>
@@ -14,6 +19,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+
                 <Grid Grid.ColumnSpan="2">
                     <Frame BorderColor="{AppThemeBinding Light=Black, Dark=White}" CornerRadius="10"/>
                 </Grid>
@@ -27,8 +33,9 @@
                 </Grid>
 
                 <Grid Grid.Column="1" Margin="10">
+
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -36,12 +43,25 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+
                     <Grid Grid.Column="0" Grid.Row="0" Margin="10">
                         <Label x:Name="Name" VerticalOptions="Center" HorizontalOptions="Start" Text="에러"/>
                     </Grid>
+                    <Grid Grid.Column="0" Grid.Row="1" Margin="10">
+                        <StackLayout>
+                            <Label VerticalOptions="Center" HorizontalOptions="Center" Text="밝기조절"/>
+                            <xct:RangeSlider
+                                x:Name="LEDValue"
+                                MinimumValue="0" MaximumValue="100" StepValue="25"
+                                LowerThumbSize="0" />
+                        </StackLayout>
+                    </Grid>
                 </Grid>
+
             </Grid>
         </Grid>
+
     </ContentView.Content>
+
 </ContentView>
 
