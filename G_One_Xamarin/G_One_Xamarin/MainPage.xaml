@@ -4,14 +4,19 @@
              x:Class="G_One_Xamarin.MainPage"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
              Title="Safe Area"
-             ios:Page.UseSafeArea="true"
-             >
+             ios:Page.UseSafeArea="true">
 
-    <ScrollView>
+    <RefreshView x:Name="Refresh"
+                 Refreshing="Refresh_Refreshing">
 
-        <StackLayout x:Name="MainStackLayout"/>
+    
+        <ScrollView>
 
-    </ScrollView>
+            <StackLayout x:Name="MainStackLayout"/>
+
+        </ScrollView>
+
+        </RefreshView>
 
 </ContentPage>
 
