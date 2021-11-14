@@ -22,10 +22,14 @@
                 <Grid Grid.ColumnSpan="2">
                     <Frame BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                            CornerRadius="10"
-                           BackgroundColor="#1a1a1c"/>
+                           BackgroundColor="{AppThemeBinding Light=White, Dark=#1a1a1c}"/>
                 </Grid>
 
                 <Grid Grid.Column="0" Margin="10">
+                    <Frame
+                        CornerRadius="10"
+                        BackgroundColor="White"/>
+
                     <Image x:Name="DeviceIcon"
                            VerticalOptions="Center" HorizontalOptions="Center"
                            WidthRequest="100" HeightRequest="100"
@@ -33,43 +37,41 @@
                            Source="{local:EmbeddedImage ResourceID=G_One_Xamarin.image.warning.png}"/>
                 </Grid>
 
-                <Grid Grid.Column="1" Margin="10">
-
-                    <!--
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    -->
+                <Grid x:Name="ControlGrid" Grid.Column="1" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Column="0" Grid.Row="0">
+                    <Grid x:Name="LabelGrid" Grid.Row="0">
                         <Frame
                             BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                             CornerRadius="10"
-                            BackgroundColor="#1a1a1c"/>
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1a1a1c}"/>
 
-                        <Label x:Name="Name"
+                        <Label x:Name="DeviceName"
                                VerticalOptions="Center" HorizontalOptions="Start"
                                Text="에러"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                               FontAttributes="Bold"
+                               FontSize="18"
                                Margin="10"/>
                     </Grid>
 
-                    <Grid Grid.Column="0" Grid.Row="1">
+                    <Grid x:Name="AdjustGrid" Grid.Row="1" IsVisible="Hidden">
                         <Frame
                             BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                             CornerRadius="10"
-                            BackgroundColor="#1a1a1c"/>
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1a1a1c}"/>
                         
                         <StackLayout>
 
                             <Label
                                 VerticalOptions="Center" HorizontalOptions="Center"
                                 Text="밝기조절"
+                                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                FontAttributes="Bold"
                                 Margin="10"/>
 
                             <xct:RangeSlider
@@ -80,21 +82,24 @@
 
                             <Button
                                 x:Name="ChangeLEDValueBtn"
+                                BackgroundColor="{AppThemeBinding Light=White, Dark=#1e2124}"
                                 BorderWidth="1" BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                                 CornerRadius="10"
                                 VerticalOptions="Center" HorizontalOptions="Center"
                                 Text="밝기조절 하기"
+                                TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                FontAttributes="Bold"
                                 Padding="10"
                                 Margin="0,0,0,10"/>
 
                         </StackLayout>
                     </Grid>
 
-                    <Grid Grid.Column="0" Grid.Row="2">
+                    <Grid x:Name="ButtonGrid" Grid.Row="2">
                         <Frame
                             BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                             CornerRadius="10"
-                            BackgroundColor="#1a1a1c"/>
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#1e2124}"/>
 
                         <Button
                             x:Name="ChangeDevicePower"
@@ -102,7 +107,8 @@
                             BorderWidth="1" BorderColor="{AppThemeBinding Light=Black, Dark=White}"
                             CornerRadius="10"
                             Margin="10"
-                            Text="확인" TextColor="White" FontAttributes="Bold"/>
+                            Text="확인" TextColor="White" FontAttributes="Bold"
+                            Clicked="ButtonClicked"/>
 
                     </Grid>
                     
