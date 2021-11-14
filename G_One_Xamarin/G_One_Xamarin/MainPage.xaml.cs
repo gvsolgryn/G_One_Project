@@ -25,7 +25,7 @@ namespace G_One_Xamarin
 
         private async void StartAlert()
         {
-            bool answer = await DisplayAlert("주의사항", "이 앱은 인터넷 환경에서만 작동이 됩니다. 인터넷이 연결 되어있는지 확인 후 실행해주세요.", "확인", "앱 종료");
+            bool answer = await DisplayAlert("주의사항", "이 앱은 인터넷 환경에서만 작동이 됩니다.\n인터넷이 연결 되어있는지 확인 후 실행해주세요.", "확인", "앱 종료");
 
             if (answer == false)
             {
@@ -75,8 +75,77 @@ namespace G_One_Xamarin
                 devicePanel.Add(_devicePanel);
                 MainStackLayout.Children.Add(_devicePanel);
             }
+
+            LoadPanel();
         }
 
+        private void LoadPanel()
+        {
+            string[] arrSensor = listSensor.ToArray();
+            string[] arrStatus = listStatus.ToArray();
+            string[] arrType = listType.ToArray();
+
+            for(int i = 0; i < listSensor.Count(); i++)
+            {
+                devicePanel[i].DeviceNameChange(arrSensor[i]);
+                devicePanel[i].TopicChange(arrSensor[i]);
+
+                /* 밝기 제어 가능 LED의 밝기제어 기능 활성화 */
+                if (arrSensor[i].Contains("Brightness"))
+                {
+                    devicePanel[i].Visible_LEDAdjust();
+                }
+                else
+                {
+                    devicePanel[i].Grid_Adjust();
+                }
+
+                if (arrStatus[i] == "1")
+                {
+                    string image = string.Empty;
+                    if (arrType[i].ToLower().Contains("led"))
+                    {
+                        image = "G_One_Xamarin.image.led_on.png";
+                    }
+
+                    else
+                    {
+                        image = "G_One_Xamarin.image.power_strip_on.png";
+                    }
+
+                    devicePanel[i].DeviceIconchange(image);
+                    devicePanel[i].DeviceButtonTextChange("끄기");
+                }
+                else if (arrStatus[i] == "0")
+                {
+                    string image = string.Empty;
+                    if (arrType[i].ToLower().Contains("led"))
+                    {
+                        image = "G_One_Xamarin.image.led_off.png";
+                    }
+
+                    else
+                    {
+                        image = "G_One_Xamarin.image.power_strip_off.png";
+                    }
+
+                    devicePanel[i].DeviceIconchange(image);
+                    devicePanel[i].DeviceButtonTextChange("켜기");
+                }
+
+            }
+        }
+
+        async void Refresh_Refreshing(System.Object sender, System.EventArgs e)
+        {
+            MainStackLayout.Children.Clear();
+            devicePanel.Clear();
+            AddDevicePanel();
+
+            await Task.Delay(1000);
+
+            Refresh.IsRefreshing = false;
+        }
     }
 }
 
