@@ -18,11 +18,25 @@ namespace G_One_Xamarin.module
 
             string connStr = $"Server={server};Port={port};User={user};Password={password};Database={database};SslMode=None;";
 
-            var conn = new MySqlConnection(connStr);
+            try
+            {
+                var conn = new MySqlConnection(connStr);
 
-            conn.Open();
+                conn.Open();
 
-            return conn;
+                return conn;
+            }
+
+            catch (Exception ex)
+            {
+                Application.Current.MainPage.DisplayAlert(
+                    "DB CMD Error",
+                    "관리자에게 문의하세요.\n" + ex.Message,
+                    "확인");
+
+                return null;
+            }
+            
         }
 
         public MySqlCommand Command(string sql)
@@ -35,7 +49,11 @@ namespace G_One_Xamarin.module
             }
             catch (Exception ex)
             {
-                Application.Current.MainPage.DisplayAlert("DB CMD Error", "관리자에게 문의하세요.\n" + ex.Message, "확인");
+                Application.Current.MainPage.DisplayAlert(
+                    "DB CMD Error",
+                    "관리자에게 문의하세요.\n" + ex.Message,
+                    "확인");
+
                 return null;
             }
         }

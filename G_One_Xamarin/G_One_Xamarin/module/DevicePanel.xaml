@@ -11,17 +11,18 @@
 
         <Grid>
             <Grid VerticalOptions="Center" HorizontalOptions="Center" Margin="10">
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid Grid.ColumnSpan="2">
-                    <Frame BorderColor="{AppThemeBinding Light=Black, Dark=White}" CornerRadius="10"/>
+                    <Frame BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                           CornerRadius="10"
+                           BackgroundColor="#1a1a1c"/>
                 </Grid>
 
                 <Grid Grid.Column="0" Margin="10">
@@ -34,28 +35,77 @@
 
                 <Grid Grid.Column="1" Margin="10">
 
+                    <!--
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="3*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Column="0" Grid.Row="0" Margin="10">
-                        <Label x:Name="Name" VerticalOptions="Center" HorizontalOptions="Start" Text="에러"/>
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Frame
+                            BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                            CornerRadius="10"
+                            BackgroundColor="#1a1a1c"/>
+
+                        <Label x:Name="Name"
+                               VerticalOptions="Center" HorizontalOptions="Start"
+                               Text="에러"
+                               Margin="10"/>
                     </Grid>
-                    <Grid Grid.Column="0" Grid.Row="1" Margin="10">
+
+                    <Grid Grid.Column="0" Grid.Row="1">
+                        <Frame
+                            BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                            CornerRadius="10"
+                            BackgroundColor="#1a1a1c"/>
+                        
                         <StackLayout>
-                            <Label VerticalOptions="Center" HorizontalOptions="Center" Text="밝기조절"/>
+
+                            <Label
+                                VerticalOptions="Center" HorizontalOptions="Center"
+                                Text="밝기조절"
+                                Margin="10"/>
+
                             <xct:RangeSlider
                                 x:Name="LEDValue"
                                 MinimumValue="0" MaximumValue="100" StepValue="25"
-                                LowerThumbSize="0" />
+                                LowerThumbSize="0"
+                                Margin="10"/>
+
+                            <Button
+                                x:Name="ChangeLEDValueBtn"
+                                BorderWidth="1" BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                                CornerRadius="10"
+                                VerticalOptions="Center" HorizontalOptions="Center"
+                                Text="밝기조절 하기"
+                                Padding="10"
+                                Margin="0,0,0,10"/>
+
                         </StackLayout>
                     </Grid>
+
+                    <Grid Grid.Column="0" Grid.Row="2">
+                        <Frame
+                            BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                            CornerRadius="10"
+                            BackgroundColor="#1a1a1c"/>
+
+                        <Button
+                            x:Name="ChangeDevicePower"
+                            BackgroundColor="#c8363d"
+                            BorderWidth="1" BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                            CornerRadius="10"
+                            Margin="10"
+                            Text="확인" TextColor="White" FontAttributes="Bold"/>
+
+                    </Grid>
+                    
                 </Grid>
 
             </Grid>
