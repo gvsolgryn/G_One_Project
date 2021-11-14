@@ -13,7 +13,7 @@ namespace G_One_Xamarin.module
         readonly static DB_Module db = new DB_Module();
         readonly static MQTT_Module mqtt = new MQTT_Module();
 
-        //static readonly List<DevicePanel> devicePanel = MainPage.devicePanel;
+        static readonly List<DevicePanel> devicePanel = MainPage.devicePanel;
 
         public static readonly List<string> listSensor = new List<string>();
         public static readonly List<string> listStatus = new List<string>();
