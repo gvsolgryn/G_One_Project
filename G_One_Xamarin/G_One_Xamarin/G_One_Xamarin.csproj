@@ -25,6 +25,7 @@
     <None Remove="image\power_strip_off.png" />
     <None Remove="image\ico.ico" />
     <None Remove="Xamarin.CommunityToolkit" />
+    <None Remove="page\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="image\power_strip_on.png" />
@@ -33,5 +34,8 @@
     <EmbeddedResource Include="image\led_off.png" />
     <EmbeddedResource Include="image\power_strip_off.png" />
     <EmbeddedResource Include="image\ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="page\" />
   </ItemGroup>
 </Project>
