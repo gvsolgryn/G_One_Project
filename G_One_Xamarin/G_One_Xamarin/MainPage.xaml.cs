@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using G_One_Xamarin.module;
+using G_One_Xamarin.page;
 
 namespace G_One_Xamarin
 {
@@ -102,7 +103,7 @@ namespace G_One_Xamarin
 
                 if (arrStatus[i] == "1")
                 {
-                    string image = string.Empty;
+                    string image;
                     if (arrType[i].ToLower().Contains("led"))
                     {
                         image = "G_One_Xamarin.image.led_on.png";
@@ -118,7 +119,7 @@ namespace G_One_Xamarin
                 }
                 else if (arrStatus[i] == "0")
                 {
-                    string image = string.Empty;
+                    string image;
                     if (arrType[i].ToLower().Contains("led"))
                     {
                         image = "G_One_Xamarin.image.led_off.png";
@@ -145,6 +146,16 @@ namespace G_One_Xamarin
             await Task.Delay(1000);
 
             Refresh.IsRefreshing = false;
+        }
+        /* 모달 불러오는 메소드 */
+        private async void AddDevice_Clicked(System.Object sender, System.EventArgs e)
+        {
+            await Navigation.PushAsync(new page.Add_Device_Page());
+        }
+
+        private async void RemoveDevice_Clicked(System.Object sender, System.EventArgs e)
+        {
+            await Navigation.PushAsync(new page.Remove_Device_Page());
         }
     }
 }
