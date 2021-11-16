@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="M2MqttClientDotnetCore" Version="1.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="MySqlConnector" Version="2.0.0" />
@@ -37,5 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="module\MQTT_Module.cs" />
   </ItemGroup>
 </Project>
