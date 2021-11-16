@@ -4,19 +4,18 @@ namespace G_One_Xamarin.module
 {
     using MySqlConnector;
     using Xamarin.Forms;
-    using System.Windows;
 
-    class DB_Module
+    internal class DbModule
     {
-        public MySqlConnection Conn()
+        private static MySqlConnection Conn()
         {
-            string server = "gone.gvsolgryn.de";
-            string user = "g_one";
-            string password = "g_one";
-            string database = "G_One_DB";
-            string port = "3306";
+            const string server = "gone.gvsolgryn.de";
+            const string user = "g_one";
+            const string password = "g_one";
+            const string database = "G_One_DB";
+            const string port = "3306";
 
-            string connStr = $"Server={server};Port={port};User={user};Password={password};Database={database};SslMode=None;";
+            var connStr = $"Server={server};Port={port};User={user};Password={password};Database={database};SslMode=None;";
 
             try
             {
@@ -39,7 +38,7 @@ namespace G_One_Xamarin.module
             
         }
 
-        public MySqlCommand Command(string sql)
+        private static MySqlCommand Command(string sql)
         {
             try
             {
@@ -62,7 +61,7 @@ namespace G_One_Xamarin.module
         {
             try
             {
-                MySqlDataReader table = this.Command(sql).ExecuteReader();
+                var table = Command(sql).ExecuteReader();
 
                 return table;
             }
@@ -83,11 +82,11 @@ namespace G_One_Xamarin.module
                     CommandText = sql
                 };
 
-                for (int i = 0; i < parameter.Length; i++)
+                for (var i = 0; i < parameter.Length; i++)
                 {
                     cmd.Parameters.AddWithValue(parameter[i], data[i]);
                 }
-
+                
                 cmd.ExecuteNonQuery();
 
                 return null;
