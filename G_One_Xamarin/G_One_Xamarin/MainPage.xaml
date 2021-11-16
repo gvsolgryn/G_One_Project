@@ -24,12 +24,11 @@
 
         <RefreshView x:Name="Refresh"
                  Refreshing="Refresh_Refreshing">
-
     
             <ScrollView>
-
+                
                 <StackLayout x:Name="MainStackLayout"/>
-
+                
             </ScrollView>
 
         </RefreshView>
