@@ -6,14 +6,14 @@ namespace G_One_Xamarin.module
 {
     public partial class DevicePanel : ContentView
     {
-        public readonly MainPage _mainPage;
-        private readonly DeviceControl deviceControl = new DeviceControl();
-        private string topic = string.Empty;
+        public readonly MainPage MainPage;
+        private readonly DeviceControl _deviceControl = new DeviceControl();
+        private string _topic = string.Empty;
 
         public DevicePanel(MainPage mainPage)
         {
             InitializeComponent();
-            _mainPage = mainPage;
+            MainPage = mainPage;
         }
 
         /* 디바이스 이름 변경(지정) */
@@ -58,70 +58,72 @@ namespace G_One_Xamarin.module
 
         public void TopicChange(string text)
         {
-            topic = "iot/" + text;
+            _topic = "iot/" + text;
         }
 
         /* 버튼 클릭 이벤트 */
 
         private void ButtonClicked(object sender, EventArgs e)
         {
-            if(ChangeDevicePower.Text == "끄기")
+            switch (ChangeDevicePower.Text)
             {
-                try
+                case "끄기":
                 {
-                    deviceControl.StatusChange(1, DeviceName.Text.ToString(), topic);
-                }
+                    try
+                    {
+                        DeviceControl.StatusChange(0, DeviceName.Text.ToString(), _topic);
+                    }
 
-                catch (Exception ex)
+                    catch (Exception ex)
+                    {
+                        Application.Current.MainPage.DisplayAlert("DevicePanel Btn Error", "에러 내용 : " + ex.Message, "확인");
+                    }
+
+                    string imageSource;
+
+                    if (DeviceName.Text.ToString().ToLower().Contains("led"))
+                    {
+                        imageSource = "G_One_Xamarin.image.led_off.png";
+                    }
+                    else
+                    {
+                        imageSource = "G_One_Xamarin.image.power_strip_off.png";
+                    }
+                    DeviceIconchange(imageSource);
+
+                    DeviceButtonTextChange("켜기");
+                    break;
+                }
+                case "켜기":
                 {
-                    Application.Current.MainPage.DisplayAlert("DevicePanel Btn Error", "에러 내용 : " + ex.Message, "확인");
+                    try
+                    {
+                        DeviceControl.StatusChange(1, DeviceName.Text.ToString(), _topic);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        Application.Current.MainPage.DisplayAlert("DevicePanel Btn Error", "에러 내용 : " + ex.Message, "확인");
+                    }
+
+                    string imageSource;
+
+                    if (DeviceName.Text.ToString().ToLower().Contains("led"))
+                    {
+                        imageSource = "G_One_Xamarin.image.led_on.png";
+                    }
+                    else
+                    {
+                        imageSource = "G_One_Xamarin.image.power_strip_on.png";
+                    }
+                    DeviceIconchange(imageSource);
+
+                    DeviceButtonTextChange("끄기");
+                    break;
                 }
-
-                string imageSource = string.Empty;
-
-                if (DeviceName.Text.ToString().ToLower().Contains("led"))
-                {
-                    imageSource = "G_One_Xamarin.image.led_off.png";
-                }
-                else
-                {
-                    imageSource = "G_One_Xamarin.image.power_strip_off.png";
-                }
-                DeviceIconchange(imageSource);
-
-                DeviceButtonTextChange("켜기");
-            }
-
-            else if(ChangeDevicePower.Text == "켜기")
-            {
-                try
-                {
-                    deviceControl.StatusChange(0, DeviceName.Text.ToString(), topic);
-                }
-
-                catch (Exception ex)
-                {
-                    Application.Current.MainPage.DisplayAlert("DevicePanel Btn Error", "에러 내용 : " + ex.Message, "확인");
-                }
-
-                string imageSource = string.Empty;
-
-                if (DeviceName.Text.ToString().ToLower().Contains("led"))
-                {
-                    imageSource = "G_One_Xamarin.image.led_on.png";
-                }
-                else
-                {
-                    imageSource = "G_One_Xamarin.image.power_strip_on.png";
-                }
-                DeviceIconchange(imageSource);
-
-                DeviceButtonTextChange("끄기");
-            }
-
-            else
-            {
-                Application.Current.MainPage.DisplayAlert("DevicePanel Error", "어플리케이션 에러가 발견되었습니다.\n관리자에게 문의해주세요.", "확인");
+                default:
+                    Application.Current.MainPage.DisplayAlert("DevicePanel Error", "어플리케이션 에러가 발견되었습니다.\n관리자에게 문의해주세요.", "확인");
+                    break;
             }
         }
 

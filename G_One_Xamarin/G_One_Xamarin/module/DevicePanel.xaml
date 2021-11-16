@@ -34,7 +34,7 @@
                            VerticalOptions="Center" HorizontalOptions="Center"
                            WidthRequest="100" HeightRequest="100"
                            Aspect="AspectFit"
-                           Source="{local:EmbeddedImage ResourceID=G_One_Xamarin.image.warning.png}"/>
+                           Source="{local:EmbeddedImage ResourceId=G_One_Xamarin.image.warning.png}"/>
                 </Grid>
 
                 <Grid x:Name="ControlGrid" Grid.Column="1" Margin="10">
