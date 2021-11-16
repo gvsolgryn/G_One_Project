@@ -7,14 +7,14 @@ namespace G_One_Xamarin.module
     [ContentProperty("ResourceID")]
     public class EmbeddedImage : IMarkupExtension
     {
-        public string ResourceID { get; set; }
+        public string ResourceId { get; set; }
 
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (String.IsNullOrWhiteSpace(ResourceID))
+            if (String.IsNullOrWhiteSpace(ResourceId))
                 return null;
 
-            return ImageSource.FromResource(ResourceID);
+            return ImageSource.FromResource(ResourceId);
         }
     }
 }
