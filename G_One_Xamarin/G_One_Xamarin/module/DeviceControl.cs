@@ -16,17 +16,17 @@ namespace G_One_Xamarin.module
 
         public static void StatusChange(int status, string name, string topic)
         {
-            MqttClient Client = new MqttClient("gone.gvsolgryn.de");
+            var client = new MqttClient("gone.gvsolgryn.de");
             
             try
             {
-                Client.Connect("G_One_Xamarin", "g_one", "g_one");
+                client.Connect("G_One_Xamarin", "g_one", "g_one");
                 
                 const string sql = "UPDATE sensor_status SET status = @sensorStatus, last_use = now() WHERE sensor = @sensorName";
                 
                 Db.Execute(sql, new[] { "@sensorStatus", "@sensorName" }, new[] { status.ToString(), name });
                 
-                Client.Publish(topic, Encoding.UTF8.GetBytes(status.ToString()));
+                client.Publish(topic, Encoding.UTF8.GetBytes(status.ToString()));
             }
             catch (Exception ex)
             {
@@ -37,9 +37,24 @@ namespace G_One_Xamarin.module
             
         }
 
-        public static void LedValueChange(int value, string name, string topic)
+        public static async void LedValueChange(int value, string name, string topic)
         {
-            
+            var client = new MqttClient("gone.gvsolgryn.de");
+
+            try
+            {
+                client.Connect("G_One_Xamarin", "g_one", "g_one");
+                
+                const string sql = "UPDATE sensor_status SET led_value = @led_value, last_use = now() WHERE sensor = @sensorName";
+                
+                Db.Execute(sql, new[] { "@led_value", "@sensorName" }, new[] { value.ToString(), name });
+                
+                client.Publish(topic, Encoding.UTF8.GetBytes(value.ToString()));
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("", ex.Message, "OK");
+            }
         }
     }
 }
