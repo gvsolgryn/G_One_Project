@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="M2MqttClientDotnetCore" Version="1.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="MySqlConnector" Version="2.0.0" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="1.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="MySqlConnector" />
+    <None Remove="image\power_strip_on.png" />
+    <None Remove="image\warning.png" />
+    <None Remove="image\led_on.png" />
+    <None Remove="image\led_off.png" />
+    <None Remove="image\power_strip_off.png" />
+    <None Remove="image\ico.ico" />
+    <None Remove="Xamarin.CommunityToolkit" />
+    <None Remove="page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="image\power_strip_on.png" />
+    <EmbeddedResource Include="image\warning.png" />
+    <EmbeddedResource Include="image\led_on.png" />
+    <EmbeddedResource Include="image\led_off.png" />
+    <EmbeddedResource Include="image\power_strip_off.png" />
+    <EmbeddedResource Include="image\ico.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="page\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="module\MQTT_Module.cs" />
+  </ItemGroup>
+</Project>

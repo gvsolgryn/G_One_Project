@@ -21,9 +21,166 @@ namespace G_One
     /// 
 
     using Module;
+    using HidLibrary;
+    using System.Threading;
 
     public partial class MainWindow : Window
     {
+
+        /*----------------------------------------------------------------------------------------------------------------------------*/
+
+        private List<HidDevice> _devices = new List<HidDevice>();
+
+        private const ushort ConsoleUsagePage = 0xFF31;
+        private const int ConsoleUsage = 0x0074;
+
+        private static IEnumerable<HidDevice> GetListableDevices() =>
+            HidDevices.Enumerate()
+                .Where(d => d.IsConnected)
+                .Where(device => device.Capabilities.InputReportByteLength > 0)
+                .Where(device => (ushort)device.Capabilities.UsagePage == ConsoleUsagePage)
+                .Where(device => (ushort)device.Capabilities.Usage == ConsoleUsage);
+
+        private void UpdateHidDevices(bool disconnected)
+        {
+            var devices = GetListableDevices().ToList();
+
+            if (!disconnected)
+            {
+                foreach (var device in devices)
+                {
+                    var deviceExists = _devices.Aggregate(false, (current, dev) => current | dev.DevicePath.Equals(device.DevicePath));
+
+                    if (device == null || deviceExists) continue;
+
+                    _devices.Add(device);
+                    device.OpenDevice();
+
+                    device.MonitorDeviceEvents = true;
+                    string text = $"G.One 키보드 연결 됨 : {GetManufacturerString(device)} {GetProductString(device)} ({device.Attributes.VendorId:X4}:{device.Attributes.ProductId:X4}:{device.Attributes.Version:X4})\n";
+                    AppendText(text);
+
+                    device.Inserted += DeviceAttachedHandler;
+                    device.Removed += DeviceRemovedHandler;
+
+                    device.ReadReport(OnReport);
+                    device.CloseDevice();
+                }
+            }
+            else
+            {
+                foreach (var existingDevice in _devices)
+                {
+                    var deviceExists = devices.Aggregate(false, (current, device) => current | existingDevice.DevicePath.Equals(device.DevicePath));
+
+                    if (!deviceExists)
+                    {
+                        AppendText($"G.One 키보드 연결 해제 됨 : ({existingDevice.Attributes.VendorId:X4}:{existingDevice.Attributes.ProductId:X4}:{existingDevice.Attributes.Version:X4})\n");
+                    }
+                }
+            }
+
+            _devices = devices;
+        }
+
+        private void DeviceAttachedHandler()
+        {
+            UpdateHidDevices(false);
+        }
+
+        private void DeviceRemovedHandler()
+        {
+            UpdateHidDevices(true);
+        }
+
+        private void OnReport(HidReport report)
+        {
+            var data = report.Data;
+            var outputString = string.Empty;
+
+            if (0 < data.Length || report.Data != null)
+            {
+                outputString = Encoding.UTF8.GetString(data).Trim('\0');
+                if (outputString == string.Empty) UpdateHidDevices(true);
+                else
+                {
+                    AppendText(outputString);
+                    HID_Status_Change(outputString.TrimEnd('\n'));
+                }
+            }
+            else
+            {
+                MessageBox.Show(@"에러!");
+            }
+
+            foreach (var device in _devices)
+            {
+                device.ReadReport(OnReport);
+            }
+        }
+
+        private static string GetProductString(IHidDevice d)
+        {
+            if (d == null) return "";
+            d.ReadProduct(out var bs);
+            return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
+        }
+
+        private static string GetManufacturerString(IHidDevice d)
+        {
+            if (d == null) return "";
+            d.ReadManufacturer(out var bs);
+            return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
+        }
+
+        private void HID_Status_Change(string HID_Data)
+        {
+            var db = new DB_Module();
+            try
+            {
+                var sql = "SELECT * FROM sensor_status";
+                var table = db.TableLoad(sql);
+                var sensor = string.Empty;
+                var status = string.Empty;
+
+                while (table.Read())
+                {
+                    sensor = table["sensor"].ToString();
+                    status = table["status"].ToString();
+                    if (HID_Data == "MULTI") HID_Data = HID_Data.Replace("MULTI", "Power_Strip");
+                    if (HID_Data.ToLower() == sensor.ToLower())
+                    {
+                        var topic = "iot/" + HID_Data;
+
+                        //ChangeStatus(Int32.Parse(status), HID_Data, topic);
+
+                        HID_Data = String.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("HID_Stat_Change Error : " + ex.Message);
+            }
+        }
+
+        private void AppendText(string text)
+        {
+            if (CMD.Dispatcher.Thread == Thread.CurrentThread)
+            {
+                this.CMD.AppendText(text);
+                this.CMD.ScrollToEnd();
+            }
+            else
+            {
+                this.CMD.Dispatcher.BeginInvoke(new Action(() => this.CMD.AppendText(text)));
+                this.CMD.Dispatcher.BeginInvoke(new Action(() => this.CMD.ScrollToEnd()));
+            }
+            
+        }
+
+        /*----------------------------------------------------------------------------------------------------------------------------*/
+
         public static List<DevicePanel> devicePanel = new List<DevicePanel>();
 
         public static readonly List<string> listSensor = new List<string>();
@@ -88,7 +245,13 @@ namespace G_One
             {
                 devicePanel[i].DeviceNameChange(arrSensor[i]);
                 devicePanel[i].TopicChange(arrSensor[i]);
-                devicePanel[i].DeviceInfoChange($"{arrSensor[i]} 의 전원 및 부가기능을 컨트롤 하기 위한 버튼입니다.");
+                devicePanel[i].DeviceInfoChange($"{arrSensor[i]} 의 전원을 컨트롤 하기 위한 버튼입니다.");
+
+                if (arrSensor[i].Contains("Brightness"))
+                {
+                    devicePanel[i].DeviceInfoChange($"{arrSensor[i]}의\n전원 및 밝기 제어를 하기 위한 버튼입니다. ");
+                    devicePanel[i].Visible_LEDAdjust();
+                }
 
                 if (arrStatus[i] == "1")
                 {
@@ -120,6 +283,7 @@ namespace G_One
         private void MainWindows_Load(object sender, RoutedEventArgs e)
         {
             LoadPanel();
+            UpdateHidDevices(false);
         }
 
         private void Menu_Refresh_Click(object sender, RoutedEventArgs e)
@@ -128,6 +292,13 @@ namespace G_One
             this.MainStackPanel.Children.Clear();
 
             Add_DevicePanel();
+            LoadPanel();
+            UpdateHidDevices(false);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
