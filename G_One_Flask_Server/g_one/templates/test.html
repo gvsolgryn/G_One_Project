@@ -41,7 +41,7 @@
                                 </div>
                             </div>
 
-                            {% if name[i].lower().startswith('led') and status[i] == 1 %}
+                            {% if name[i].lower().find("led") and status[i] == 1 %}
                                 <div class="d-flex justify-content-end mb-3">
                                     <div class="row">
                                         <div class="col">
@@ -59,7 +59,7 @@
 
                             <div class="row">
                                 <div class="col">
-                                    {% if status[i] == 0 %}
+                                    {% if status[i] == "0" %}
                                         <div class="d-flex justify-content-end">
                                             <form action='sensorTrigger' method="POST">
                                                 <input type='hidden' name='name' value='{{name[i]}}'>
@@ -68,7 +68,7 @@
                                                 <button type="submit" class="btn btn-danger">켜기</button>
                                             </form>
                                         </div>
-                                    {% elif status[i] == 1 %}
+                                    {% elif status[i] == "1" %}
                                         <div class="d-flex justify-content-end">
                                             <div class="row">
                                                 <div class="col">

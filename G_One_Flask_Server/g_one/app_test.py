@@ -54,6 +54,11 @@ def index():
         result_status.append(data['status'])
         result_led_value.append(data['led_value'])
 
+    print(result_sensor)
+
+    print(result_status)
+
+
     return render_template('test.html', id = len(result_id), name = result_sensor, status = result_status, req_led_value = result_led_value)
 
 @app.route('/sensorTrigger', methods=['POST'])

@@ -3,8 +3,8 @@ import pymysql
 class Database():
     def __init__(self):
         self.db = pymysql.connect(host='gvsolgryn.nemiku.cc',
-                                  user='gvsolgryn',
-                                  password='tkdeh3554',
+                                  user='g_one',
+                                  password='g_one',
                                   db='G_One_DB',
                                   charset='utf8')
         self.cursor = self.db.cursor(pymysql.cursors.DictCursor)
