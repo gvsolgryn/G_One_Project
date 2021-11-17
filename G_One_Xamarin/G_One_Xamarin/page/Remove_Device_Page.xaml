@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="G_One_Xamarin.page.RemoveDevicePage"
+    Title="Remove Device Page">
+    <ContentPage.Content>
+        <StackLayout>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            
+                <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                       BorderColor="{AppThemeBinding Light=Black, Dark=White}"
+                       CornerRadius="10"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#1a1a1c}"/>
+            
+                <Label Grid.Row="0" Grid.Column="0"
+                       Text="기기 삭제"
+                       VerticalOptions="Center" HorizontalOptions="Center"/>
+            
+                <Picker Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+                        x:Name="RemoveDevicePicker"
+                        Title="삭제 할 기기 선택"
+                        TitleColor="{AppThemeBinding Light=Black, Dark=White}"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#1a1a1c}"
+                        VerticalOptions="Center" HorizontalOptions="Center"
+                        ItemsSource="{Binding RemovePickerData}"
+                        ItemDisplayBinding="{Binding SensorName}"
+                        Margin="10"/>
+            
+                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        x:Name="RemoveButton"
+                        Text="삭제"
+                        TextColor="White"
+                        BackgroundColor="Firebrick"
+                        Margin="10"
+                        CornerRadius="10"
+                        Clicked="RemoveButton_OnClicked"/>
+                <Button Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"
+                        x:Name="CancelButton"
+                        Text="취소"
+                        TextColor="Black"
+                        BackgroundColor="AliceBlue"
+                        Margin="10"
+                        CornerRadius="10"
+                        Clicked="CancelButton_OnClicked"/>
+            </Grid>
+            
+        </StackLayout>
+        
+        
+    </ContentPage.Content>
+</ContentPage>

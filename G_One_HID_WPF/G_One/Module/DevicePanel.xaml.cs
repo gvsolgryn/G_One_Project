@@ -22,11 +22,9 @@ namespace G_One.Module
     public partial class DevicePanel : UserControl
     {
         string topic = string.Empty;
-        static string path = string.Empty;
 
         public readonly MainWindow _parent;
-
-        DeviceControl deviceControl = new DeviceControl();
+        readonly DeviceControl deviceControl = new DeviceControl();
 
         public DevicePanel(MainWindow parent)
         {
@@ -39,12 +37,18 @@ namespace G_One.Module
             topic = "iot/" + text;
         }
 
+        public void Visible_LEDAdjust()
+        {
+            DeviceLedValueSliderGrid.Visibility = Visibility.Visible;
+            DeviceLedValueChangeGrid.Visibility = Visibility.Visible;
+        }
+
         private void DevicePanelLoaded(object sender, RoutedEventArgs e)
         {
             _parent.LoadPanel();
         }
 
-        public void update()
+        public void Update()
         {
             _parent.LoadPanel();
         }
@@ -56,7 +60,7 @@ namespace G_One.Module
 
         public void DeviceInfoChange(string text)
         {
-            DeviceInfo.Content = text;
+            DeviceInfo.Text = text;
         }
 
         public void DeviceIconChange(string text)

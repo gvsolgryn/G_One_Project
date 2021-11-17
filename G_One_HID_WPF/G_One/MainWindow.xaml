@@ -17,7 +17,7 @@
         
         Loaded="MainWindows_Load"
     
-        Title="G One HID" Visibility="Visible" Width="800" Height="500" Icon="/image/ico.ico">
+        Title="G One HID" Visibility="Visible" Width="800" Height="500" Icon="/image/ico.ico" WindowStartupLocation="CenterScreen" SizeToContent="Width" Closed="Window_Closed">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid>
@@ -71,7 +71,15 @@
                 </TabItem>
 
                 <TabItem Header="기기 제거">
-                    <StackPanel x:Name="RemoveDevice"/>
+                    <StackPanel x:Name="RemoveDevice">
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="로그">
+                    <StackPanel x:Name="Log">
+                        <RichTextBox x:Name="CMD" Width="740" Height="300" VerticalScrollBarVisibility="Auto" Margin="10" Cursor="IBeam">
+                        </RichTextBox>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </Grid>

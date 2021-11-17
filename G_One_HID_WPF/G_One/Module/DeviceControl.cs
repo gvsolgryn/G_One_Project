@@ -42,7 +42,7 @@ namespace G_One.Module
 
             if (id == 1)
             {
-                
+
                 if (name.ToLower().Contains("led"))
                 {
                     name = "led";
