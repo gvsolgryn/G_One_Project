@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Xamarin.Forms;
 
 namespace G_One_Xamarin.module
 {
     public partial class DevicePanel : ContentView
     {
-        public readonly MainPage MainPage;
+        private readonly MainPage _mainPage;
         private readonly DeviceControl _deviceControl = new DeviceControl();
         private string _topic = string.Empty;
 
         public DevicePanel(MainPage mainPage)
         {
             InitializeComponent();
-            MainPage = mainPage;
+            _mainPage = mainPage;
         }
 
         /* 디바이스 이름 변경(지정) */
@@ -127,6 +128,33 @@ namespace G_One_Xamarin.module
             }
         }
 
+        private async void ChangeLedValueBtn_OnClicked(object sender, EventArgs e)
+        {
+            Console.WriteLine(DeviceName);
+            if (LedValue.UpperValue > 0)
+            {
+                if (ChangeDevicePower.Text.ToString() == "켜기")
+                {
+                    await Application.Current.MainPage.DisplayAlert("밝기 제어", "LED 전원을 먼저 켜주세요.", "확인");
+                }
+                else
+                {
+                    DeviceControl.LedValueChange(Convert.ToInt32(LedValue.UpperValue), DeviceName.Text, "iot/LEDAdjust");
+                
+                    await Application.Current.MainPage.DisplayAlert("밝기 제어", "LED 밝기 변경 완료", "확인");
+                }
+            }
+            
+            else if (LedValue.UpperValue <= 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("밝기 제어", "밝기를 0보다 더 높게 설정하세요.", "확인");
+            }
+
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("밝기 제어 실패", "밝기 제어 실패", "확인");
+            }
+        }
     }
 }
 
