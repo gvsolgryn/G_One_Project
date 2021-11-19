@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, json, request, redirect, url_for
+from flask import Flask, flash, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 
 from module import dbModule, mqtt_IDPW, dbEdit
@@ -8,6 +8,7 @@ import time
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SECRET_KEY'] = "tkdeh3554!@#$%"
 app.config['MQTT_CLIENT_ID'] = mqtt_IDPW.Client()
 app.config['MQTT_BROKER_URL'] = mqtt_IDPW.Host()
 app.config['MQTT_BROKER_PORT'] = mqtt_IDPW.Port()
@@ -17,6 +18,16 @@ app.config['MQTT_TLS_ENABLED'] = False
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
 mqtt = Mqtt(app)
+
+#----------------#
+####전역 변수 설정####
+#----------------#
+
+result_id = []
+result_sensor = []
+result_status = []
+result_led_value = []
+result_device_type = []
 
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
@@ -38,13 +49,27 @@ def sensor_info():
 
     return tuple(result)
 
+def sensor_list():
+    db_class = dbModule.Database()
+    sql = "SELECT * FROM compatible_device"
+    result = db_class.executeAll(sql)
+
+    return tuple(result)
+
 @app.route('/')
 def index():
     result = sensor_info()
 
+    global result_id
+    global result_sensor
+    global result_status
+    global result_led_value
+    global result_device_type
+
     result_id = []
     result_sensor = []
     result_status = []
+    result_device_type = []
     result_led_value = []
 
     # data 의 값이 result 의 값이 될 때 까지 반복실행
@@ -53,26 +78,37 @@ def index():
         result_sensor.append(data['sensor'])
         result_status.append(data['status'])
         result_led_value.append(data['led_value'])
+        result_device_type.append(data['device_type'])
 
-    print(result_sensor)
+    device_list = sensor_list()
 
-    print(result_status)
+    device_list_sensor = []
+    device_list_device_type = []
+
+    for data in device_list:
+        device_list_sensor.append(data['name'])
+        device_list_device_type.append(data['device_type'])
 
 
-    return render_template('test.html', id = len(result_id), name = result_sensor, status = result_status, req_led_value = result_led_value)
+    return render_template('test.html',
+                            id = len(result_id),
+                            name = result_sensor,
+                            status = result_status,
+                            req_led_value = result_led_value,
+                            device_type = result_device_type,
+                            list_device = device_list_sensor,
+                            list_device_type = device_list_device_type,
+                            list_device_id = len(device_list_sensor))
 
 @app.route('/sensorTrigger', methods=['POST'])
 def sensorTrigger():
     result = sensor_info()
 
-    result_id = []
-    result_sensor = []
-    result_status = []
+    global result_id
+    global result_sensor
+    global result_status
 
-    for data in result:
-        result_id.append(data['id'])
-        result_sensor.append(data['sensor'])
-        result_status.append(data['status'])
+    device_list = sensor_list()
 
     name = request.form['name']
     trigger = request.form['trigger']
@@ -96,6 +132,9 @@ def sensorTrigger():
 
             if name == result_sensor[i] and result_sensor[i].lower().startswith('led'):
                 mqtt.publish('iot/' + str(result_sensor[i]) + 'Adjust', str(led_value))
+                
+        if name == "Brightness_control_LED":
+                mqtt.publish('iot/LEDAdjust', str(led_value))
 
             
     except Exception as e:
@@ -107,10 +146,15 @@ def sensorTrigger():
 @app.route('/add', methods=['POST'])
 def iot_add():
     name = request.form['sensor_name']
-    status = request.form['sensor_status']
+    type = request.form['sensor_type']
     led_value = '0'
 
-    dbEdit.iotAdd.sql_insert(name, status, led_value)
+    if (name in result_sensor):
+        flash("이미 추가 된 센서입니다.")
+
+        return redirect(url_for('index'))
+
+    dbEdit.iotAdd.sql_insert(name, type, led_value)
 
     return redirect(url_for('index'))
 
