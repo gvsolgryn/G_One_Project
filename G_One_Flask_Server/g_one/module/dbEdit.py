@@ -28,15 +28,15 @@ class Update():
             #db_class.close()
 
 class iotAdd():
-    def sql_insert(name, status, led_value):
-        sql = "INSERT INTO sensor_status(sensor, status, led_value, last_use) VALUES(%s, %s, %s, now())"
+    def sql_insert(name, type, led_value):
+        sql = "INSERT INTO sensor_status(sensor, device_type, status, led_value, last_use) VALUES(%s, %s, 0, %s, now())"
         log_sql = "INSERT INTO log(use_program, sensor, def_location, sql_success, error_log, sql_run_time) VALUES(%s, %s, %s, %s, %s, %s)"
         sw_start = time.time()
         db = dbModule.Database()
 
 
         try:
-            db.execute(sql, (name, int(status), int(led_value)))
+            db.execute(sql, (name, type, led_value))
             sql_end = time.time()
             sql_code_runtime = round(sql_end - sw_start, 2)
             db.execute(log_sql, ('Flask_Add_IoT', str(name), str(name) + '_Add', 'success', 'none', str(sql_code_runtime)))

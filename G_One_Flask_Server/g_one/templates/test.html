@@ -1,3 +1,11 @@
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    <script type="text/javascript">
+        alert("{{messages[-1]}}");
+    </script>
+{% endif %}
+{% endwith %}
+
 <!DOCTYPE html>
 <html lang="kr">
     <head>
@@ -41,7 +49,7 @@
                                 </div>
                             </div>
 
-                            {% if name[i].lower().find("led") and status[i] == 1 %}
+                            {% if "led" in device_type[i].lower() and status[i] == "1" %}
                                 <div class="d-flex justify-content-end mb-3">
                                     <div class="row">
                                         <div class="col">
@@ -124,14 +132,18 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="sensor_name" class="form-label">기기 이름</label>
-                                <input type="text" id="sensor_name" name="sensor_name" class="form-control" required>
+                                <select id="sensor_name" name="sensor_name" class="form-select">
+                                    {% for i in range(0, list_device_id, 1) %}
+                                        <option id="sensor_name" name="sensor_name" value="{{list_device[i]}}">{{list_device[i]}}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="mb-3">
-                                <label for="sensor_status" class="form-label">기기 상태</label>
-                                <select id="sensor_status" name="sensor_status" class="form-select" aria-label="센서 상태 선택">
-                                    <option id="sensor_status" name="sensor_status" value="0" selected>센서 상태</option>
-                                    <option id="sensor_status" name="sensor_status" value="1">On</option>
-                                    <option id="sensor_status" name="sensor_status" value="0">Off</option>
+                                <label for="sensor_type" class="form-label">기기 종류</label>
+                                <select id="sensor_type" name="sensor_type" class="form-select" aria-label="센서 상태 선택">
+                                    {% for i in range(0, list_device_id, 1) %}
+                                        <option id="sensor_type" name="sensor_type" value="{{list_device_type[i]}}">{{list_device_type[i]}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
