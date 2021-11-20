@@ -42,7 +42,7 @@ namespace G_One_Xamarin
         {
             MainStackLayout.Children.Clear();
 
-            DbModule db = new DbModule();
+            var db = new DbModule();
 
             const string sql = "SELECT * FROM sensor_status";
 
@@ -75,7 +75,7 @@ namespace G_One_Xamarin
 
         private void AddDevicePanel()
         {
-            for (int i = 0; i < ListSensor.Count; i++)
+            for (var i = 0; i < ListSensor.Count; i++)
             {
                 var devicePanel = new DevicePanel(this);
                 DevicePanel.Add(devicePanel);
@@ -87,7 +87,7 @@ namespace G_One_Xamarin
 
         private void LoadPanel()
         {
-            for(int i = 0; i < ListSensor.Count(); i++)
+            for(var i = 0; i < ListSensor.Count(); i++)
             {
                 //devicePanel[i].DeviceNameChange(arrSensor[i]);
                 DevicePanel[i].DeviceNameChange(ListSensor[i]);
@@ -105,37 +105,42 @@ namespace G_One_Xamarin
                     DevicePanel[i].Grid_Adjust();
                 }
 
-                if (ListStatus[i] == "1")
+                switch (ListStatus[i])
                 {
-                    string image;
-                    if (ListType[i].ToLower().Contains("led"))
+                    case "1":
                     {
-                        image = "G_One_Xamarin.image.led_on.png";
-                    }
+                        string image;
+                        if (ListType[i].ToLower().Contains("led"))
+                        {
+                            image = "G_One_Xamarin.image.led_on.png";
+                        }
 
-                    else
+                        else
+                        {
+                            image = "G_One_Xamarin.image.power_strip_on.png";
+                        }
+
+                        DevicePanel[i].DeviceIconchange(image);
+                        DevicePanel[i].DeviceButtonTextChange("끄기");
+                        break;
+                    }
+                    case "0":
                     {
-                        image = "G_One_Xamarin.image.power_strip_on.png";
-                    }
+                        string image;
+                        if (ListType[i].ToLower().Contains("led"))
+                        {
+                            image = "G_One_Xamarin.image.led_off.png";
+                        }
 
-                    DevicePanel[i].DeviceIconchange(image);
-                    DevicePanel[i].DeviceButtonTextChange("끄기");
-                }
-                else if (ListStatus[i] == "0")
-                {
-                    string image;
-                    if (ListType[i].ToLower().Contains("led"))
-                    {
-                        image = "G_One_Xamarin.image.led_off.png";
-                    }
+                        else
+                        {
+                            image = "G_One_Xamarin.image.power_strip_off.png";
+                        }
 
-                    else
-                    {
-                        image = "G_One_Xamarin.image.power_strip_off.png";
+                        DevicePanel[i].DeviceIconchange(image);
+                        DevicePanel[i].DeviceButtonTextChange("켜기");
+                        break;
                     }
-
-                    DevicePanel[i].DeviceIconchange(image);
-                    DevicePanel[i].DeviceButtonTextChange("켜기");
                 }
 
             }
@@ -163,6 +168,11 @@ namespace G_One_Xamarin
             await Navigation.PushAsync(new RemoveDevicePage());
             
             LoadDevice();
+        }
+
+        private void Button_OnClicked(object sender, EventArgs e)
+        {
+            MqttPubSubTest.SendMqtt();
         }
     }
 }
