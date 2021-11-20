@@ -19,6 +19,17 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
         <title>G.One Keyboard IoT Control Site</title>
+
+        <!-- SocketIO CDN -->
+        <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+
+        <!-- SocketIO Script -->
+        <script type="text/javascript" charset="utf-8">
+            var socket = io();
+            socket.on('connect', function(){
+                socket.emit('socketioConnect', {data : 'SocketIO Connected'})
+            });
+        </script>
     </head>
 
     <body>
