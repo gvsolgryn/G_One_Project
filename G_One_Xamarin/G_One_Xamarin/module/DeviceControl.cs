@@ -10,7 +10,7 @@ using M2Mqtt;
 
 namespace G_One_Xamarin.module
 {
-    class DeviceControl
+    internal class DeviceControl
     {
         private static readonly DbModule Db = new DbModule();
 
