@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, flash, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
+from flask_socketio import SocketIO
+import socketio
 
 from module import dbModule, mqtt_IDPW, dbEdit
 
@@ -17,6 +19,8 @@ app.config['MQTT_PASSWORD'] = mqtt_IDPW.PW()
 app.config['MQTT_TLS_ENABLED'] = False
 app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
+socketio = SocketIO(app)
+
 mqtt = Mqtt(app)
 
 #----------------#
@@ -28,19 +32,6 @@ result_sensor = []
 result_status = []
 result_led_value = []
 result_device_type = []
-
-@mqtt.on_connect()
-def handle_connect(client, userdata, flags, rc):
-    print("MQTT 서버 연결 성공")
-    mqtt.subscribe('iot/#')
-
-@mqtt.on_message()
-def handle_mqtt_message(client, userdata, message):
-    data = dict(
-        topic=message.topic,
-        payload=message.payload.decode()
-    )
-    print(data)
 
 def sensor_info():
     db_class = dbModule.Database()
@@ -55,6 +46,8 @@ def sensor_list():
     result = db_class.executeAll(sql)
 
     return tuple(result)
+
+########################################
 
 @app.route('/')
 def index():
@@ -113,7 +106,7 @@ def sensorTrigger():
     name = request.form['name']
     trigger = request.form['trigger']
     led_value = request.form['led_value']
-
+    
     print("led_value = " + led_value)
 
     dbEdit.Update.sql_update(name, int(trigger), led_value)
@@ -171,5 +164,42 @@ def iot_delete():
 def error_db():
     return "<a href='/'><h1>DB 에러! 관리자에게 문의하세요! 클릭 시 메인 화면으로 이동합니다!</h1></a>"
 
+
+#######################################################
+
+
+@socketio.on('message')
+def handle_message(data):
+    print('받은 데이터 : ' + data)
+    
+@socketio.on('socketioConnect')
+def handle_connect_message(json):
+    print(str(json))
+
+
+
+
+#######################################################
+
+
+@mqtt.on_connect()
+def handle_connect(client, userdata, flags, rc):
+    print("MQTT 서버 연결 성공")
+    mqtt.subscribe('iot/#')
+
+@mqtt.on_message()
+def handle_mqtt_message(client, userdata, message):
+    data = dict(
+        topic=message.topic,
+        payload=message.payload.decode()
+    )
+    
+    if data['topic'] == 'iot/temp':
+        print("dict 안 데이터 불러오기 완료")
+        print(data)
+
+
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True, port=8080)
+    socketio.run(app, host='0.0.0.0', port=8080, debug=True)
