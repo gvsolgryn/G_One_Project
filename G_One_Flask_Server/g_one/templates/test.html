@@ -52,15 +52,33 @@
                                 <div class="col">
                                     <h1 class="text-start">{{name[i]}} 제어</h1>
                                 </div>
+                                {% if "Temp_Sensor" == device_type[i] and status[i] == "1" %}
+                                    <div class="col">
+                                        <h1 class="text-end">온도</h1>
+                                    </div>
+                                {% endif %}
                             </div>
+                            {% if "Temp_Sensor" == device_type[i] %}
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>주변 온도를 측정하는 온도 센서입니다.</h4>
+                                    </div>
 
-                            <div class="row">
-                                <div class="col">
-                                    <h4>{{name[i]}} 제품의 전원을 제어하는 버튼입니다.</h4>
+                                    {% if status[i] == "1" %}
+                                        <div class="col">
+                                            <h4 class="text-end" id="temp"></h4>
+                                        </div>
+                                    {% endif %}
                                 </div>
-                            </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>{{name[i]}} 제품의 전원을 제어하는 버튼입니다.</h4>
+                                    </div>
+                                </div>
+                            {% endif %}
 
-                            {% if "led" in device_type[i].lower() and status[i] == "1" %}
+                            {% if "Controllable_LED" in device_type[i] and status[i] == "1" %}
                                 <div class="d-flex justify-content-end mb-3">
                                     <div class="row">
                                         <div class="col">
