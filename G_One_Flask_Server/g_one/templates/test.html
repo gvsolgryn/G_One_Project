@@ -21,15 +21,9 @@
         <title>G.One Keyboard IoT Control Site</title>
 
         <!-- SocketIO CDN -->
-        <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+        
 
         <!-- SocketIO Script -->
-        <script type="text/javascript" charset="utf-8">
-            var socket = io();
-            socket.on('connect', function(){
-                socket.emit('socketioConnect', {data : 'SocketIO Connected'})
-            });
-        </script>
     </head>
 
     <body>
@@ -233,5 +227,26 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
         -->
+
+        <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+
+        <script type="text/javascript" charset="utf-8">
+            const socket = io("http://gone.gvsolgryn.de:8080");
+
+            socket.on('connect', ()=>{
+                socket.emit('socketioConnect', {data : 'SocketIO Connected'});
+                console.log("SocletIO Connected")
+            });
+
+            socket.on('mqtt_message', (data)=>{
+                var data = data;
+                console.log("test");
+            });
+
+            socket.on('testio', ()=>{
+                console.log("testio");
+            });
+        </script>
+
     </body>
 </html>

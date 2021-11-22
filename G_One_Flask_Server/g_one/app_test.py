@@ -2,7 +2,6 @@
 from flask import Flask, flash, render_template, json, request, redirect, url_for
 from flask_mqtt import Mqtt
 from flask_socketio import SocketIO
-import socketio
 
 from module import dbModule, mqtt_IDPW, dbEdit
 
@@ -16,10 +15,10 @@ app.config['MQTT_BROKER_URL'] = mqtt_IDPW.Host()
 app.config['MQTT_BROKER_PORT'] = mqtt_IDPW.Port()
 app.config['MQTT_USERNAME'] = mqtt_IDPW.ID()
 app.config['MQTT_PASSWORD'] = mqtt_IDPW.PW()
+app.config['MQTT_KEEPALIVE'] = 5
 app.config['MQTT_TLS_ENABLED'] = False
-app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 mqtt = Mqtt(app)
 
@@ -167,7 +166,6 @@ def error_db():
 
 #######################################################
 
-
 @socketio.on('message')
 def handle_message(data):
     print('받은 데이터 : ' + data)
@@ -175,9 +173,7 @@ def handle_message(data):
 @socketio.on('socketioConnect')
 def handle_connect_message(json):
     print(str(json))
-
-
-
+    mqtt.subscribe('iot/#')
 
 #######################################################
 
@@ -185,7 +181,7 @@ def handle_connect_message(json):
 @mqtt.on_connect()
 def handle_connect(client, userdata, flags, rc):
     print("MQTT 서버 연결 성공")
-    mqtt.subscribe('iot/#')
+    
 
 @mqtt.on_message()
 def handle_mqtt_message(client, userdata, message):
@@ -193,12 +189,12 @@ def handle_mqtt_message(client, userdata, message):
         topic=message.topic,
         payload=message.payload.decode()
     )
+
     
-    if data['topic'] == 'iot/temp':
-        print("dict 안 데이터 불러오기 완료")
-        print(data)
+    socketio.emit('mqtt_message', data)
+    socketio.emit('testio')
 
-
+    print(data)
 
 
 if __name__ == '__main__':
