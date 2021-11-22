@@ -17,6 +17,9 @@ namespace G_One_Xamarin.module
 
         private static readonly IMqttClient MqttClient = Factory.CreateMqttClient();
         
+        public static string Topic = String.Empty;
+        public static string Payload = String.Empty;
+        
         public static async void MqttConnect()
         {
             var options = new MqttClientOptionsBuilder()
@@ -44,6 +47,15 @@ namespace G_One_Xamarin.module
                 .Build();
 
             await MqttClient.SubscribeAsync(subOptions);
+        }
+
+        public static void MqttGetPayload()
+        {
+            MqttClient.UseApplicationMessageReceivedHandler(e =>
+            {
+                Topic = e.ApplicationMessage.Topic.ToString();
+                Payload = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+            });
         }
 
         public static async void MqttDisconnect()
