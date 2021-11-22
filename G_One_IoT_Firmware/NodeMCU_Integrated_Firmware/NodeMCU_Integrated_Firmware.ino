@@ -4,7 +4,7 @@
 #include <PubSubClient.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <SomeSerial.h>
 // Update these with values suitable for your network.
 const char* ssid = "iPhone";
 const char* password = "11111111";
@@ -16,6 +16,12 @@ unsigned long lastMsg = 0;
 #define MSG_BUFFER_SIZE	(50)
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
+
+float voltage = 0.0;
+float temp = 0.0;
+float tmp = 0.0;
+
+SomeSerial someSerial(D3, D4); // RX d3 TX D4
 
 const uint16_t kIrLed = D2;
 IRsend irsend(kIrLed);
@@ -149,7 +155,9 @@ void setup() {
   pinMode(D0, OUTPUT);
   pinMode(D1, OUTPUT);
   pinMode(D2, OUTPUT);
-  Serial.begin(9600);
+  pinMode(A0, INPUT);
+  Serial.begin(115200);
+  someSerial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
@@ -163,12 +171,22 @@ void loop() {
   client.loop();
 
   unsigned long now = millis();
-  /* if (now - lastMsg > 2000) {
+
+  
+  
+  
+  if (now - lastMsg > 2000) {
     lastMsg = now;
-    ++value;
-    snprintf (msg, MSG_BUFFER_SIZE, "hello world #%ld", value);
-    Serial.print("Publish message: ");
-    Serial.println(msg);
-    client.publish("outTopic", msg);
-  }*/
+    //client.publish("outTopic", msg);
+
+    tmp = analogRead(A0);
+    voltage = (tmp/1024.0)*3300;
+    //temp = voltage/10;
+
+    temp = ((5.0 * tmp * 100) / 1024.0) - 25;
+    someSerial.println(temp);
+
+    client.publish("iot/temp", String(temp).c_str());
+    temp = 0.0;
+  }
 }

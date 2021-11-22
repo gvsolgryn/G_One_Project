@@ -62,16 +62,55 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Text="기기 이름" FontSize="20"/>
                             <TextBlock Grid.Column="0" Grid.Row="1" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Text="기기 모델" FontSize="20"/>
 
-                            <ComboBox x:Name="ComboDeviceName" Grid.Column="1" Grid.Row="0" Margin="10"/>
-                            <ComboBox x:Name="ComboDeviceType" Grid.Column="1" Grid.Row="1" Margin="10"/>
+                            <ComboBox x:Name="ComboDeviceName"
+                                      Grid.Column="1" Grid.Row="0"
+                                      Margin="10"
+                                      ItemsSource="{Binding Path=AddComboBox}"
+                                      SelectedItem="{Binding Path=SensorName}"
+                                      DisplayMemberPath="SensorName"/>
+                                      
+                            <ComboBox x:Name="ComboDeviceType"
+                                      Grid.Column="1" Grid.Row="1"
+                                      Margin="10"
+                                      ItemsSource="{Binding Path=TypeComboBox}"
+                                      SelectedItem="{Binding Path=SensorType}"
+                                      DisplayMemberPath="SensorType"/>
 
-                            <Button x:Name="AddButton" Grid.ColumnSpan="2" Grid.Row="2" Margin="10" Content="추가"/>
+                            <Button x:Name="AddButton"
+                                    Grid.ColumnSpan="2" Grid.Row="2"
+                                    Margin="10"
+                                    Content="추가"
+                                    Click="AddButton_Click"/>
                         </Grid>
                     </StackPanel>
                 </TabItem>
 
                 <TabItem Header="기기 제거">
                     <StackPanel x:Name="RemoveDevice">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Text="기기 이름" FontSize="20"/>
+
+                            <ComboBox x:Name="RemoveComboDeviceName"
+                                      Grid.Column="1" Grid.Row="0"
+                                      Margin="10"
+                                      ItemsSource="{Binding Path=RemoveComboBox}"
+                                      SelectedItem="{Binding Path=RemoveSensorName}"
+                                      DisplayMemberPath="RemoveSensorName"/>
+
+                            <Button x:Name="RemoveButton"
+                                    Grid.ColumnSpan="2" Grid.Row="1"
+                                    Margin="10"
+                                    Content="삭제"
+                                    Click="RemoveButton_Click" Cursor="Hand"/>
+                        </Grid>
                     </StackPanel>
                 </TabItem>
 

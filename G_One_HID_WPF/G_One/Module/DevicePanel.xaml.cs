@@ -105,5 +105,11 @@ namespace G_One.Module
                 MessageBox.Show("에러");
             }
         }
+
+        private void LEDValueChange_Click(object sender, RoutedEventArgs e)
+        {
+            string ledValue = LEDValueSlider.Value.ToString();
+            deviceControl.LedValueChange(DeviceName.Content.ToString(), "iot/LEDAdjust", ledValue);
+        }
     }
 }
