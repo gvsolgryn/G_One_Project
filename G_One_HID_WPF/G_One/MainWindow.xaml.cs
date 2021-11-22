@@ -23,6 +23,22 @@ namespace G_One
     using Module;
     using HidLibrary;
     using System.Threading;
+    using System.Collections.ObjectModel;
+
+    public class AddComboBox
+    {
+        public string SensorName { get; set; }
+    }
+
+    public class TypeComboBox
+    {
+        public string SensorType { get; set; }
+    }
+
+    public class RemoveComboBox
+    {
+        public string RemoveSensorName { get; set; }
+    }
 
     public partial class MainWindow : Window
     {
@@ -33,7 +49,9 @@ namespace G_One
 
         private const ushort ConsoleUsagePage = 0xFF31;
         private const int ConsoleUsage = 0x0074;
+        int ledValue = 0;
 
+        
         private static IEnumerable<HidDevice> GetListableDevices() =>
             HidDevices.Enumerate()
                 .Where(d => d.IsConnected)
@@ -105,7 +123,7 @@ namespace G_One
                 else
                 {
                     AppendText(outputString);
-                    HID_Status_Change(outputString.TrimEnd('\n'));
+                    HID_Status_ChangeAsync(outputString.TrimEnd('\n'));
                 }
             }
             else
@@ -133,9 +151,10 @@ namespace G_One
             return Encoding.Default.GetString(bs.Where(b => b > 0).ToArray());
         }
 
-        private void HID_Status_Change(string HID_Data)
+        public void HID_Status_ChangeAsync(string HID_Data)
         {
             var db = new DB_Module();
+            var mqtt = new MQTT_Module();
             try
             {
                 var sql = "SELECT * FROM sensor_status";
@@ -150,11 +169,39 @@ namespace G_One
                     if (HID_Data == "MULTI") HID_Data = HID_Data.Replace("MULTI", "Power_Strip");
                     if (HID_Data.ToLower() == sensor.ToLower())
                     {
+                        var deviceControl = new DeviceControl();
+
                         var topic = "iot/" + HID_Data;
 
-                        //ChangeStatus(Int32.Parse(status), HID_Data, topic);
+                        deviceControl.StatusChange(Int32.Parse(status), HID_Data, topic);
+
+                        string sql2 = "UPDATE sensor_status SET status = @sensorStatus, last_use = now() WHERE sensor = @sensorName";
+                        db.Execute(sql2, new[] { "@sensorStatus", "@sensorName" }, new[] { status.ToString(), HID_Data });
+                        mqtt.Publish(topic, status.ToString());
 
                         HID_Data = String.Empty;
+                    }
+
+                    else if (HID_Data.ToLower() == "LED_UP")
+                    {
+                        var deviceControl = new DeviceControl();
+                        ledValue = ledValue + 25;
+                        if (ledValue > 100)
+                        {
+                            ledValue = 100;
+                        }
+                        deviceControl.LedValueChange("Brightness_control_LED", "iot/LEDAdjust", ledValue.ToString());
+                    }
+
+                    else if (HID_Data.ToLower() == "LED_DOWN")
+                    {
+                        var deviceControl = new DeviceControl();
+                        ledValue = ledValue - 25;
+                        if (ledValue <= 0)
+                        {
+                            ledValue = 0;
+                        }
+                        deviceControl.LedValueChange("Brightness_control_LED", "iot/LEDAdjust", ledValue.ToString());
                     }
                 }
             }
@@ -187,11 +234,16 @@ namespace G_One
         public static readonly List<string> listStatus = new List<string>();
         public static readonly List<string> listType = new List<string>();
 
+        private ObservableCollection<AddComboBox> _addComboBox = new ObservableCollection<AddComboBox>();
+        private ObservableCollection<TypeComboBox> _typeComboBox = new ObservableCollection<TypeComboBox>();
+        private ObservableCollection<RemoveComboBox> _removeComboBox = new ObservableCollection<RemoveComboBox>();
         public MainWindow()
         {
             InitializeComponent();
 
             Add_DevicePanel();
+
+            ComboDataLoad();
         }
 
         public void Add_DevicePanel()
@@ -206,7 +258,7 @@ namespace G_One
             }
         }
 
-        private static void DB_Load()
+        private void DB_Load()
         {
             listSensor.Clear();
             listStatus.Clear();
@@ -225,6 +277,8 @@ namespace G_One
                     listSensor.Add(table["sensor"].ToString());
                     listStatus.Add(table["status"].ToString());
                     listType.Add(table["device_type"].ToString());
+
+                    _removeComboBox.Add(new RemoveComboBox { RemoveSensorName = table["sensor"].ToString() });
                 }
 
             }
@@ -233,6 +287,31 @@ namespace G_One
                 _ = MessageBox.Show(ex.Message);
             }
 
+            RemoveComboDeviceName.ItemsSource = _removeComboBox;
+
+        }
+
+        private void ComboDataLoad()
+        {
+            try
+            {
+                DB_Module db = new DB_Module();
+                string sql = "SELECT * FROM compatible_device";
+                var table = db.TableLoad(sql);
+
+                while (table.Read())
+                {
+                    _addComboBox.Add(new AddComboBox { SensorName = table["name"].ToString() });
+                    _typeComboBox.Add(new TypeComboBox { SensorType = table["device_type"].ToString() });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error Add_Device_Page : " + ex.Message);
+            }
+
+            ComboDeviceName.ItemsSource = _addComboBox;
+            ComboDeviceType.ItemsSource = _typeComboBox;
         }
 
         public void LoadPanel()
@@ -251,6 +330,11 @@ namespace G_One
                 {
                     devicePanel[i].DeviceInfoChange($"{arrSensor[i]}의\n전원 및 밝기 제어를 하기 위한 버튼입니다. ");
                     devicePanel[i].Visible_LEDAdjust();
+                }
+
+                else if (arrSensor[i].Contains("Temp"))
+                {
+                    devicePanel[i].DeviceInfoChange($"{arrSensor[i]} 가 측정하고 있는 온도입니다.");
                 }
 
                 if (arrStatus[i] == "1")
@@ -299,6 +383,42 @@ namespace G_One
         private void Window_Closed(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var db = new DB_Module();
+
+            const string sql = "INSERT INTO sensor_status(sensor, status, device_type, led_value, last_use) VALUES(@sensor, '0', @device_type, '0', now())";
+
+            try
+            {
+                db.Execute(sql, new[] { "@sensor", "@device_type" },
+                    new[] { ComboDeviceName.Text, ComboDeviceType.Text });
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            MessageBox.Show("추가 완료?", "테스트");
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var db = new DB_Module();
+
+            const string sql = "DELETE FROM sensor_status WHERE sensor=@sensor";
+
+            try
+            {
+                db.Execute(sql, new[] { "@sensor", "@device_type" },
+                    new[] { RemoveComboDeviceName.Text, RemoveComboDeviceName.Text });
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            MessageBox.Show("삭제 완료?", "테스트");
         }
     }
 }

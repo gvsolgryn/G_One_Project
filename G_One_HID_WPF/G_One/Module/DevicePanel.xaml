@@ -45,12 +45,12 @@
                 <Grid x:Name="DeviceLedValueSliderGrid" Grid.Column="1" Grid.Row="0" Visibility="Hidden">
                     <StackPanel>
                         <Label VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10">밝기 제어</Label>
-                        <Slider Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Width="100" TickFrequency="25" Maximum="100" TickPlacement="BottomRight" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
+                        <Slider x:Name="LEDValueSlider" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Width="100" TickFrequency="25" Maximum="100" TickPlacement="BottomRight" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
                     </StackPanel>
                 </Grid>
                 <Grid x:Name="DeviceLedValueChangeGrid" Grid.Column="1" Grid.Row="1" Visibility="Hidden">
                     <StackPanel>
-                        <Button x:Name="LEDValueChange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Content="밝기 변경"/>
+                        <Button x:Name="LEDValueChange" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Content="밝기 변경" Click="LEDValueChange_Click"/>
                     </StackPanel>
                 </Grid>
                 <Grid x:Name="DeviceChangeButtonGrid" Grid.Column="1" Grid.Row="2">

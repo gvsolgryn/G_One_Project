@@ -70,24 +70,58 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_120x120-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_120x120.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_180x180.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_40x40.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_58x58.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_60x60.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_80x80.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_87x87.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_120x120-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_120x120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_180x180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_40x40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_58x58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_60x60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_80x80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\ico_87x87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_120x120-1.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_120x120.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_180x180.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_40x40.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_58x58.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_60x60.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_80x80.png" />
-    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_87x87.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\Contents.json">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_120x120-1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_120x120.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_180x180.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_40x40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_58x58.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_60x60.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_80x80.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon-1.appiconset\ico_87x87.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>

@@ -9,7 +9,7 @@ namespace G_One.Module
     using uPLibrary.Networking.M2Mqtt;
     using uPLibrary.Networking.M2Mqtt.Messages;
 
-    internal class MQTT_Module
+    class MQTT_Module
     {
         public MqttClient Connect()
         {

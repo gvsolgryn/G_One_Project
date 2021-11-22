@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "SevSeg.h"
 
 SevSeg sevseg;
@@ -20,22 +19,13 @@ SevSeg sevseg;
     TX          : 0
 */
 
-int digit_select_pin[4]  = {2, 5, 6, A1};
-int segment_pin[8]       = {3, 7, 15, 16, 10, 4, A0, 14};
-int time_delay = 5;
 
-#define _0 {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, LOW}
-#define _1 {LOW, HIGH, HIGH, LOW, LOW, LOW, LOW}
-#define _2 {HIGH, HIGH, LOW, HIGH, HIGH, LOW, HIGH}
-#define _3 {HIGH, HIGH, HIGH, HIGH, LOW, LOW, HIGH}
-#define _4 {LOW, HIGH, HIGH, LOW, LOW, HIGH, HIGH}
-#define _5 {HIGH, LOW, HIGH, HIGH, LOW, HIGH, HIGH}
-#define _6 {HIGH, LOW, HIGH, HIGH, HIGH, HIGH, HIGH}
-#define _7 {HIGH, HIGH, HIGH, LOW, LOW, LOW, LOW}
-#define _8 {HIGH, HIGH, HIGH, HIGH, HIGH, HIGH, HIGH}
-#define _9 {HIGH, HIGH, HIGH, HIGH, LOW, HIGH, HIGH}
 
-//byte digits_data[10] = {0xFC, 0x60, 0xDA, 0xF2, 0x66, 0xB6, 0xBE, 0xE4, 0xFE, 0xE6};
+String inputString = "";
+bool stringComplete = false;
+
+String serial1_inputString = "";
+bool serial1Complete = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -58,36 +48,65 @@ void setup() {
     bool disableDecPoint = false; // Use 'true' if your decimal point doesn't exist or isn't connected. Then, you only need to specify 7 segmentPins[]
 
     sevseg.begin(hardwareConfig, numDigits, digitPins, segmentPins, resistorsOnSegments, updateWithDelays, leadingZeros, disableDecPoint);
-
+    sevseg.blank();
+    
     Serial.begin(115200);
     Serial1.begin(115200);
+    while(!Serial1){}
 
-    Serial.println("연결 성공");
-    Serial1.println("연결 성공");
+    inputString.reserve(200);
+    serial1_inputString.reserve(200);
 }
 
 void loop() {
-    // put your main code here, to run repeatedly:
-    if(Serial1.available()){
-        FNDSet();
-        sevseg.refreshDisplay();
-    }
-}
+    while(Serial.available()){
+    char inChar = (char)Serial.read();
+    inputString += inChar;
 
-void FNDSet(){
-    if(Serial1.available()){
-        int test = Serial1.read();
-        sevseg.setNumberF(test, 1);
+    if(inChar == '\n'){
+      stringComplete = true;
     }
+  }
 
-    else if(Serial.available()){
-        int test = Serial.read();
-        sevseg.setNumberF(test, 1);
+  if (stringComplete) {
+    sevseg.blank();
+    Serial.println(inputString);
+    
+
+    inputString.toFloat();
+    Serial.print("toFloat() : ");
+    Serial.println(inputString.toFloat());
+
+    if(inputString.toFloat()) sevseg.setNumberF(inputString.toFloat(), 1);
+
+    // clear the string:
+    inputString = "";
+    
+    stringComplete = false;
+  }
+
+
+  while(Serial1.available()){
+    char inChar = (char)Serial1.read();
+    serial1_inputString += inChar;
+
+    if(inChar == '\n'){
+      serial1Complete = true;
     }
-}
+  }
 
-void serialEvent(){
-    char c = Serial.read();
-    Serial.print("rx : ");
-    Serial.println(c);
+  if (serial1Complete) {
+    sevseg.blank();
+
+    if(serial1_inputString.toFloat()) sevseg.setNumberF(serial1_inputString.toFloat(), 1);\
+    Serial.print("SomeSerial : ");
+    Serial.println(serial1_inputString); 
+    
+    // clear the string:
+    serial1_inputString = "";
+    
+    serial1Complete = false;
+  }
+  
+  sevseg.refreshDisplay();
 }
