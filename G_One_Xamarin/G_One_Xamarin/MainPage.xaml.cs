@@ -22,6 +22,8 @@ namespace G_One_Xamarin
             InitializeComponent();
 
             StartAlert();
+            
+            MqttModule.MqttConnect();
         }
 
         private async void StartAlert()
@@ -173,6 +175,7 @@ namespace G_One_Xamarin
         private void Button_OnClicked(object sender, EventArgs e)
         {
             MqttPubSubTest.SendMqtt();
+            MqttModule.MqttPub("iot/test", "TEST MQTTNET");
         }
     }
 }
