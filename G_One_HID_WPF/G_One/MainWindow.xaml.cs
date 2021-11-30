@@ -173,35 +173,69 @@ namespace G_One
 
                         var topic = "iot/" + HID_Data;
 
-                        deviceControl.StatusChange(Int32.Parse(status), HID_Data, topic);
+                        if (status == "0") status = "1";
+
+                        else if (status == "1") status = "0";
+
+                        //deviceControl.StatusChange(Int32.Parse(status), HID_Data, topic);
 
                         string sql2 = "UPDATE sensor_status SET status = @sensorStatus, last_use = now() WHERE sensor = @sensorName";
                         db.Execute(sql2, new[] { "@sensorStatus", "@sensorName" }, new[] { status.ToString(), HID_Data });
+                        Console.WriteLine(topic);
+                        Console.WriteLine(status);
                         mqtt.Publish(topic, status.ToString());
 
                         HID_Data = String.Empty;
                     }
 
-                    else if (HID_Data.ToLower() == "LED_UP")
+                    if (HID_Data == "LED_UP")
                     {
                         var deviceControl = new DeviceControl();
+
+
+                        var topic = "iot/Brightness_control_LED";
+                        var adjustTopic = "iot/LEDAdjust";
+
+                        Console.WriteLine(topic);
+
+                        string sql3 = "UPDATE sensor_status SET status = @sensorStatus, last_use = now() WHERE sensor = @sensorName";
+                        db.Execute(sql3, new[] { "@sensorStatus", "@sensorName" }, new[] { "1", "Brightness_control_LED" });
+                        mqtt.Publish(topic, "1");
+                        
+
                         ledValue = ledValue + 25;
                         if (ledValue > 100)
                         {
                             ledValue = 100;
+                            break;
                         }
+
+                        mqtt.Publish(adjustTopic, ledValue.ToString());
+
                         deviceControl.LedValueChange("Brightness_control_LED", "iot/LEDAdjust", ledValue.ToString());
+                        HID_Data = String.Empty;
                     }
 
-                    else if (HID_Data.ToLower() == "LED_DOWN")
+                    else if (HID_Data == "LED_DOWN")
                     {
                         var deviceControl = new DeviceControl();
+                        var adjustTopic = "iot/LEDAdjust";
                         ledValue = ledValue - 25;
                         if (ledValue <= 0)
                         {
                             ledValue = 0;
+
+                            var topic = "iot/Brightness_control_LED";
+
+                            string sql3 = "UPDATE sensor_status SET status = @sensorStatus, last_use = now() WHERE sensor = @sensorName";
+                            db.Execute(sql3, new[] { "@sensorStatus", "@sensorName" }, new[] { "0", "Brightness_control_LED" });
+                            mqtt.Publish(topic, "0");
+                            break;
                         }
+                        mqtt.Publish(adjustTopic, ledValue.ToString());
                         deviceControl.LedValueChange("Brightness_control_LED", "iot/LEDAdjust", ledValue.ToString());
+
+                        HID_Data = String.Empty;
                     }
                 }
             }
@@ -264,6 +298,8 @@ namespace G_One
             listStatus.Clear();
             listType.Clear();
 
+            _removeComboBox.Clear();
+
             DB_Module db = new DB_Module();
 
             string sql = "SELECT * FROM sensor_status";
@@ -293,6 +329,8 @@ namespace G_One
 
         private void ComboDataLoad()
         {
+            _addComboBox.Clear();
+            _typeComboBox.Clear();
             try
             {
                 DB_Module db = new DB_Module();
