@@ -7,6 +7,14 @@ namespace G_One.Module
 
     class DB_Module
     {
+        /// <summary>
+        /// DB 서버에 연결을 하는 메서드입니다.
+        /// Server = "호스트이름 혹은 IP"
+        /// user = "유저 이름"
+        /// password = "비밀번호"
+        /// port = "DB Port"
+        /// 를 수정하여 DB 서버를 변경 할 수 있습니다.
+        /// </summary>
         public MySqlConnection Conn()
         {
             string server = "gone.gvsolgryn.de";
