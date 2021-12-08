@@ -17,9 +17,9 @@
     <key>MinimumOSVersion</key>
     <string>13.0</string>
     <key>CFBundleDisplayName</key>
-    <string>G_One_Xamarin</string>
+    <string>G.One</string>
     <key>CFBundleIdentifier</key>
-    <string>gvsolgryn.G-One-Project-iOS</string>
+    <string>de.gvsolgryn.G-One-iOS</string>
     <key>CFBundleVersion</key>
     <string>1.0</string>
     <key>UILaunchStoryboardName</key>
