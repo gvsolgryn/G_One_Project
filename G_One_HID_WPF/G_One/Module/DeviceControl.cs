@@ -10,16 +10,19 @@ namespace G_One.Module
 {
     class DeviceControl
     {
-
+        /* DB,MQTT 모듈 사용 사전 준비 */
         DB_Module db = new DB_Module();
         MQTT_Module mqtt = new MQTT_Module();
-
+        
+        /* 리스트 배열에 메인 윈도우에 있는 디바이스 패널 저장 */
         List<DevicePanel> devicePanel = MainWindow.devicePanel;
 
-        public readonly List<string> listSensor = new List<string>();
-        public readonly List<string> listStatus = new List<string>();
-        public readonly List<string> listType = new List<string>();
-
+        /// <summary>
+        /// LED 값을 변경할 때 사용되는 메서드
+        /// </summary>
+        /// <param name="name">기기 이름 값</param>
+        /// <param name="topic">MQTT 토픽 이름 값</param>
+        /// <param name="value">기기 상태 값</param>
         public void LedValueChange(string name, string topic, string value)
         {
             try
@@ -34,6 +37,12 @@ namespace G_One.Module
             }
         }
 
+        /// <summary>
+        /// 기기 상태 변경 메서드
+        /// </summary>
+        /// <param name="status">기기 상태 값</param>
+        /// <param name="name">기기 이름 값</param>
+        /// <param name="topic">MQTT 토픽 이름 값</param>
         public void StatusChange(int status, string name, string topic)
         {
             try
@@ -49,6 +58,11 @@ namespace G_One.Module
             }
         }
 
+        /// <summary>
+        /// 디바이스 패널 아이콘 변경 메서드
+        /// </summary>
+        /// <param name="id">디바이스 패널 인덱스</param>
+        /// <param name="name">아이콘 이름</param>
         public void IconChange(int id, string name)
         {
             int idx = devicePanel.FindIndex(x => x.DeviceName.Content.Equals(name));

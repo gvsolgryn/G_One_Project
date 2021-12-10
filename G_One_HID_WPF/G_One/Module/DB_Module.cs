@@ -31,7 +31,12 @@ namespace G_One.Module
 
             return conn;
         }
-
+       
+        /// <summary>
+        /// DB SQL 을 MySQLCommand 에 입력하는 메서드
+        /// </summary>
+        /// <param name="sql">DB 에서 사용하는 SQL 문</param>
+        /// <returns>SQL이 입력된 MySQLCommand 반환</returns>
         public MySqlCommand Command(string sql)
         {
             try
@@ -47,6 +52,12 @@ namespace G_One.Module
             }
         }
 
+        /// <summary>
+        /// cmd 에 입력 된 SQL 중 DB 데이터를 불러오는 문장이 있으면
+        /// 이 메서드를 이용하여 DB 로드를 합니다.
+        /// </summary>
+        /// <param name="sql">SQL 문장</param>
+        /// <returns>DB 데이터</returns>
         public MySqlDataReader TableLoad(string sql)
         {
             try
@@ -63,6 +74,13 @@ namespace G_One.Module
             }
         }
 
+        /// <summary>
+        /// DB 에 SQL 문을 적용할 때 사용하는 메서드
+        /// </summary>
+        /// <param name="sql">DB SQL 문장</param>
+        /// <param name="parameter">SQL 문에서 쓰이는 파라미터 값</param>
+        /// <param name="data">파라미터에 들어가는 데이터 값</param>
+        /// <returns>널값 리턴</returns>
         public MySqlCommand Execute(string sql, string[] parameter, string[] data)
         {
             try
