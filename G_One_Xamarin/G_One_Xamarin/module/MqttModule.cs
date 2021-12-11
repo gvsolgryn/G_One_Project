@@ -13,6 +13,7 @@ namespace G_One_Xamarin.module
 {
     public class MqttModule
     {
+        /* MQTT 서버 연결 */
         private static readonly MqttFactory Factory = new MqttFactory();
 
         private static readonly IMqttClient MqttClient = Factory.CreateMqttClient();
@@ -20,6 +21,9 @@ namespace G_One_Xamarin.module
         public static string Topic = String.Empty;
         public static string Payload = String.Empty;
         
+        /// <summary>
+        /// MQTT 서버에 연결하는 메서드
+        /// </summary>
         public static async void MqttConnect()
         {
             var options = new MqttClientOptionsBuilder()
@@ -30,6 +34,11 @@ namespace G_One_Xamarin.module
             await MqttClient.ConnectAsync(options, CancellationToken.None);
         }
 
+        /// <summary>
+        /// MQTT 서버에 데이터를 전송하는 메서드
+        /// </summary>
+        /// <param name="topic">토픽</param>
+        /// <param name="payload">전송 할 메세지</param>
         public static async void MqttPub(string topic, string payload)
         {
             var message = new MqttApplicationMessageBuilder()
@@ -39,25 +48,10 @@ namespace G_One_Xamarin.module
 
             await MqttClient.PublishAsync(message, CancellationToken.None);
         }
-        
-        public static async void MqttSub(string topic)
-        {
-            var subOptions = new MqttClientSubscribeOptionsBuilder()
-                .WithTopicFilter(topic)
-                .Build();
 
-            await MqttClient.SubscribeAsync(subOptions);
-        }
-
-        public static void MqttGetPayload()
-        {
-            MqttClient.UseApplicationMessageReceivedHandler(e =>
-            {
-                Topic = e.ApplicationMessage.Topic.ToString();
-                Payload = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            });
-        }
-
+        /// <summary>
+        /// MQTT 서버 연결 해제 메서드
+        /// </summary>
         public static async void MqttDisconnect()
         {
             await MqttClient.DisconnectAsync();

@@ -14,6 +14,12 @@ namespace G_One_Xamarin.module
     {
         private static readonly DbModule Db = new DbModule();
 
+        /// <summary>
+        /// 기기 상태 변경용 메서드
+        /// </summary>
+        /// <param name="status">기기 상태값</param>
+        /// <param name="name">기기 이름</param>
+        /// <param name="topic">기기 제어 토픽</param>
         public static void StatusChange(int status, string name, string topic)
         {
             var client = new MqttClient("gone.gvsolgryn.de");
@@ -37,6 +43,12 @@ namespace G_One_Xamarin.module
             
         }
 
+        /// <summary>
+        /// 밝기 제어 가능 LED 밝기 제어 메서드
+        /// </summary>
+        /// <param name="value">LED 밝기</param>
+        /// <param name="name">LED 이름</param>
+        /// <param name="topic">토픽</param>
         public static async void LedValueChange(int value, string name, string topic)
         {
             var client = new MqttClient("gone.gvsolgryn.de");

@@ -63,7 +63,7 @@ namespace G_One_Xamarin.module
         }
 
         /* 버튼 클릭 이벤트 */
-
+        
         private void ButtonClicked(object sender, EventArgs e)
         {
             switch (ChangeDevicePower.Text)
@@ -128,6 +128,7 @@ namespace G_One_Xamarin.module
             }
         }
 
+        /* LED 밝기 변경 버튼 클릭 이벤트 */
         private async void ChangeLedValueBtn_OnClicked(object sender, EventArgs e)
         {
             Console.WriteLine(DeviceName);
