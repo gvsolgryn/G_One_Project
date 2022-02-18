@@ -16,5 +16,3 @@
 2. G_One_Firmware (QMK펌웨어를 이용하여 만든 키보드 펌웨어)
 3. G_One_IoT_Firmware (NodeMCU 에 적용시킬 펌웨어)
 4. G_One_PCB (키보드 PCB)
-
-# 2. 
