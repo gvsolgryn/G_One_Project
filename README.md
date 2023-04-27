@@ -4,13 +4,13 @@
 
 이 프로젝트는 게임을 하는 도중 전등을 제어 하거나 멀티탭같은 전자기기를 제어 하면 편할 것 같다는 생각을 하여 진행한 프로젝트입니다.
 
-### Software List
+## Software List
 
 1. G_One_HID_Listener / G_One_WPF (Windows 용 프로그램)
 2. G_One_Xamarin (Android/iOS 어플리케이션)
 3. G_One_Flask (웹서버)
 
-### Hardware & Firmware List
+## Hardware & Firmware List
 
 1. G_One_AutoCad (3D 프린터용 모델링)
 2. G_One_Firmware (QMK펌웨어를 이용하여 만든 키보드 펌웨어)
