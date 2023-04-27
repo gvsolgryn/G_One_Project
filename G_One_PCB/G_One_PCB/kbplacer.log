@@ -1,0 +1,6 @@
+16:49:44 com_github_adamws_kicad-kbplacer.kbplacer_plugin_action 45: Plugin executed with KiCad version: 7.0.1
+16:49:44 com_github_adamws_kicad-kbplacer.kbplacer_plugin_action 46: Plugin executed with python version: '3.9.14 (main, Feb 13 2023, 04:48:26) [MSC v.1934 64 bit (AMD64)]'
+16:49:49 com_github_adamws_kicad-kbplacer.kbplacer_plugin_action 60: User layout: [[{'a': 7, 'w': 1.5}, '', {'w': 1.5}, '', {'x': 2, 'w': 1.5}, '', {'w': 1.5}, ''], ['', '', '', {'x': 2}, '', '', ''], [{'y': 1, 'x': 1, 'w': 3}, '', {'w': 3}, '']]
+16:49:49 com_github_adamws_kicad-kbplacer.kbplacer_plugin_action 279: Diode position: DiodePosition(relative_position=Point(x=5.08, y=3.03), orientation=90.0, side=<Side.BACK: True>)
+16:49:49 com_github_adamws_kicad-kbplacer.kbplacer_plugin_action 35: Searching for SW1 footprint
+16:49:49 com_github_adamws_kicad-kbplacer.kbplacer_plugin_action 38: Footprint not found
